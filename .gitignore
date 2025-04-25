@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Archivos generados por SFML
+dll/                  # Ignora la carpeta de DLLs necesarias para ejecutar
+SFML/                 # Ignora la carpeta de SFML, ya que la incluimos en el repositorio como submódulo
