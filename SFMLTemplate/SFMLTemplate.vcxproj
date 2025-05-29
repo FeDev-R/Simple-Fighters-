@@ -135,7 +135,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="SFMLTemplate.cpp" />
+    <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="Characters.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="HUD.cpp" />
+    <ClCompile Include="MafaldaNinja.cpp" />
+    <ClCompile Include="MAIN.cpp" />
+    <ClCompile Include="mapa.cpp" />
+    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Power.cpp" />
+    <ClCompile Include="Stage.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Animation.h" />
+    <ClInclude Include="Characters.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="HUD.h" />
+    <ClInclude Include="MafaldaNinja.h" />
+    <ClInclude Include="mapa.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="Power.h" />
+    <ClInclude Include="Stage.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
