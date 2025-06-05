@@ -19,24 +19,24 @@ int main()
     mapa bosque2;
 
 
-    bosque.loadFromFile("./assets/piso.png");
+    bosque.loadFromFile("assets/sesese.PNG");
     bosque.setName("bosque");
     //bosque.setPosXY(400.0f, 240);
     //bosque.setOrigin(0, 0, 1);
     //bosque.fitToWindow(window);
     bosque.setHitbox(yes);
 
-    bosque2.loadFromFile("assets/game_background_3/bosque2.png");
+    bosque2.loadFromFile("D:/Repos/SimpleF/SFMLTemplate/assets/game_background_3/game_background_3. 2.png");
     bosque2.setName("bosque2");
     //bosque2.fitToWindow(window);
-    bosque2.setHitbox(yes);
+    bosque2.setHitbox(no);
 
     stage.addMap(bosque);
     stage.addMap(bosque2);
     stage.setCurrentMap(0);
     
     sf::Texture Mafalda_Texture;
-    Mafalda_Texture.loadFromFile("./assets/Warrior_spritesheet2.png");
+    Mafalda_Texture.loadFromFile("D:/Repos/SimpleF/SFMLTemplate/assets/Warrior_spritesheet2.png");
     if (!Mafalda_Texture.loadFromFile("./assets/Warrior_spritesheet2.png")) {
         std::cout << "Error: No se pudo cargar la textura" << std::endl;
     }

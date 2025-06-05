@@ -3,13 +3,13 @@
 class HUD
 {
 private:
-    // Vida
+   
     float maxHP;
     float currentHP;
     sf::RectangleShape hpBackground;
     sf::RectangleShape hpFill;
 
-    // Cooldown de 2 poderes
+  
     float power1CooldownTime;
     float power1Current;
     sf::RectangleShape power1Bar;
@@ -18,11 +18,11 @@ private:
     float power2Current;
     sf::RectangleShape power2Bar;
 
-    // Texto
+   
     sf::Font font;
     sf::Text nameText;
 
-    // Ícono del personaje
+  
     sf::Texture portraitTexture;
     sf::Sprite portraitSprite;
 
