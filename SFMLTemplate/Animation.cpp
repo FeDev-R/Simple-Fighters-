@@ -1,24 +1,48 @@
 #include "Animation.h"
 #include "Menu.h"
 
-Animation::Animation()
+Animation::Animation(sf::Texture* texture, sf::Vector2u imageCount, float switchTime)
 {
+	this->imageCount = imageCount;
+	this->switchTime = switchTime;
+	totalTime = 0.0f;
+	currentImage.x = 0;
+
+	TextureRect.width = texture->getSize().x / float(imageCount.x);
+	TextureRect.height = texture->getSize().y / float(imageCount.y);
 }
 
-Animation::Animation(int frameWidth, int frameHeight, int frameCount, float frameDuration)
+/*Animation::Animation(int frameWidth, int frameHeight, int frameCount, float frameDuration)
 	: frameRect(0, 0, frameWidth, frameHeight),
 	frameCount(frameCount),
 	frameDuration(frameDuration) {
+}*/
+
+void Animation::update(int row, float deltaTime)
+{
+	
+	currentImage.y = row;
+	totalTime += deltaTime;
+
+	if (totalTime >= switchTime)
+	{
+		totalTime -= switchTime;
+		currentImage.x++;
+
+		if (currentImage.x >= imageCount.x) {
+			currentImage.x = 0;
+		}
+	}
+
+	TextureRect.left = currentImage.x * TextureRect.width;
+	TextureRect.top = currentImage.y * TextureRect.height;
+	
 }
 
-void Animation::update(float deltaTime)
+/*sf::IntRect Animation::getCurrentFrameRect() const
 {
-}
-
-sf::IntRect Animation::getCurrentFrameRect() const
-{
-	return frameRect;
-}
+	//return frameRect;
+}*/
 
 
 

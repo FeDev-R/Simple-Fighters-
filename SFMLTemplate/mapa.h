@@ -40,7 +40,7 @@ public:
 		sprite.setPosition(X, Y);
 	}
 
-	void fitToWindow(const sf::RenderWindow& window) {
+	/*void fitToWindow(const sf::RenderWindow& window) {
 		sf::Vector2u textureSize = sprite.getTexture()->getSize();
 		sf::Vector2u windowSize = window.getSize();
 
@@ -49,7 +49,7 @@ public:
 
 		sprite.setScale(scaleX, scaleY);
 		sprite.setPosition(0.f, 0.f);  
-	}
+	}*/
 
 	void setOrigin(float OriginX, float OriginY, bool ponerOriginEnMedio) {
 

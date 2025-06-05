@@ -5,23 +5,32 @@ class Animation
 protected:
 	
 	sf::Texture* getTexture();
-	sf::IntRect frameRect;
+	//sf::IntRect frameRect;
 	int frameCount;
 	int currentFrame = 0;
 	float frameDuration;
-	float totalTime;
-	float switchTime;
+	
 	
 	sf::Sprite sprite;
-	sf::Vector2u imageCount;
+	
 
 public:
-	Animation();
-	Animation(int frameWidth, int frameHeight, int frameCount, float frameDuration);
+	Animation(sf::Texture* texture, sf::Vector2u imageCount, float switchTime);
+	//Animation(int frameWidth, int frameHeight, int frameCount, float frameDuration);
 
-	void update(float deltaTime);
+	void update(int row, float deltaTime);
 	sf::IntRect getCurrentFrameRect() const;
 	void reset();
+	sf::IntRect TextureRect;
+private:
+	
+	sf::Vector2u imageCount;
+	sf::Vector2u currentImage;
+	float totalTime;
+	float switchTime;
+
+
+	
 	
 };
 
