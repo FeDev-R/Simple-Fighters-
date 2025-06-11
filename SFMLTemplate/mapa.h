@@ -13,7 +13,7 @@ public:
 		if (!texture.loadFromFile(path))
 			return false;
 		sprite.setTexture(texture);
-		
+
 		return true;
 	}
 
@@ -54,7 +54,7 @@ public:
 	void setOrigin(float OriginX, float OriginY, bool ponerOriginEnMedio) {
 
 		if (ponerOriginEnMedio) {
-			sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
+			//sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
 		}
 		else {
 			sprite.scale(OriginX, OriginY);

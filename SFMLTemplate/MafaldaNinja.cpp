@@ -13,8 +13,33 @@ MafaldaNinja::MafaldaNinja(sf::Texture* texture, sf::RenderWindow& window, sf::V
 
 void MafaldaNinja::Update(float deltaTime)
 {
-    
-    Characters::Update(deltaTime);
+
+
+    switch (estadoActual)
+    {
+    case Characters::estadoPj::Idle:
+        column = 7;
+        row = 2;
+        break;
+    case Characters::estadoPj::Move:
+        column = 8;
+        row = 4;
+        break;
+    case Characters::estadoPj::Jump:
+        column = 2;
+        row = 3;
+        break;
+    case Characters::estadoPj::Attack:
+        column = 7;
+        row = 1;
+        break;
+    default:
+        column: 12;
+        row : 0;
+        break;
+    }
+
+    Characters::Update(deltaTime, column, row);
    
 }
 

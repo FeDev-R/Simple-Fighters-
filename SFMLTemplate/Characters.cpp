@@ -1,31 +1,56 @@
 #include "Characters.h"
+#include <iostream>
 
 Characters::Characters(sf::Texture* texture, sf::Vector2u imageCount, float switchTime)
     : Animation (texture, imageCount, switchTime)
 {
+    
     body.setTexture(texture);
     //body.setTextureRect({ 40,0,50,100 });
     body.setSize(sf::Vector2f(100.0f, 200.0f));
 }
 
 
-void Characters::Update(float deltaTime)
+void Characters::Update(float deltaTime, int column, int row)
 {
     sf::Vector2f movement(0.0f, 0.0f);
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-        movement.x -= 1;
+        movement.x -= 2;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-        movement.x += 1;
+        movement.x += 2;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-        movement.y -= 1;
+        movement.y -= 2;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-        movement.y += 1;
+        movement.y += 2;
+
+    std::cout << movement.y;
+    std::cout << movement.x;
+
+    ///QUIETO O EN MOVIMIENTO
+    if (movement.x > 0.0f || movement.x < 0.0f && movement.y == 0) {
+        Characters::estadoActual = estadoPj::Move;
+    }
+    else if(movement.x==0.0 && movement.y == 0) {
+        Characters::estadoActual = estadoPj::Idle;
+    }
 
 
-    row = 5;
+    this->column = column;
+    this->row = row;
 
-    Animation.update(row, deltaTime);
+    //std::cout << this->column;
+    //std::cout << this->row;
+
+    /*if (movement.x > 0.0f)
+        faceRight = true;
+    else if (movement.x == 0)
+        ;
+    else
+        faceRight = false;
+        */
+
+    Animation.update(row, deltaTime, column);
     body.setTextureRect(Animation.TextureRect);
     body.move(movement);
 

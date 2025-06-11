@@ -18,6 +18,8 @@ public:
     void setJumpForce(float value) override;
     void setDMG(float value) override;
 
+   
+
 
 private:
     sf::RectangleShape body;

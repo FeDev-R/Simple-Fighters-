@@ -17,11 +17,21 @@ protected:
 	sf::Texture texture;
 	sf::RenderWindow window;
 	int row;
+	int column;
 	float speed;
 	////
 
 	sf::Sprite sprite;
 	sf::Vector2f POS{1.0f, 1.0f};
+
+	enum class estadoPj {
+		Idle,
+		Move,
+		Jump,
+		Attack,
+	};
+
+	estadoPj estadoActual = estadoPj::Idle;
 	
 public:
 	virtual float getHP() const = 0;
@@ -34,7 +44,7 @@ public:
 
 	Characters(sf::Texture* texture, sf::Vector2u imageCount, float switchTime);
 
-	void Update(float deltaTime);
+	void Update(float deltaTime, int column, int row);
 	virtual bool loadFromFile(const std::string& path);
 	virtual void draw(sf::RenderWindow& window) const;
 	virtual void setPosition(sf::Vector2f pos);

@@ -10,7 +10,7 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "Plantilla SFML");
+    sf::RenderWindow window(sf::VideoMode(1080, 720), "Plantilla SFML");
     window.setFramerateLimit(60);
 
     bool yes = 1, no = 0;
@@ -30,18 +30,20 @@ int main()
     bosque2.setName("bosque2");
     //bosque2.fitToWindow(window);
     bosque2.setHitbox(yes);
+    bosque2.setPosXY(500, 500);
+  
 
     stage.addMap(bosque);
     stage.addMap(bosque2);
     stage.setCurrentMap(0);
     
     sf::Texture Mafalda_Texture;
-    Mafalda_Texture.loadFromFile("./assets/Warrior_spritesheet2.png");
-    if (!Mafalda_Texture.loadFromFile("./assets/Warrior_spritesheet2.png")) {
+    Mafalda_Texture.loadFromFile("./assets/Warrior-Spritesheet5.png");
+    if (!Mafalda_Texture.loadFromFile("./assets/Warrior-Spritesheet5.png")) {
         std::cout << "Error: No se pudo cargar la textura" << std::endl;
     }
 
-    MafaldaNinja mafalda(&Mafalda_Texture, window, sf::Vector2u(5,6), 0.2f);
+    MafaldaNinja mafalda(&Mafalda_Texture, window, sf::Vector2u(14,6), 0.15f);
 
     float deltaTime = 0.0f;
     
@@ -66,7 +68,7 @@ int main()
 
 
 
-        window.clear();
+        window.clear(sf::Color(150,150,150));
         mafalda.Update(deltaTime);
         //DRAW
         stage.draw(window);
