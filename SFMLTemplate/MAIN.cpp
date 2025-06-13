@@ -48,7 +48,7 @@ int main()
         std::cout << "Error: No se pudo cargar la textura" << std::endl;
     }
 
-    MafaldaNinja mafalda(&Mafalda_Texture, window, sf::Vector2u(14,6), 0.15f);
+    MafaldaNinja mafalda(&Mafalda_Texture, window, sf::Vector2u(14,6), 0.2f);
     auto& plataformasActuales = stage.getCurrentMap().getPlataformas();
 
     float deltaTime = 0.0f;

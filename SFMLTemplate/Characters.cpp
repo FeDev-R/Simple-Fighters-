@@ -8,7 +8,7 @@ Characters::Characters(sf::Texture* texture, sf::Vector2u imageCount, float swit
     body.setTexture(texture);
     //body.setTextureRect({ 40,0,50,100 });
 
-    body.setSize(sf::Vector2f(100.0f, 200.0f));
+    body.setSize(sf::Vector2f(200.0f, 400.0f));
    //body.setOrigin(body.getSize().x / 2, body.getSize().y / 2);
    
 
@@ -40,6 +40,7 @@ void Characters::Update(float deltaTime, int column, int row, const std::vector<
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && isOnGround) {
         velocity.y =-jumpForce;
         isOnGround = false;
+        Characters::estadoActual = estadoPj::Jump;
 
     }
     if (!isOnGround) {

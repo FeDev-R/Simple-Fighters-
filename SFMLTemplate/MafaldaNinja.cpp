@@ -5,7 +5,7 @@ MafaldaNinja::MafaldaNinja(sf::Texture* texture, sf::RenderWindow& window, sf::V
 {
     //body.setTexture(&texture);
     hp = 300.0f;
-    jumpForce = 200.0f;
+    jumpForce = 300.0f;
     baseDmg = 11;
     
     //body.setTextureRect({ 40,0,50,100 });

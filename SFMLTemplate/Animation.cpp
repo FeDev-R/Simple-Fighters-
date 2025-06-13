@@ -24,8 +24,12 @@ void Animation::update(int row, float deltaTime, int column)
 	//TextureRect.width = SizeTexture / float (column);
 	totalTime += deltaTime;
 
+
+
+		
 	if (totalTime >= switchTime)
 	{
+
 		totalTime -= switchTime;
 		currentImage.x++;
 
