@@ -7,11 +7,12 @@ MafaldaNinja::MafaldaNinja(sf::Texture* texture, sf::RenderWindow& window, sf::V
     hp = 300.0f;
     jumpForce = 200.0f;
     baseDmg = 11;
+    
     //body.setTextureRect({ 40,0,50,100 });
     //body.setSize(sf::Vector2f(100.0f, 200.0f));
 }
 
-void MafaldaNinja::Update(float deltaTime)
+void MafaldaNinja::Update(float deltaTime, const std::vector<sf::RectangleShape>& plataformas)
 {
 
 
@@ -39,7 +40,7 @@ void MafaldaNinja::Update(float deltaTime)
         break;
     }
 
-    Characters::Update(deltaTime, column, row);
+    Characters::Update(deltaTime, column, row, plataformas );
    
 }
 

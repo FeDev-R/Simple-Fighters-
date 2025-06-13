@@ -6,7 +6,7 @@ class MafaldaNinja : public Characters
 public:
 	MafaldaNinja(sf::Texture* texture,sf::RenderWindow& window, sf::Vector2u imageCount, float switchTime) ;
 
-    void Update(float deltaTime);
+    void Update(float deltaTime, const std::vector<sf::RectangleShape>& plataformas);
     void draw(sf::RenderWindow& window);
 
 

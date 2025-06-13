@@ -6,9 +6,30 @@ protected:
 	sf::Sprite sprite;
 	sf::Texture texture;
 	std::string name;
+	std::vector<sf::RectangleShape> plataformas;
 	sf::FloatRect collisionBox;
 
+	sf::Texture texturePlatform;
+	sf::Sprite spritePlatform;
+
 public:
+	void addPlatform(const sf::Vector2f& size, const sf::Vector2f& position) {
+		sf::RectangleShape plataforma;
+		plataforma.setSize(size);
+		plataforma.setPosition(position);
+		plataforma.setTexture(&texturePlatform);
+		plataforma.setOrigin(0.f, 0.f);
+		plataforma.setOutlineColor(sf::Color::Cyan);
+		plataforma.setOutlineThickness(1.0f);
+
+		plataformas.push_back(plataforma);
+
+	}
+
+	const std::vector<sf::RectangleShape>& getPlataformas() const {
+		return plataformas;
+	}
+
 	bool loadFromFile(const std::string path) {
 		if (!texture.loadFromFile(path))
 			return false;
@@ -16,6 +37,13 @@ public:
 
 		return true;
 	}
+	bool loadPlatformTexture(const std::string& path) {
+		if (!texturePlatform.loadFromFile(path))
+			return false;
+		spritePlatform.setTexture(texturePlatform);
+		return true;
+	}
+
 
 	void setHitbox(bool YesOrNo) {
 		if (YesOrNo) {
@@ -28,6 +56,10 @@ public:
 
 	void draw(sf::RenderWindow& window) {
 		window.draw(sprite);
+
+		for(auto& plataforma: plataformas) {
+			window.draw(plataforma);
+		}
 	}
 	
 	std::string getName() const { return name; }
@@ -40,7 +72,7 @@ public:
 		sprite.setPosition(X, Y);
 	}
 
-	/*void fitToWindow(const sf::RenderWindow& window) {
+    void fitToWindow(const sf::RenderWindow& window) {
 		sf::Vector2u textureSize = sprite.getTexture()->getSize();
 		sf::Vector2u windowSize = window.getSize();
 
@@ -49,7 +81,7 @@ public:
 
 		sprite.setScale(scaleX, scaleY);
 		sprite.setPosition(0.f, 0.f);  
-	}*/
+	}
 
 	void setOrigin(float OriginX, float OriginY, bool ponerOriginEnMedio) {
 
