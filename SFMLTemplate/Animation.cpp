@@ -11,20 +11,15 @@ Animation::Animation(sf::Texture* texture, sf::Vector2u imageCount, float switch
 
 	TextureRect.width = texture->getSize().x / float(imageCount.x);
 	TextureRect.height = texture->getSize().y / float(imageCount.y);
-	//SizeTexture = texture->getSize().x;
-	//std::cout << SizeTexture;
+	
+	std::cout << TextureRect.width;
 }
 
 void Animation::update(int row, float deltaTime, int column)
 {
-	
 	currentImage.y = row;
 	imageCount.x = column;
-	/// INTENTADO CAMBIAR EL ANCHO DE LA IMAGEN A LA HORA DE SALTAR TextureRect.width = 
-	//TextureRect.width = SizeTexture / float (column);
 	totalTime += deltaTime;
-
-
 
 		
 	if (totalTime >= switchTime)
@@ -38,9 +33,9 @@ void Animation::update(int row, float deltaTime, int column)
 		}
 	}
 
-	
+
 	TextureRect.left = currentImage.x * TextureRect.width;
-	TextureRect.top = currentImage.y * TextureRect.height;
+	TextureRect.top = (currentImage.y * TextureRect.height)- 105;
 	
 }
 

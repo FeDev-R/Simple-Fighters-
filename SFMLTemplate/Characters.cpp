@@ -6,14 +6,17 @@ Characters::Characters(sf::Texture* texture, sf::Vector2u imageCount, float swit
 {
     
     body.setTexture(texture);
-    //body.setTextureRect({ 40,0,50,100 });
-
+    body.setTextureRect({ 40,0,50,100 });
     body.setSize(sf::Vector2f(200.0f, 400.0f));
-   //body.setOrigin(body.getSize().x / 2, body.getSize().y / 2);
+    body.setOrigin(body.getGlobalBounds().width / 2, body.getGlobalBounds().height);
+    body.setOutlineColor(sf::Color::Magenta);
+    body.setOutlineThickness(1.0f);
+    //body.setPosition(50.0f, 50.0f);
+    //body.setScale(1.0f, 0.25f);
    
 
     if (player1) {
-        body.setPosition(sf::Vector2f(200.0f,100.0f));
+        body.setPosition(sf::Vector2f(200.0f,400.0f));
 
     }
     else {
@@ -27,7 +30,6 @@ void Characters::Update(float deltaTime, int column, int row, const std::vector<
     sf::Vector2f movement(0.0f, 0.0f);
 
 
-
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
         movement.x -= 2;
         body.setScale(-1.0f, 1.0f);
@@ -35,54 +37,57 @@ void Characters::Update(float deltaTime, int column, int row, const std::vector<
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
         movement.x += 2;
-        body.setScale(1.f, 1.f);
+        body.setScale(1.0f, 1.0f);
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && isOnGround) {
+    /*if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+        movement.y += 2;
+        body.setScale(1.0f, 1.0f);
+    }*/
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && isOnGround) {
         velocity.y =-jumpForce;
         isOnGround = false;
         Characters::estadoActual = estadoPj::Jump;
 
     }
     if (!isOnGround) {
-        velocity.y += gravity * deltaTime;
+       velocity.y += gravity * deltaTime;
 
     }
+   
     movement.y = velocity.y * deltaTime;
-
     isOnGround = false;
+
 
     body.move(movement.x, 0);
     //aca agrego las colisiones horizontales
-
     body.move(0, movement.y);
     bool onGroundThisFrame = false;
-    const float tolerancia = 10.0f;
+    const float tolerancia = 5.0f;
+
 
     for (const auto& plataforma : plataformas) {
         if (body.getGlobalBounds().intersects(plataforma.getGlobalBounds())) {
             sf::FloatRect personajeBounds = body.getGlobalBounds();
             sf::FloatRect plataformaBounds = plataforma.getGlobalBounds();
 
-            float personajeBottom = body.getPosition().y + body.getSize().y;
+            float personajeBottom = body.getPosition().y -10 /* + body.getSize().y*/;
             float plataformaTop = plataformaBounds.top;
             std::cout << "PJ bottom: " << personajeBottom << ", PL top: " << plataformaTop << std::endl;
 
             if (velocity.y >= 0 && personajeBottom <= plataformaTop + tolerancia) {
                 
-                body.setPosition(body.getPosition().x, plataformaTop - body.getSize().y);
+                body.setPosition(body.getPosition().x, plataformaTop/* - body.getSize().y*/);
 
                 velocity.y = 0;
                 onGroundThisFrame = true;
             }
         }
     }
+
     isOnGround = onGroundThisFrame;
 
-    body.setOutlineColor(sf::Color::Magenta); 
-    body.setOutlineThickness(1.0f);
 
     ///QUIETO O EN MOVIMIENTO
-
     if ((movement.x != 0.0f) && (movement.y == 0)) {
         Characters::estadoActual = estadoPj::Move;
     }
