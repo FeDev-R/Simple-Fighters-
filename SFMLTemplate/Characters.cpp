@@ -24,6 +24,16 @@ Characters::Characters(sf::Texture* texture, sf::Vector2u imageCount, float swit
     }
 }
 
+void Characters::actualizarEstado(sf::Vector2f movement) {
+    if (checkIfAttack) return;
+
+    if ((movement.x != 0.0f) && (movement.y == 0)) {
+        estadoActual = estadoPj::Move;
+    }
+    else if (movement.x == 0.0f && movement.y == 0.0f) {
+        estadoActual = estadoPj::Idle;
+    }
+}
 
 void Characters::Update(float deltaTime, int column, int row, const std::vector<sf::RectangleShape>& plataformas)
 {
@@ -39,10 +49,12 @@ void Characters::Update(float deltaTime, int column, int row, const std::vector<
         movement.x += 2;
         body.setScale(1.0f, 1.0f);
     }
-    /*if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-        movement.y += 2;
-        body.setScale(1.0f, 1.0f);
-    }*/
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+        Characters::estadoActual = estadoPj::Attack;
+        checkIfAttack = true;
+        attackTimer = 0.0f;
+        std::cout << "Botón clickeado!" << std::endl;
+    }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && isOnGround) {
         velocity.y =-jumpForce;
         isOnGround = false;
@@ -52,6 +64,14 @@ void Characters::Update(float deltaTime, int column, int row, const std::vector<
     if (!isOnGround) {
        velocity.y += gravity * deltaTime;
 
+    }
+    if (checkIfAttack) {
+        attackTimer += deltaTime;
+
+        if (attackTimer >= cooldown) {
+            checkIfAttack = false;
+           // Characters::estadoActual = estadoPj::Idle; 
+        }
     }
    
     movement.y = velocity.y * deltaTime;
@@ -88,13 +108,7 @@ void Characters::Update(float deltaTime, int column, int row, const std::vector<
 
 
     ///QUIETO O EN MOVIMIENTO
-    if ((movement.x != 0.0f) && (movement.y == 0)) {
-        Characters::estadoActual = estadoPj::Move;
-    }
-    else if (movement.x == 0.0f && movement.y == 0.0f) {
-        Characters::estadoActual = estadoPj::Idle;
-    }
-
+    actualizarEstado(movement);
 
     this->column = column;
     this->row = row;

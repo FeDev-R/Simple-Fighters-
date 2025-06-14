@@ -13,12 +13,15 @@ protected:
 	float jumpForce;
 	float baseDmg;
 	sf::Vector2f velocity;
+	bool checkIfAttack = false;
 	float gravity = 980.0f;
 	bool isOnGround = false;
 	////
 	sf::RectangleShape body;
 	sf::Texture texture;
 	sf::RenderWindow window;
+	float cooldown = 0.5f;
+	float attackTimer;
 	int row;
 	int column;
 	float speed;
@@ -47,6 +50,7 @@ public:
 	virtual void setHP(float value) = 0;
 	virtual void setJumpForce(float value) = 0;
 	virtual void setDMG(float value) = 0;
+	void actualizarEstado(sf::Vector2f movement);
 
 	Characters(sf::Texture* texture, sf::Vector2u imageCount, float switchTime);
 
