@@ -2,12 +2,14 @@
 #include<iostream>
 #include<SFML/Graphics.hpp>
 #include"Animation.h"
+#include "Attacks.h"
 
 class Characters
 {
 
 protected:
 	Animation Animation;
+	Attacks Ataque;
 	float hp;
 	float moveSpeed;
 	float jumpForce;
@@ -56,7 +58,7 @@ public:
 
 	void Update(float deltaTime, int column, int row, const std::vector<sf::RectangleShape>& plataformas);
 	virtual bool loadFromFile(const std::string& path);
-	virtual void draw(sf::RenderWindow& window) const;
+	virtual void draw(sf::RenderWindow& window) ; //QUITE EL CONST
 	virtual void setPosition(sf::Vector2f pos);
 	virtual sf::Vector2f getPosition() const;
 	virtual sf::FloatRect getBounds() const;

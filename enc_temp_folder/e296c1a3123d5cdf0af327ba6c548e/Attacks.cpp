@@ -22,7 +22,7 @@ void Attacks::attackAction(sf::RectangleShape body/*, sf::Window& window*/)
 
 	position = body.getPosition();
 	float offset = 0.0f;
-	HitBox.setPosition(position.x + offset * body.getScale().x, position.y /* - body.getSize().y / 2*/);
+	HitBox.setPosition(position.x + offset * body.getScale().x, position.y - body.getSize().y / 2);
 }
 	//HitBox.setPosition(-body.getOrigin());
 	

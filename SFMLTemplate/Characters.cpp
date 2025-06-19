@@ -51,6 +51,8 @@ void Characters::Update(float deltaTime, int column, int row, const std::vector<
     }
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
         Characters::estadoActual = estadoPj::Attack;
+        Ataque.attackAction(body);
+        
         checkIfAttack = true;
         attackTimer = 0.0f;
         std::cout << "Botón clickeado!" << std::endl;
@@ -70,7 +72,7 @@ void Characters::Update(float deltaTime, int column, int row, const std::vector<
 
         if (attackTimer >= cooldown) {
             checkIfAttack = false;
-           // Characters::estadoActual = estadoPj::Idle; 
+            Characters::estadoActual = estadoPj::Idle; 
         }
     }
    
@@ -125,7 +127,9 @@ void Characters::Update(float deltaTime, int column, int row, const std::vector<
         */
 
     Animation.update(row, deltaTime, column);
+    
     body.setTextureRect(Animation.TextureRect);
+    
     
    
 
@@ -140,10 +144,13 @@ bool Characters::loadFromFile(const std::string& path) {
     return true;
 }
 
-void Characters::draw(sf::RenderWindow& window) const {
+void Characters::draw(sf::RenderWindow& window) {
 
    
     window.draw(body);
+    if (checkIfAttack) {
+        window.draw(Ataque.GetHitBox());
+    }
 }
 
 
