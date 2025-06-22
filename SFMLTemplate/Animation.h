@@ -1,36 +1,24 @@
 #pragma once
 #include"Game.h"
-class Animation 
-{
-protected:
-	
-	sf::Texture* getTexture();
-	//sf::IntRect frameRect;
-	int frameCount;
-	int currentFrame = 0;
-	float frameDuration;
-	
-	
-	sf::Sprite sprite;
-	
+#include<map>
 
+class Animation {
 public:
-	Animation(sf::Texture* texture, sf::Vector2u imageCount, float switchTime);
-	//Animation(int frameWidth, int frameHeight, int frameCount, float frameDuration);
+    Animation();
+    Animation(sf::Texture* texture, int frameCount, float switchTime);
 
-	void update(int row, float deltaTime, int column);
-	sf::IntRect getCurrentFrameRect() const;
-	void reset();
-	sf::IntRect TextureRect;
+    void update(float deltaTime);
+    sf::IntRect getCurrentFrameRect() const;
+    sf::Texture* getTexture() const;
+    const sf::IntRect& getTextureRect() const;
+
+
 private:
-	unsigned int SizeTexture;
-	sf::Vector2u imageCount;
-	sf::Vector2u currentImage;
-	float totalTime;
-	float switchTime;
-
-
-	
-	
+    sf::Texture* texture;
+    int frameCount;
+    float switchTime;
+    float totalTime;
+    int currentFrame;
+    int frameWidth;
+    int frameHeight;
 };
-

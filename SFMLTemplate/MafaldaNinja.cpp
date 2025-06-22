@@ -1,14 +1,21 @@
 #include "MafaldaNinja.h"
 
-MafaldaNinja::MafaldaNinja(sf::Texture* texture, sf::RenderWindow& window, sf::Vector2u imageCount, float switchTime):
-    Characters(texture, imageCount, switchTime)
+MafaldaNinja::MafaldaNinja(sf::RenderWindow& window, bool esJugador1):
+    Characters(esJugador1)
 {
     //body.setTexture(&texture);
     hp = 300.0f;
-    jumpForce = 300.0f;
+    jumpForce = 500.0f;
     baseDmg = 11;
-  
+    setAnimations();
+    this->estadoActual = estadoPj::Idle;
+    body.setScale(3.0f, 3.0f);
+    spriteOffsetY = -190;
     
+    spriteOffsetsY[estadoPj::Idle] = -190;
+    spriteOffsetsY[estadoPj::Move] = -190;
+    spriteOffsetsY[estadoPj::Jump] = -190;
+    spriteOffsetsY[estadoPj::Attack] = -300;
     //body.setTextureRect({ 100,20,50,20 });
     //body.setSize(sf::Vector2f(100.0f, 200.0f));
 }
@@ -47,7 +54,28 @@ void MafaldaNinja::Update(float deltaTime, const std::vector<sf::RectangleShape>
 
 void MafaldaNinja::draw(sf::RenderWindow& window) 
 {
+    //std::cout << "SCALE X: " << body.getScale().x << " SCALE Y: " << body.getScale().y;
+
     Characters::draw(window);
+}
+
+void MafaldaNinja::setAnimations()
+{
+    // IDLE
+    textures[estadoPj::Idle].loadFromFile("./assets/mafalda/AnimeWarrior/Warrior/Idle.png");
+    animations[estadoPj::Idle] = Animation(&textures[estadoPj::Idle], 12, 0.2f);
+
+    // MOVE
+    textures[estadoPj::Move].loadFromFile("./assets/mafalda/AnimeWarrior/Warrior/Run.png");
+    animations[estadoPj::Move] = Animation(&textures[estadoPj::Move], 8, 0.1f);
+
+    // JUMP
+    textures[estadoPj::Jump].loadFromFile("./assets/mafalda/AnimeWarrior/Warrior/Jump.png");
+    animations[estadoPj::Jump] = Animation(&textures[estadoPj::Jump], 2, 0.5f);
+
+    // ATTACK
+    textures[estadoPj::Attack].loadFromFile("./assets/mafalda/AnimeWarrior/Warrior/Sword-Combo.png");
+    animations[estadoPj::Attack] = Animation(&textures[estadoPj::Attack], 14, 0.08f);
 }
 
 float MafaldaNinja::getHP() const

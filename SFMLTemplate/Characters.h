@@ -8,7 +8,18 @@ class Characters
 {
 
 protected:
-	Animation Animation;
+	enum class estadoPj {
+		Idle,
+		Move,
+		Jump,
+		Attack,
+	};
+
+	estadoPj estadoActual= estadoPj::Idle;
+	std::map<estadoPj, Animation> animations;
+	std::map<estadoPj, sf::Texture> textures;
+	std::map<estadoPj, float> spriteOffsetsY;
+	sf::RectangleShape hitbox;
 	Attacks Ataque;
 	float hp;
 	float moveSpeed;
@@ -19,7 +30,7 @@ protected:
 	float gravity = 980.0f;
 	bool isOnGround = false;
 	////
-	sf::RectangleShape body;
+	sf::Sprite body;
 	sf::Texture texture;
 	sf::RenderWindow window;
 	float cooldown = 0.5f;
@@ -35,16 +46,12 @@ protected:
 	sf::Sprite sprite;
 	sf::Vector2f POS{1.0f, 1.0f};
 
-	enum class estadoPj {
-		Idle,
-		Move,
-		Jump,
-		Attack,
-	};
-
-	estadoPj estadoActual = estadoPj::Idle;
+	
+	
 	
 public:
+	Characters(bool esJugador1);
+
 	virtual float getHP() const = 0;
 	virtual float getJumpForce() const = 0;
 	virtual float getDMG() const = 0;
@@ -53,8 +60,9 @@ public:
 	virtual void setJumpForce(float value) = 0;
 	virtual void setDMG(float value) = 0;
 	void actualizarEstado(sf::Vector2f movement);
-
-	Characters(sf::Texture* texture, sf::Vector2u imageCount, float switchTime);
+	void setEstado(estadoPj nuevoEstado);
+	float spriteOffsetY = 0;
+	
 
 	void Update(float deltaTime, int column, int row, const std::vector<sf::RectangleShape>& plataformas);
 	virtual bool loadFromFile(const std::string& path);
@@ -63,6 +71,7 @@ public:
 	virtual sf::Vector2f getPosition() const;
 	virtual sf::FloatRect getBounds() const;
 	virtual bool collidesWith(const sf::FloatRect& other) const;
+	virtual void setAnimations() = 0;
 
 
 };

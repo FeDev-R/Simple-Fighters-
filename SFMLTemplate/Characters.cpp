@@ -1,27 +1,41 @@
 #include "Characters.h"
 #include <iostream>
 
-Characters::Characters(sf::Texture* texture, sf::Vector2u imageCount, float switchTime)
-    : Animation (texture, imageCount, switchTime)
-{
+
+Characters::Characters(bool esJugador1)
     
-    body.setTexture(texture);
-    body.setTextureRect({ 40,0,50,100 });
-    body.setSize(sf::Vector2f(200.0f, 400.0f));
-    body.setOrigin(body.getGlobalBounds().width / 2, body.getGlobalBounds().height);
-    body.setOutlineColor(sf::Color::Magenta);
-    body.setOutlineThickness(1.0f);
+{
+    player1 = esJugador1;
+
+    sf::Vector2u texSize = textures[estadoActual].getSize();
+    //body.setOrigin(texSize.x / 2.f, texSize.y /2);
+    
+    body.setScale(3.0f, 3.0f);
+
+    hitbox.setPosition(200.f, 300.f);
+    body.setPosition(hitbox.getPosition().x, hitbox.getPosition().y + hitbox.getSize().y / 2.f);
+    hitbox.setSize(sf::Vector2f(40.0f, 140.0f)); 
+    hitbox.setOrigin(hitbox.getSize() / 2.f);
+    hitbox.setOutlineColor(sf::Color::Green);
+    hitbox.setFillColor(sf::Color::Transparent);
+    hitbox.setOutlineThickness(2.0f);
+   
+ 
+    
     //body.setPosition(50.0f, 50.0f);
     //body.setScale(1.0f, 0.25f);
    
+   
 
     if (player1) {
-        body.setPosition(sf::Vector2f(200.0f,400.0f));
-
+        body.setPosition(sf::Vector2f(200.0f,100.0f));
+        hitbox.setPosition(body.getPosition().x, body.getPosition().y - hitbox.getSize().y / 2.f);
     }
     else {
-        body.setPosition(sf::Vector2f(820.0f, 500.0f));
+        body.setPosition(sf::Vector2f(820.0f, 100.0f));
+        hitbox.setPosition(body.getPosition().x, body.getPosition().y - hitbox.getSize().y / 2.f);
     }
+    estadoActual = estadoPj::Idle;
 }
 
 void Characters::actualizarEstado(sf::Vector2f movement) {
@@ -35,6 +49,11 @@ void Characters::actualizarEstado(sf::Vector2f movement) {
     }
 }
 
+void Characters::setEstado(estadoPj nuevoEstado)
+{
+    estadoActual = nuevoEstado;
+}
+
 void Characters::Update(float deltaTime, int column, int row, const std::vector<sf::RectangleShape>& plataformas)
 {
     sf::Vector2f movement(0.0f, 0.0f);
@@ -42,20 +61,26 @@ void Characters::Update(float deltaTime, int column, int row, const std::vector<
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
         movement.x -= 2;
-        body.setScale(-1.0f, 1.0f);
+        body.setScale(-3.0f, 3.0f);
+        movingLeft = true;
        
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
         movement.x += 2;
-        body.setScale(1.0f, 1.0f);
+        body.setScale(3.0f, 3.0f);
+        movingLeft = false;
     }
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
         Characters::estadoActual = estadoPj::Attack;
-        Ataque.attackAction(body);
-        
+        Ataque.attackAction(hitbox);
+        if (movingLeft) {
+            body.setScale(-3.0f, 3.0f);
+        }
+        else{ body.setScale(3.0f, 3.0f); }
+
         checkIfAttack = true;
         attackTimer = 0.0f;
-        std::cout << "Botón clickeado!" << std::endl;
+        //std::cout << "Botón clickeado!" << std::endl;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && isOnGround) {
         velocity.y =-jumpForce;
@@ -78,34 +103,44 @@ void Characters::Update(float deltaTime, int column, int row, const std::vector<
    
     movement.y = velocity.y * deltaTime;
     isOnGround = false;
+    std::cout << "DeltaTime: " << deltaTime
+        << " | Velocity.y: " << velocity.y
+        << " | Movement.y: " << movement.y << std::endl;
 
 
-    body.move(movement.x, 0);
+    hitbox.move(movement.x, 0);
     //aca agrego las colisiones horizontales
-    body.move(0, movement.y);
     bool onGroundThisFrame = false;
+    float movimientoVerticalRestante = movement.y;
+    float paso = 1.0f;
     const float tolerancia = 5.0f;
 
+    while (std::abs(movimientoVerticalRestante) > 0.0f) {
+        float deltaPaso = std::min(paso, std::abs(movimientoVerticalRestante));
+        float signo = movimientoVerticalRestante > 0 ? 1.f : -1.f;
+        hitbox.move(0, signo * deltaPaso);
 
-    for (const auto& plataforma : plataformas) {
-        if (body.getGlobalBounds().intersects(plataforma.getGlobalBounds())) {
-            sf::FloatRect personajeBounds = body.getGlobalBounds();
-            sf::FloatRect plataformaBounds = plataforma.getGlobalBounds();
+        for (const auto& plataforma : plataformas) {
+            if (hitbox.getGlobalBounds().intersects(plataforma.getGlobalBounds())) {
+                sf::FloatRect personajeBounds = hitbox.getGlobalBounds();
+                sf::FloatRect plataformaBounds = plataforma.getGlobalBounds();
 
-            float personajeBottom = body.getPosition().y -10 /* + body.getSize().y*/;
-            float plataformaTop = plataformaBounds.top;
-            std::cout << "PJ bottom: " << personajeBottom << ", PL top: " << plataformaTop << std::endl;
+                float personajeBottom = personajeBounds.top + personajeBounds.height;
+                float plataformaTop = plataformaBounds.top;
 
-            if (velocity.y >= 0 && personajeBottom <= plataformaTop + tolerancia) {
-                
-                body.setPosition(body.getPosition().x, plataformaTop/* - body.getSize().y*/);
-
-                velocity.y = 0;
-                onGroundThisFrame = true;
+                if (velocity.y >= 0 && personajeBottom <= plataformaTop + tolerancia) {
+                    float nuevaY = plataformaTop - hitbox.getSize().y / 2.f;
+                    hitbox.setPosition(hitbox.getPosition().x, nuevaY);
+                    velocity.y = 0;
+                    onGroundThisFrame = true;
+                    goto FIN_CAIDA; // salimos del while
+                }
             }
         }
-    }
 
+        movimientoVerticalRestante -= signo * deltaPaso;
+    }
+FIN_CAIDA:
     isOnGround = onGroundThisFrame;
 
 
@@ -115,24 +150,26 @@ void Characters::Update(float deltaTime, int column, int row, const std::vector<
     this->column = column;
     this->row = row;
 
-    //std::cout << this->column;
-    //std::cout << this->row;
+    //std::cout << "\nSIZE X: " << body.getSize().x << " SIZE Y: " << body.getSize().y;
 
-    /*if (movement.x > 0.0f)
-        faceRight = true;
-    else if (movement.x == 0)
-        ;
-    else
-        faceRight = false;
-        */
-
-    Animation.update(row, deltaTime, column);
-    
-    body.setTextureRect(Animation.TextureRect);
-    
-    
+    auto& anim = animations[estadoActual];
+    sf::IntRect rect = anim.getCurrentFrameRect();
    
+ 
+    anim.update(deltaTime);
+    body.setTexture(textures[estadoActual]);
+    body.setTextureRect(rect);
+    //body.setOrigin(rect.width / 2.f, rect.height);
+   body.setOrigin(rect.width / 2.f, static_cast<float>(rect.height));
+    //body.setOrigin(rect.width / 2.f, 135);
 
+   
+   float offset = spriteOffsetsY[estadoActual];
+   body.setPosition(hitbox.getPosition().x, hitbox.getPosition().y - offset);
+
+
+    //std::cout << "body top: " << body.getGlobalBounds().top<<"hitbox top: "<<hitbox.getGlobalBounds().top << std::endl;
+    //std::cout << "TextureRect: left=" << rect.left << ", top=" << rect.top << ", width=" << rect.width << ", height=" << rect.height << std::endl;
 
 }
 
@@ -148,7 +185,8 @@ void Characters::draw(sf::RenderWindow& window) {
 
    
     window.draw(body);
-    if (checkIfAttack) {
+    window.draw(hitbox);
+   if (checkIfAttack) {
         window.draw(Ataque.GetHitBox());
     }
 }

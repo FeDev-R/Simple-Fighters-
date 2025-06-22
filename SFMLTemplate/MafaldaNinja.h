@@ -4,11 +4,12 @@
 class MafaldaNinja : public Characters
 {
 public:
-	MafaldaNinja(sf::Texture* texture,sf::RenderWindow& window, sf::Vector2u imageCount, float switchTime) ;
+	MafaldaNinja(sf::RenderWindow& window, bool esJugador1) ;
 
     void Update(float deltaTime, const std::vector<sf::RectangleShape>& plataformas);
     void draw(sf::RenderWindow& window);
 
+    void setAnimations() override;
 
     float getHP() const override;
     float getJumpForce() const override;

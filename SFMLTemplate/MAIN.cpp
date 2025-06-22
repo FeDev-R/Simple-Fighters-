@@ -14,7 +14,7 @@ int main()
    
     window.setFramerateLimit(60);
 
-    bool yes = 1, no = 0;
+    bool esJugador1 = 0;
     Stage stage;
     mapa bosque;
     mapa bosque2;
@@ -42,13 +42,9 @@ int main()
     stage.addMap(bosque2);
     stage.setCurrentMap(0);
     
-    sf::Texture Mafalda_Texture;
-    Mafalda_Texture.loadFromFile("./assets/Warrior-Spritesheet5.png");
-    if (!Mafalda_Texture.loadFromFile("./assets/Warrior-Spritesheet5.png")) {
-        std::cout << "Error: No se pudo cargar la textura" << std::endl;
-    }
+   
 
-    MafaldaNinja mafalda(&Mafalda_Texture, window, sf::Vector2u(14,6), 0.2f);
+    MafaldaNinja mafalda(window, esJugador1);
     auto& plataformasActuales = stage.getCurrentMap().getPlataformas();
 
     float deltaTime = 0.0f;
