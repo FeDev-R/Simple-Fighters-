@@ -32,7 +32,7 @@ void elfa::Update(float deltaTime, const std::vector<sf::RectangleShape>& plataf
 
 
     if (estadoActual == estadoPj::Attack ) {
-        float avance = 80.0f * deltaTime;
+        float avance = 70.0f * deltaTime;
 
         if (movingLeft) {
             hitbox.move(-avance, 0.f);  

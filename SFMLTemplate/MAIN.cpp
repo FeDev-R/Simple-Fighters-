@@ -105,7 +105,7 @@ int main()
     stage.addMap(bosque3);//4
     stage.addMap(utn);//5 
     stage.addMap(country); //6
-    stage.setCurrentMap(1);
+    stage.setCurrentMap(6);
     
    ///////////////////////////////////////////////////////
 

@@ -212,9 +212,10 @@ FIN_CAIDA:
 
    if (elfaa()==true && estadoActual == estadoPj::Attack) {
        if(movingLeft)
-       body.setPosition(hitbox.getPosition().x - 15, hitbox.getPosition().y - offsetY);
+       body.setPosition(hitbox.getPosition().x - 50, hitbox.getPosition().y - offsetY);
        else
-           body.setPosition(hitbox.getPosition().x -10, hitbox.getPosition().y - offsetY);
+           body.setPosition(hitbox.getPosition().x +50, hitbox.getPosition().y - offsetY);
+           
 
    }
    else {
