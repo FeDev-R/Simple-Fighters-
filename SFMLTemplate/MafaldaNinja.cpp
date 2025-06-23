@@ -55,6 +55,8 @@ void MafaldaNinja::setAnimations()
     animations[estadoPj::Attack] = Animation(&textures[estadoPj::Attack], 14, 0.08f);
 }
 
+
+
 float MafaldaNinja::getHP() const
 {
     return 0.0f;

@@ -86,6 +86,7 @@ public:
 	virtual float getAttackOffSetX() const {
 		return 0.f;
 	}
+	void controlsPlayer(bool Jugador, sf::Vector2f& movement);
 
 	virtual bool elfaa() const { return false; }
 };

@@ -16,11 +16,8 @@ int main()
     window.setView(view);
     window.setFramerateLimit(60);
 
-    bool esJugador1 = 1;
-    
-    ///////////////MAPAS/////////////////////////////////
-    
-
+    bool esJugador1 = 0;
+    bool esJugador2 = 1;
     Stage stage;
     mapa bosque;
     mapa bosque2;
@@ -110,6 +107,7 @@ int main()
    ///////////////////////////////////////////////////////
 
     MafaldaNinja mafalda(window, esJugador1);
+    MafaldaNinja alberto(window, esJugador2);
     elfa elfa(window, 0);
     auto& plataformasActuales = stage.getCurrentMap().getPlataformas();
 
@@ -142,10 +140,12 @@ int main()
         window.clear(sf::Color::Transparent);
         elfa.Update(deltaTime, plataformasActuales);
         mafalda.Update(deltaTime,plataformasActuales);
+        alberto.Update(deltaTime, plataformasActuales);
         //DRAW
         
         stage.draw(window);
         mafalda.draw(window);
+        alberto.draw(window);
         elfa.draw(window);
         window.display();
     }
