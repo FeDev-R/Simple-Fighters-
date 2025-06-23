@@ -1,5 +1,6 @@
 #pragma once
 #include"Game.h"
+#include <vector>
 class mapa
 {
 protected:
@@ -12,16 +13,26 @@ protected:
 	sf::Texture texturePlatform;
 	sf::Sprite spritePlatform;
 
+
+	bool usarCapasSeparadas = false;
+
 public:
 	void addPlatform(const sf::Vector2f& size, const sf::Vector2f& position) {
 		sf::RectangleShape plataforma;
 		plataforma.setSize(size);
 		plataforma.setPosition(position);
-		plataforma.setTexture(&texturePlatform);
 		plataforma.setOrigin(0.f, 0.f);
-		plataforma.setOutlineColor(sf::Color::Cyan);
-		plataforma.setOutlineThickness(1.0f);
 
+		if (usarCapasSeparadas) {
+			plataforma.setFillColor(sf::Color::Transparent);
+			plataforma.setOutlineColor(sf::Color::Cyan);
+			plataforma.setOutlineThickness(1.0f);
+		}
+		else {
+			plataforma.setTexture(&texturePlatform);
+			plataforma.setOutlineColor(sf::Color::Cyan);
+			plataforma.setOutlineThickness(1.0f);
+		}
 		plataformas.push_back(plataforma);
 
 	}
@@ -55,15 +66,16 @@ public:
 	}
 
 	void draw(sf::RenderWindow& window) {
-		window.draw(sprite);
 
-		for(auto& plataforma: plataformas) {
+			window.draw(sprite);
+
+		for (auto& plataforma : plataformas) {
 			window.draw(plataforma);
 		}
 	}
-	
+
 	std::string getName() const { return name; }
-	void setName(const std::string& n){ name = n; };
+	void setName(const std::string& n) { name = n; };
 
 	void setScale(float scaleX, float scaleY) {
 		sprite.setScale(scaleX, scaleY);
@@ -72,7 +84,7 @@ public:
 		sprite.setPosition(X, Y);
 	}
 
-    void fitToWindow(const sf::RenderWindow& window) {
+	void fitToWindow(const sf::RenderWindow& window) {
 		sf::Vector2u textureSize = sprite.getTexture()->getSize();
 		sf::Vector2u windowSize = window.getSize();
 
@@ -80,7 +92,7 @@ public:
 		float scaleY = static_cast<float>(windowSize.y) / textureSize.y;
 
 		sprite.setScale(scaleX, scaleY);
-		sprite.setPosition(0.f, 0.f);  
+		sprite.setPosition(0.f, 0.f);
 	}
 
 	void setOrigin(float OriginX, float OriginY, bool ponerOriginEnMedio) {
@@ -93,7 +105,13 @@ public:
 		}
 	}
 
+	void setUsarCapasSeparadas(bool usar) {
+		usarCapasSeparadas = usar;
+	}
 
+	bool getUsarCapasSeparadas() const {
+		return usarCapasSeparadas;
+	}
 	const sf::FloatRect& getCollisionBox() const {
 		return collisionBox;
 	}

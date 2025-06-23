@@ -11,7 +11,8 @@ public:
     sf::IntRect getCurrentFrameRect() const;
     sf::Texture* getTexture() const;
     const sf::IntRect& getTextureRect() const;
-
+   bool isLastFrame();
+   void Reset();
 
 private:
     sf::Texture* texture;

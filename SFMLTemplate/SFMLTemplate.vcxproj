@@ -138,6 +138,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Attacks.cpp" />
     <ClCompile Include="Characters.cpp" />
+    <ClCompile Include="elfa.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="MafaldaNinja.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Attacks.h" />
     <ClInclude Include="Characters.h" />
+    <ClInclude Include="elfa.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="MafaldaNinja.h" />

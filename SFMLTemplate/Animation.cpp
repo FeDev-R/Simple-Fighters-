@@ -31,4 +31,15 @@ sf::Texture* Animation::getTexture() const {
     return texture;
 }
 
+bool Animation::isLastFrame()
+{
+    return currentFrame == frameCount - 1;
+}
+
+void Animation::Reset()
+{
+    currentFrame = 0;
+    totalTime = 0.0f;
+}
+
 

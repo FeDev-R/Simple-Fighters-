@@ -10,15 +10,17 @@ Characters::Characters(bool esJugador1)
     sf::Vector2u texSize = textures[estadoActual].getSize();
     //body.setOrigin(texSize.x / 2.f, texSize.y /2);
     
-    body.setScale(3.0f, 3.0f);
 
-    hitbox.setPosition(200.f, 300.f);
+
+    hitbox.setPosition(200.f, 600.f);
     body.setPosition(hitbox.getPosition().x, hitbox.getPosition().y + hitbox.getSize().y / 2.f);
     hitbox.setSize(sf::Vector2f(40.0f, 140.0f)); 
     hitbox.setOrigin(hitbox.getSize() / 2.f);
+    body.setOrigin(hitbox.getOrigin());
+
     hitbox.setOutlineColor(sf::Color::Green);
+    hitbox.setOutlineThickness(1.0f);
     hitbox.setFillColor(sf::Color::Transparent);
-    hitbox.setOutlineThickness(2.0f);
    
  
     
@@ -28,13 +30,18 @@ Characters::Characters(bool esJugador1)
    
 
     if (player1) {
-        body.setPosition(sf::Vector2f(200.0f,100.0f));
+        body.setPosition(sf::Vector2f(260.0f,600.0f));
         hitbox.setPosition(body.getPosition().x, body.getPosition().y - hitbox.getSize().y / 2.f);
+        movingLeft = false;
     }
     else {
-        body.setPosition(sf::Vector2f(820.0f, 100.0f));
+        body.setPosition(sf::Vector2f(820.0f, 600.0f));
         hitbox.setPosition(body.getPosition().x, body.getPosition().y - hitbox.getSize().y / 2.f);
+        movingLeft = true;
     }
+
+    body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
+
     estadoActual = estadoPj::Idle;
 }
 
@@ -49,6 +56,8 @@ void Characters::actualizarEstado(sf::Vector2f movement) {
     }
 }
 
+
+
 void Characters::setEstado(estadoPj nuevoEstado)
 {
     estadoActual = nuevoEstado;
@@ -57,49 +66,73 @@ void Characters::setEstado(estadoPj nuevoEstado)
 void Characters::Update(float deltaTime, int column, int row, const std::vector<sf::RectangleShape>& plataformas)
 {
     sf::Vector2f movement(0.0f, 0.0f);
+    body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
 
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
         movement.x -= 2;
-        body.setScale(-3.0f, 3.0f);
+        
         movingLeft = true;
-       
+        body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
+
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
         movement.x += 2;
-        body.setScale(3.0f, 3.0f);
         movingLeft = false;
+        body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
+        
     }
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-        Characters::estadoActual = estadoPj::Attack;
-        Ataque.attackAction(hitbox);
-        if (movingLeft) {
-            body.setScale(-3.0f, 3.0f);
-        }
-        else{ body.setScale(3.0f, 3.0f); }
+    bool mouseAhora = sf::Mouse::isButtonPressed(sf::Mouse::Left);
 
+    if (mouseAhora && !mousePresionadoAntes && !checkIfAttack) {
+        estadoActual = estadoPj::Attack;
+        Ataque.attackAction(hitbox);
         checkIfAttack = true;
         attackTimer = 0.0f;
-        //std::cout << "Botón clickeado!" << std::endl;
+        body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
     }
+
+    mousePresionadoAntes = mouseAhora;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && isOnGround) {
         velocity.y =-jumpForce;
         isOnGround = false;
         Characters::estadoActual = estadoPj::Jump;
 
+      
+
     }
+
     if (!isOnGround) {
        velocity.y += gravity * deltaTime;
 
     }
+
+
+    if (!estabaEnElAire && !isOnGround) {
+        estabaEnElAire = true;
+    }
+
+    if (estabaEnElAire && isOnGround) {
+        // Aterrizó
+        if (estadoActual == estadoPj::Jump) {
+            estadoActual = estadoPj::Idle;
+            animations[estadoPj::Jump].Reset();
+        }
+
+        estabaEnElAire = false;
+    }
+
     if (checkIfAttack) {
         attackTimer += deltaTime;
 
-        if (attackTimer >= cooldown) {
+      
+        if (animations[estadoPj::Attack].isLastFrame()) {
             checkIfAttack = false;
-            Characters::estadoActual = estadoPj::Idle; 
+            estadoActual = estadoPj::Idle;
+            animations[estadoPj::Attack].Reset(); 
         }
     }
+    
    
     movement.y = velocity.y * deltaTime;
     isOnGround = false;
@@ -152,20 +185,42 @@ FIN_CAIDA:
 
     //std::cout << "\nSIZE X: " << body.getSize().x << " SIZE Y: " << body.getSize().y;
 
+  
+    
     auto& anim = animations[estadoActual];
     sf::IntRect rect = anim.getCurrentFrameRect();
-   
- 
+
+    
+    if (estadoActual != estadoAnterior) {
+        int deltaWidth = rect.width - lastFrameWidth;
+        body.move((deltaWidth / 2.f) * (movingLeft ? -1.f : 1.f), 0.f);
+        lastFrameWidth = rect.width;
+        estadoAnterior = estadoActual;
+    }
+
     anim.update(deltaTime);
     body.setTexture(textures[estadoActual]);
     body.setTextureRect(rect);
+    body.setOrigin(rect.width / 2.f, static_cast<float>(rect.height));
     //body.setOrigin(rect.width / 2.f, rect.height);
-   body.setOrigin(rect.width / 2.f, static_cast<float>(rect.height));
+  
     //body.setOrigin(rect.width / 2.f, 135);
 
    
-   float offset = spriteOffsetsY[estadoActual];
-   body.setPosition(hitbox.getPosition().x, hitbox.getPosition().y - offset);
+   float offsetY = spriteOffsetsY[estadoActual];
+   float offsetX = spriteOffsetsX[estadoActual] ;
+
+   if (elfaa()==true && estadoActual == estadoPj::Attack) {
+       if(movingLeft)
+       body.setPosition(hitbox.getPosition().x - 15, hitbox.getPosition().y - offsetY);
+       else
+           body.setPosition(hitbox.getPosition().x -10, hitbox.getPosition().y - offsetY);
+
+   }
+   else {
+       body.setPosition(hitbox.getPosition().x - offsetX, hitbox.getPosition().y - offsetY);
+
+   }
 
 
     //std::cout << "body top: " << body.getGlobalBounds().top<<"hitbox top: "<<hitbox.getGlobalBounds().top << std::endl;
@@ -208,3 +263,4 @@ sf::FloatRect Characters::getBounds() const {
 bool Characters::collidesWith(const sf::FloatRect& other) const {
     return getBounds().intersects(other);
 }
+

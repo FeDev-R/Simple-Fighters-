@@ -10,12 +10,12 @@ MafaldaNinja::MafaldaNinja(sf::RenderWindow& window, bool esJugador1):
     setAnimations();
     this->estadoActual = estadoPj::Idle;
     body.setScale(3.0f, 3.0f);
-    spriteOffsetY = -190;
+
     
-    spriteOffsetsY[estadoPj::Idle] = -190;
-    spriteOffsetsY[estadoPj::Move] = -190;
-    spriteOffsetsY[estadoPj::Jump] = -190;
-    spriteOffsetsY[estadoPj::Attack] = -300;
+    spriteOffsetsY[estadoPj::Idle] = -186;
+    spriteOffsetsY[estadoPj::Move] = -186;
+    spriteOffsetsY[estadoPj::Jump] = -186;
+    spriteOffsetsY[estadoPj::Attack] = -294;
     //body.setTextureRect({ 100,20,50,20 });
     //body.setSize(sf::Vector2f(100.0f, 200.0f));
 }
@@ -24,30 +24,7 @@ void MafaldaNinja::Update(float deltaTime, const std::vector<sf::RectangleShape>
 {
 
 
-    switch (estadoActual)
-    {
-    case Characters::estadoPj::Idle:
-        column = 7;
-        row = 2;
-        break;
-    case Characters::estadoPj::Move:
-        column = 8;
-        row = 4;
-        break;
-    case Characters::estadoPj::Jump:
-        column = 2;
-        row = 3;
-        break;
-    case Characters::estadoPj::Attack:
-        column = 7;
-        row = 1;
-        break;
-    default:
-        column: 12;
-        row : 0;
-        break;
-    }
-
+   
     Characters::Update(deltaTime, column, row, plataformas );
    
 }
