@@ -4,6 +4,7 @@ MafaldaNinja::MafaldaNinja(sf::RenderWindow& window, bool esJugador1):
     Characters(esJugador1)
 {
     //body.setTexture(&texture);
+    hpMax = 300.0f;
     hp = 300.0f;
     jumpForce = 500.0f;
     baseDmg = 11;

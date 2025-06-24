@@ -20,8 +20,8 @@ public:
 
 	virtual void setPosition();
 
-	void attackAction(sf::RectangleShape body/*, sf::Window& window*/);
-
+	void attackAction(sf::RectangleShape body, bool sideMove/*, sf::Window& window*/);
+	sf::Vector2f getHitbox();
 	sf::RectangleShape& GetHitBox();
 
 

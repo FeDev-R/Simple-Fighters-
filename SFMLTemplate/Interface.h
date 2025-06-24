@@ -1,0 +1,34 @@
+#pragma once
+#include <sfml/Graphics.hpp>
+
+class Interface
+{
+private:
+
+	float hpMax;
+	float hpMax2;
+	float HpActual;
+	bool isProyectUpgradeVisible; //NUEVA
+	float proyectUpgradeTimer; //NUEVA
+	const float timeDurationProyect = 2.0f; //NUEVA
+	sf::Vector2i size;
+	sf::RectangleShape Hpbackground;
+	sf::RectangleShape HpActualBar;
+	sf::RectangleShape Hpbackground2;
+	sf::RectangleShape HpActualBar2;
+
+	sf::Font			textFont;
+
+	sf::Text            ProyectUpgrade;
+	sf::Font            textLetters;
+
+public:
+	//Interface();
+	Interface(float hpMax, float hpMax2);
+	void UpdateHpBar(float hpActual);
+	void Draw(sf::RenderWindow& window);
+	void update(sf::Vector2f posToPj, int level, float deltaTime);
+	void configurarRectangle(sf::RectangleShape& rect, sf::Vector2f size, sf::Color color, bool setOrigin);
+	void configurarText(sf::Text& text, const sf::Font& font, const std::string& str, sf::Color fillColor, unsigned int size, float outlineThickness, sf::Color outlineColor, sf::Vector2f scale);
+};
+

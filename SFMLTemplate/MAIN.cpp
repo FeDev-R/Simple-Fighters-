@@ -7,6 +7,7 @@
 #include"MafaldaNinja.h"
 #include"iostream"
 #include"elfa.h"
+#include "Interface.h"
 
 int main()
 {
@@ -17,6 +18,10 @@ int main()
     window.setFramerateLimit(60);
 
     bool esJugador1 = 1;
+    bool esJugador2 = 0;
+
+    Game Juego;
+   // Interface Interfaz;
     
     ///////////////MAPAS/////////////////////////////////
     
@@ -111,6 +116,8 @@ int main()
 
     MafaldaNinja mafalda(window, esJugador1);
     elfa elfa(window, 0);
+
+    Interface Interfaz(mafalda.getHp(), elfa.getHp());
     auto& plataformasActuales = stage.getCurrentMap().getPlataformas();
 
     float deltaTime = 0.0f;
@@ -142,11 +149,15 @@ int main()
         window.clear(sf::Color::Transparent);
         elfa.Update(deltaTime, plataformasActuales);
         mafalda.Update(deltaTime,plataformasActuales);
+        Interfaz.UpdateHpBar(mafalda.getHp());
+
+        Juego.checkCollision(mafalda, elfa);
         //DRAW
         
         stage.draw(window);
         mafalda.draw(window);
         elfa.draw(window);
+        Interfaz.Draw(window);
         window.display();
     }
 

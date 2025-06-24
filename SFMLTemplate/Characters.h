@@ -1,23 +1,69 @@
 #pragma once
 #include<iostream>
-#include<SFML/Graphics.hpp>
+/*#include<SFML/Graphics.hpp>
+#include "Animation.h" 
 #include"mapa.h"
-#include<map>
-#include"Animation.h"
-#include "Attacks.h"
-
+#include <map>                     
+#include "Attacks.h" */
+#include <SFML/Graphics.hpp>
+#include <map>            
+#include <vector>         
+#include <string>         
+#include "Animation.h"    
+#include "Attacks.h" 
 
 
 class Characters
 {
 
-protected:
+public:
+
 	enum class estadoPj {
 		Idle,
 		Move,
 		Jump,
 		Attack,
 	};
+
+	Characters(bool esJugador1);
+
+	virtual float getHP() const = 0;
+	virtual float getJumpForce() const = 0;
+	virtual float getDMG() const = 0;
+
+	virtual void setHP(float value) = 0;
+	virtual void setJumpForce(float value) = 0;
+	virtual void setDMG(float value) = 0;
+
+	int getDmg();
+	void takeDmg(int takenDmg);
+	void actualizarEstado(sf::Vector2f movement);
+	void setEstado(estadoPj nuevoEstado);
+	float spriteOffSetY = 0;
+	sf::RectangleShape getHitbox();
+	int getHp();
+
+	void controlsPlayer(bool Jugador, sf::Vector2f& movement);
+
+
+	void Update(float deltaTime, int column, int row, const std::vector<sf::RectangleShape>& plataformas);
+	virtual bool loadFromFile(const std::string& path);
+	virtual void draw(sf::RenderWindow& window); //QUITE EL CONST ---- NO IMPORTA ES UN TECNICISMO NO SOMOS PERFECTOS...
+	virtual void setPosition(sf::Vector2f pos);
+	virtual sf::Vector2f getPosition() const;
+	virtual sf::FloatRect getBounds() const;
+	virtual bool collidesWith(const sf::FloatRect& other) const;
+	virtual void setAnimations() = 0;
+
+	virtual sf::RectangleShape getHitboxAttack();
+
+	virtual float getAttackOffSetX() const {
+		return 0.f;
+	}
+
+	virtual bool elfaa() const { return false; }
+protected:
+	
 
 	estadoPj estadoActual= estadoPj::Idle;
 	std::map<estadoPj, Animation> animations;
@@ -32,6 +78,7 @@ protected:
 	sf::RectangleShape hitbox;
 	Attacks Ataque;
 	float hp;
+	float hpMax;
 	float moveSpeed;
 	float jumpForce;
 	float baseDmg;
@@ -59,34 +106,6 @@ protected:
 	bool estabaEnElAire = false;
 	
 	
-public:
-	Characters(bool esJugador1);
 
-	virtual float getHP() const = 0;
-	virtual float getJumpForce() const = 0;
-	virtual float getDMG() const = 0;
-
-	virtual void setHP(float value) = 0;
-	virtual void setJumpForce(float value) = 0;
-	virtual void setDMG(float value) = 0;
-	void actualizarEstado(sf::Vector2f movement);
-	void setEstado(estadoPj nuevoEstado);
-	float spriteOffSetY = 0;
-	
-
-	void Update(float deltaTime, int column, int row, const std::vector<sf::RectangleShape>& plataformas);
-	virtual bool loadFromFile(const std::string& path);
-	virtual void draw(sf::RenderWindow& window) ; //QUITE EL CONST ---- NO IMPORTA ES UN TECNICISMO NO SOMOS PERFECTOS...
-	virtual void setPosition(sf::Vector2f pos);
-	virtual sf::Vector2f getPosition() const;
-	virtual sf::FloatRect getBounds() const;
-	virtual bool collidesWith(const sf::FloatRect& other) const;
-	virtual void setAnimations() = 0;
-	
-	virtual float getAttackOffSetX() const {
-		return 0.f;
-	}
-
-	virtual bool elfaa() const { return false; }
 };
 

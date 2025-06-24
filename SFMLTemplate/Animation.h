@@ -1,5 +1,5 @@
 #pragma once
-#include"Game.h"
+#include <SFML/Graphics.hpp>
 #include<map>
 
 class Animation {

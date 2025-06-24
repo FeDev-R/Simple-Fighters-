@@ -141,6 +141,7 @@
     <ClCompile Include="elfa.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HUD.cpp" />
+    <ClCompile Include="Interface.cpp" />
     <ClCompile Include="MafaldaNinja.cpp" />
     <ClCompile Include="MAIN.cpp" />
     <ClCompile Include="mapa.cpp" />
@@ -155,6 +156,7 @@
     <ClInclude Include="elfa.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="HUD.h" />
+    <ClInclude Include="Interface.h" />
     <ClInclude Include="MafaldaNinja.h" />
     <ClInclude Include="mapa.h" />
     <ClInclude Include="Menu.h" />

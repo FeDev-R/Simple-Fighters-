@@ -1,4 +1,4 @@
-#include "Characters.h"
+﻿#include "Characters.h"
 #include <iostream>
 
 
@@ -45,6 +45,95 @@ Characters::Characters(bool esJugador1)
     estadoActual = estadoPj::Idle;
 }
 
+void Characters::controlsPlayer(bool Jugador, sf::Vector2f& movement) {
+
+
+    if (Jugador) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+            movement.x -= 2;
+            movingLeft = true;
+            body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
+
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+            movement.x += 2;
+            movingLeft = false;
+            body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
+
+        }
+        bool mouseAhora = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+
+        if (mouseAhora && !mousePresionadoAntes && !checkIfAttack) {
+            estadoActual = estadoPj::Attack;
+            Ataque.attackAction(hitbox, movingLeft);
+            checkIfAttack = true;
+            attackTimer = 0.0f;
+            body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
+        }
+
+        mousePresionadoAntes = mouseAhora;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && isOnGround) {
+            velocity.y = -jumpForce;
+            isOnGround = false;
+            Characters::estadoActual = estadoPj::Jump;
+
+        }
+    }
+    else {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::J)) {
+            movement.x -= 2;
+            movingLeft = true;
+            body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
+
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::L)) {
+            movement.x += 2;
+            movingLeft = false;
+            body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
+
+        }
+        bool mouseAhora = sf::Mouse::isButtonPressed(sf::Mouse::Right);
+
+        if (mouseAhora && !mousePresionadoAntes && !checkIfAttack) {
+            estadoActual = estadoPj::Attack;
+            Ataque.attackAction(hitbox, movingLeft);
+            checkIfAttack = true;
+            attackTimer = 0.0f;
+            body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
+        }
+
+        mousePresionadoAntes = mouseAhora;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && isOnGround) {
+            velocity.y = -jumpForce;
+            isOnGround = false;
+            Characters::estadoActual = estadoPj::Jump;
+
+        }
+
+    }
+}
+
+int Characters::getDmg()
+{
+    return baseDmg;
+}
+
+void Characters::takeDmg(int takenDmg)
+{
+    hp -= takenDmg;
+    std::cout << hp<< std::endl;
+}
+
+sf::RectangleShape Characters::getHitbox() 
+{
+    return hitbox;
+}
+
+int Characters::getHp()
+{
+    return hp;
+}
+
 void Characters::actualizarEstado(sf::Vector2f movement) {
     if (checkIfAttack) return;
 
@@ -67,40 +156,7 @@ void Characters::Update(float deltaTime, int column, int row, const std::vector<
 {
     sf::Vector2f movement(0.0f, 0.0f);
     body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
-
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-        movement.x -= 2;
-        
-        movingLeft = true;
-        body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
-
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-        movement.x += 2;
-        movingLeft = false;
-        body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
-        
-    }
-    bool mouseAhora = sf::Mouse::isButtonPressed(sf::Mouse::Left);
-
-    if (mouseAhora && !mousePresionadoAntes && !checkIfAttack) {
-        estadoActual = estadoPj::Attack;
-        Ataque.attackAction(hitbox);
-        checkIfAttack = true;
-        attackTimer = 0.0f;
-        body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
-    }
-
-    mousePresionadoAntes = mouseAhora;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && isOnGround) {
-        velocity.y =-jumpForce;
-        isOnGround = false;
-        Characters::estadoActual = estadoPj::Jump;
-
-      
-
-    }
+    controlsPlayer(player1, movement); 
 
     if (!isOnGround) {
        velocity.y += gravity * deltaTime;
@@ -113,7 +169,7 @@ void Characters::Update(float deltaTime, int column, int row, const std::vector<
     }
 
     if (estabaEnElAire && isOnGround) {
-        // Aterriz�
+        // Aterrizó
         if (estadoActual == estadoPj::Jump) {
             estadoActual = estadoPj::Idle;
             animations[estadoPj::Jump].Reset();
@@ -136,9 +192,9 @@ void Characters::Update(float deltaTime, int column, int row, const std::vector<
    
     movement.y = velocity.y * deltaTime;
     isOnGround = false;
-    std::cout << "DeltaTime: " << deltaTime
+    /*std::cout << "DeltaTime: " << deltaTime
         << " | Velocity.y: " << velocity.y
-        << " | Movement.y: " << movement.y << std::endl;
+        << " | Movement.y: " << movement.y << std::endl;*/
 
 
     hitbox.move(movement.x, 0);
@@ -201,7 +257,7 @@ FIN_CAIDA:
     anim.update(deltaTime);
     body.setTexture(textures[estadoActual]);
     body.setTextureRect(rect);
-    body.setOrigin(rect.width / 2.f, static_cast<float>(rect.height));
+    body.setOrigin(rect.width / 2.f, float(rect.height));
     //body.setOrigin(rect.width / 2.f, rect.height);
   
     //body.setOrigin(rect.width / 2.f, 135);
@@ -210,8 +266,8 @@ FIN_CAIDA:
    float offsetY = spriteOffsetsY[estadoActual];
    float offsetX = spriteOffsetsX[estadoActual] ;
 
-   if (elfaa()==true && estadoActual == estadoPj::Attack) {
-       if(movingLeft)
+   if (elfaa() == true && estadoActual == estadoPj::Attack) {
+       if (movingLeft)
        body.setPosition(hitbox.getPosition().x - 50, hitbox.getPosition().y - offsetY);
        else
            body.setPosition(hitbox.getPosition().x +50, hitbox.getPosition().y - offsetY);
@@ -223,7 +279,7 @@ FIN_CAIDA:
 
    }
 
-
+   
     //std::cout << "body top: " << body.getGlobalBounds().top<<"hitbox top: "<<hitbox.getGlobalBounds().top << std::endl;
     //std::cout << "TextureRect: left=" << rect.left << ", top=" << rect.top << ", width=" << rect.width << ", height=" << rect.height << std::endl;
 
@@ -263,5 +319,10 @@ sf::FloatRect Characters::getBounds() const {
 
 bool Characters::collidesWith(const sf::FloatRect& other) const {
     return getBounds().intersects(other);
+}
+
+sf::RectangleShape Characters::getHitboxAttack()
+{
+    return sf::RectangleShape(Ataque.GetHitBox());
 }
 
