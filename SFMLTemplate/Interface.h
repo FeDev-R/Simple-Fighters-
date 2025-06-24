@@ -25,7 +25,7 @@ private:
 public:
 	//Interface();
 	Interface(float hpMax, float hpMax2);
-	void UpdateHpBar(float hpActual);
+	void UpdateHpBar(float hpActual, float HpActual2);
 	void Draw(sf::RenderWindow& window);
 	void update(sf::Vector2f posToPj, int level, float deltaTime);
 	void configurarRectangle(sf::RectangleShape& rect, sf::Vector2f size, sf::Color color, bool setOrigin);

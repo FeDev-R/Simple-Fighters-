@@ -149,9 +149,10 @@ int main()
         window.clear(sf::Color::Transparent);
         elfa.Update(deltaTime, plataformasActuales);
         mafalda.Update(deltaTime,plataformasActuales);
-        Interfaz.UpdateHpBar(mafalda.getHp());
+        
 
         Juego.checkCollision(mafalda, elfa);
+        Interfaz.UpdateHpBar(mafalda.getHp(), elfa.getHp());
         //DRAW
         
         stage.draw(window);

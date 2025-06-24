@@ -4,6 +4,7 @@
 Interface::Interface(float hpMax, float hpMax2)
 {
 	this->hpMax = hpMax;
+	this->hpMax2 = hpMax2;
 	configurarRectangle(Hpbackground, sf::Vector2f(500.0f, 45.0f), sf::Color::Black, false);
 	configurarRectangle(HpActualBar, sf::Vector2f(490.0f, 40.0f), sf::Color::Red, false);
 
@@ -35,7 +36,7 @@ Interface::Interface(float hpMax, float hpMax2)
 
 }*/
 
-void Interface::UpdateHpBar(float hpActual)
+void Interface::UpdateHpBar(float hpActual, float hpActual2)
 {
 	float hpPercent = hpActual / hpMax;
 	HpActualBar.setSize(sf::Vector2f(48.5f * hpPercent, HpActualBar.getSize().y));
@@ -44,6 +45,15 @@ void Interface::UpdateHpBar(float hpActual)
 	//std::cout << "hpPercent: " << hpPercent << std::endl;
 
 	HpActualBar.setSize(sf::Vector2f(48.5f * hpPercent, HpActualBar.getSize().y));
+
+	float hpPercent2 = hpActual2 / hpMax2;
+	HpActualBar2.setSize(sf::Vector2f(48.5f * hpPercent2, HpActualBar2.getSize().y));
+	HpActualBar2.setScale(10.0f, 1.0f);
+	hpPercent2 = std::max(0.0f, std::min(hpPercent2, 1.0f));
+	//std::cout << "hpPercent: " << hpPercent << std::endl;
+
+	HpActualBar2.setSize(sf::Vector2f(48.5f * hpPercent2, HpActualBar2.getSize().y));
+
 }
 
 
