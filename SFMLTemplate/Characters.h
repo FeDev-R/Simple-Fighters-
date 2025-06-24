@@ -97,6 +97,7 @@ protected:
 	float speed = 2;
 	
 	bool movingLeft = 0;
+	int character = 0;
 	////
 
 	bool player1 = 1;

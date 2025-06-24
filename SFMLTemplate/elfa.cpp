@@ -3,6 +3,7 @@ elfa::elfa(sf::RenderWindow& window, bool esJugador1) :
     Characters(esJugador1)
 {
     //body.setTexture(&texture);
+    character = 1;
     hp = 300.0f;
     hpMax = 300.0f;
     jumpForce = 700.0f;

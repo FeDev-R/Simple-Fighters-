@@ -65,7 +65,7 @@ void Characters::controlsPlayer(bool Jugador, sf::Vector2f& movement) {
 
         if (mouseAhora && !mousePresionadoAntes && !checkIfAttack) {
             estadoActual = estadoPj::Attack;
-            Ataque.attackAction(hitbox, movingLeft);
+            Ataque.attackAction(hitbox, movingLeft, character);
             checkIfAttack = true;
             attackTimer = 0.0f;
             body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
@@ -100,7 +100,7 @@ void Characters::controlsPlayer(bool Jugador, sf::Vector2f& movement) {
 
         if (mouseAhora && !mousePresionadoAntes && !checkIfAttack) {
             estadoActual = estadoPj::Attack;
-            Ataque.attackAction(hitbox, movingLeft);
+            Ataque.attackAction(hitbox, movingLeft, character);
             checkIfAttack = true;
             attackTimer = 0.0f;
             body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
@@ -185,7 +185,7 @@ void Characters::Update(float deltaTime, int column, int row, const std::vector<
 
     if (checkIfAttack) {
         attackTimer += deltaTime;
-
+        //Ataque.updateAttack(hitbox, movingLeft);
       
         if (animations[estadoPj::Attack].isLastFrame()) {
             checkIfAttack = false;
@@ -237,6 +237,9 @@ void Characters::Update(float deltaTime, int column, int row, const std::vector<
 FIN_CAIDA:
     isOnGround = onGroundThisFrame;
 
+    if (checkIfAttack) {
+        Ataque.updateAttack(hitbox, movingLeft);
+    }
 
     ///QUIETO O EN MOVIMIENTO
     actualizarEstado(movement);

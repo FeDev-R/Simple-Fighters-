@@ -34,5 +34,7 @@ private:
     sf::Texture texture;
     sf::RenderWindow window;
     int row;
+    float speed;
+
     float addedSpeed;
 };
