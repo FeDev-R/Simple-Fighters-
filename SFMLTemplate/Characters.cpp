@@ -50,13 +50,13 @@ void Characters::controlsPlayer(bool Jugador, sf::Vector2f& movement) {
 
     if (Jugador) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-            movement.x -= 2;
+            movement.x -= speed ;
             movingLeft = true;
             body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
 
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-            movement.x += 2;
+            movement.x += speed ;
             movingLeft = false;
             body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
 
@@ -72,22 +72,26 @@ void Characters::controlsPlayer(bool Jugador, sf::Vector2f& movement) {
         }
 
         mousePresionadoAntes = mouseAhora;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && isOnGround) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && isOnGround) {
             velocity.y = -jumpForce;
             isOnGround = false;
-            Characters::estadoActual = estadoPj::Jump;
+
+            if (!checkIfAttack) {
+                Characters::estadoActual = estadoPj::Jump;
+            }
+            
 
         }
     }
     else {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::J)) {
-            movement.x -= 2;
-            movingLeft = true;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+            movement.x -= speed  ;
+            movingLeft = true ;
             body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
 
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::L)) {
-            movement.x += 2;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+            movement.x += speed ;
             movingLeft = false;
             body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
 
@@ -103,11 +107,12 @@ void Characters::controlsPlayer(bool Jugador, sf::Vector2f& movement) {
         }
 
         mousePresionadoAntes = mouseAhora;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && isOnGround) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && isOnGround) {
             velocity.y = -jumpForce;
             isOnGround = false;
-            Characters::estadoActual = estadoPj::Jump;
-
+            if (!checkIfAttack) {
+                Characters::estadoActual = estadoPj::Jump;
+            }
         }
 
     }
@@ -197,7 +202,7 @@ void Characters::Update(float deltaTime, int column, int row, const std::vector<
         << " | Movement.y: " << movement.y << std::endl;*/
 
 
-    hitbox.move(movement.x, 0);
+    hitbox.move(movement.x , 0);
     //aca agrego las colisiones horizontales
     bool onGroundThisFrame = false;
     float movimientoVerticalRestante = movement.y;

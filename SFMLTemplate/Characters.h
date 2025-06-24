@@ -94,7 +94,8 @@ protected:
 	float attackTimer;
 	int row;
 	int column;
-	float speed;
+	float speed = 2;
+	
 	bool movingLeft = 0;
 	////
 

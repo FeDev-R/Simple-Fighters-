@@ -8,6 +8,8 @@
 #include"iostream"
 #include"elfa.h"
 #include "Interface.h"
+#include "Necromancer.h"
+#include"Knight.h"
 
 int main()
 {
@@ -114,10 +116,15 @@ int main()
     
    ///////////////////////////////////////////////////////
 
-    MafaldaNinja mafalda(window, esJugador1);
-    elfa elfa(window, 0);
+    //MafaldaNinja mafalda(window, esJugador1);
+    elfa elfa(window, esJugador1);
+    Necromancer necromancer(window, esJugador2);
+    Knight knight(window, esJugador2);
 
-    Interface Interfaz(mafalda.getHp(), elfa.getHp());
+    //Interface Interfaz(necromancer.getHp(), elfa.getHp());
+    //Interface Interfaz(mafalda.getHp(), elfa.getHp());
+    Interface Interfaz(knight.getHP(), elfa.getHP());
+
     auto& plataformasActuales = stage.getCurrentMap().getPlataformas();
 
     float deltaTime = 0.0f;
@@ -147,16 +154,30 @@ int main()
         window.setView(view);*/
 
         window.clear(sf::Color::Transparent);
+        necromancer.Update(deltaTime, plataformasActuales);
         elfa.Update(deltaTime, plataformasActuales);
-        mafalda.Update(deltaTime,plataformasActuales);
-        
+        //mafalda.Update(deltaTime,plataformasActuales);
+        //knight.Update(deltaTime, plataformasActuales);
 
-        Juego.checkCollision(mafalda, elfa);
-        Interfaz.UpdateHpBar(mafalda.getHp(), elfa.getHp());
-        //DRAW
+     /*   Juego.checkCollision(necromancer, elfa);
+        Interfaz.UpdateHpBar(necromancer.getHP(), elfa.getHP());*/
+
+
+        //Juego.checkCollision(mafalda, elfa);
+       // Interfaz.UpdateHpBar(mafalda.getHp(), elfa.getHp());
+        
+       
+        Juego.checkCollision(knight, elfa);
+        Interfaz.UpdateHpBar(knight.getHP(), elfa.getHP());
+
+
+       //DRAW
         
         stage.draw(window);
-        mafalda.draw(window);
+        //mafalda.draw(window);
+        necromancer.draw(window);
+        //knight.draw(window);
+
         elfa.draw(window);
         Interfaz.Draw(window);
         window.display();

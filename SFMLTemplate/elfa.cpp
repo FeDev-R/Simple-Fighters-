@@ -5,8 +5,9 @@ elfa::elfa(sf::RenderWindow& window, bool esJugador1) :
     //body.setTexture(&texture);
     hp = 300.0f;
     hpMax = 300.0f;
-    jumpForce = 500.0f;
+    jumpForce = 700.0f;
     baseDmg = 11;
+    speed = 4;
     setAnimations();
     this->estadoActual = estadoPj::Idle;
     spriteBaseScale = { 4.5,4.5 };
@@ -46,6 +47,13 @@ void elfa::Update(float deltaTime, const std::vector<sf::RectangleShape>& plataf
 
         }
        
+        if (velocity.x > 0 && movingLeft) {
+            hitbox.move(-addedSpeed, 0.f);
+        }
+        else if (velocity.x > 0 && !movingLeft) {
+            hitbox.move(addedSpeed, 0.f);
+            }
+
     }
 
     Characters::Update(deltaTime, column, row, plataformas);
@@ -72,7 +80,7 @@ void elfa::setAnimations()
 
     // JUMP
     textures[estadoPj::Jump].loadFromFile("./assets/elf_png/elf_jump.png");
-    animations[estadoPj::Jump] = Animation(&textures[estadoPj::Jump], 11, 0.1f);
+    animations[estadoPj::Jump] = Animation(&textures[estadoPj::Jump], 11, 0.15f);
 
     // ATTACK
     textures[estadoPj::Attack].loadFromFile("./assets/elf_png/elf_attack.png");
