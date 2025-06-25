@@ -303,15 +303,13 @@ bool Characters::loadFromFile(const std::string& path) {
 
 void Characters::draw(sf::RenderWindow& window) {
 
-   
+
     window.draw(body);
     window.draw(hitbox);
-   if (checkIfAttack) {
+    if (checkIfAttack) {
         window.draw(Ataque.GetHitBox());
     }
 }
-
-
 
 void Characters::setPosition(sf::Vector2f pos) {
     sprite.setPosition(pos);

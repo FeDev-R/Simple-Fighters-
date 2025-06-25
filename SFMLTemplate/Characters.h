@@ -48,7 +48,7 @@ public:
 
 	void Update(float deltaTime, int column, int row, const std::vector<sf::RectangleShape>& plataformas);
 	virtual bool loadFromFile(const std::string& path);
-	virtual void draw(sf::RenderWindow& window); //QUITE EL CONST ---- NO IMPORTA ES UN TECNICISMO NO SOMOS PERFECTOS...
+	virtual void draw(sf::RenderWindow& window); //QUITE EL CONST ---- NO IMPORTA ES UN TECNICISMO NO SOMOS PERFECTOS...// SO
 	virtual void setPosition(sf::Vector2f pos);
 	virtual sf::Vector2f getPosition() const;
 	virtual sf::FloatRect getBounds() const;

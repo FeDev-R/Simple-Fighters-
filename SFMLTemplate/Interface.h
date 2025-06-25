@@ -29,6 +29,6 @@ public:
 	void Draw(sf::RenderWindow& window);
 	void update(sf::Vector2f posToPj, int level, float deltaTime);
 	void configurarRectangle(sf::RectangleShape& rect, sf::Vector2f size, sf::Color color, bool setOrigin);
-	void configurarText(sf::Text& text, const sf::Font& font, const std::string& str, sf::Color fillColor, unsigned int size, float outlineThickness, sf::Color outlineColor, sf::Vector2f scale);
+	
 };
 

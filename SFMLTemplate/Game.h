@@ -16,13 +16,14 @@ public:
 	void draw();
 	void handleSelection();    // Lógica de selección de personajes/mapa
 	void handleFight(float dt); // Lógica de pelea
-	void checkCollision(Characters& player1, Characters& player2);
+	void checkCollision(Characters& player1, Characters& player2, float deltaTime);
 
 	void checkTakeDmg(Characters& player, int takenDmg );
 	void loadAssets();         // Carga texturas, fuentes, sonidos
 	void resetGame();          // Reinicia para una nueva partida
 
 private:
+	float takeDmgCD = 0;
 
 };
 

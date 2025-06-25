@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include "clsMenu.h"
 #include"mapa.h"
 #include"Animation.h"
 #include"Game.h"
@@ -24,10 +25,23 @@ int main()
 
     Game Juego;
    // Interface Interfaz;
-    
+    enum GAMESTATE {
+
+        MENU,
+        PAUSE,
+        GAME,
+        LOSS,
+        WIN,
+        STATS,
+        MENUCHARACTER,
+
+    };
+
+    GAMESTATE gameState = MENU;
     ///////////////MAPAS/////////////////////////////////
     
-
+  
+    sf::Vector2f mousePos;
     Stage stage;
     mapa bosque;
     mapa bosque2;
@@ -36,6 +50,21 @@ int main()
     mapa hill;
     mapa utn;
     mapa country;
+
+
+    sf::Texture textMenu;
+    textMenu.loadFromFile("./assets/themeMenu.png");
+   if(!textMenu.loadFromFile("./assets/themeMenu.png")) {
+            std::cout << "NO FUNCA";
+    }
+   sf::Vector2u sizeImage = textMenu.getSize();
+   std::cout << sizeImage.x;
+   std::cout << sizeImage.y;
+
+   Menu mainMenu(&textMenu);
+
+
+
     ///////bosque
     bosque.loadFromFile("./assets/bosqueRojo/bosqueRojo.png");
     bosque.loadPlatformTexture("./assets/piso2.png");
@@ -112,18 +141,21 @@ int main()
     stage.addMap(bosque3);//4
     stage.addMap(utn);//5 
     stage.addMap(country); //6
-    stage.setCurrentMap(6);
-    
-   ///////////////////////////////////////////////////////
+    stage.setCurrentMap(4);
 
+   ///////////////////////////////////////////////////////
     //MafaldaNinja mafalda(window, esJugador1);
     elfa elfa(window, esJugador1);
     Necromancer necromancer(window, esJugador2);
     Knight knight(window, esJugador2);
 
-    //Interface Interfaz(necromancer.getHp(), elfa.getHp());
-    //Interface Interfaz(mafalda.getHp(), elfa.getHp());
-    Interface Interfaz(knight.getHP(), elfa.getHP());
+    sf::RectangleShape cursor(sf::Vector2f(20.0f, 20.0f));
+    cursor.setOrigin(20.0f / 2.0f, 20.0f / 2.0f);
+    cursor.setFillColor(sf::Color::Red);
+    
+    //USAR UNA CLASE INTERFAZ
+    Interface Interfaz(knight.getHp(), elfa.getHp());
+   
 
     auto& plataformasActuales = stage.getCurrentMap().getPlataformas();
 
@@ -131,6 +163,8 @@ int main()
     
     sf::Clock clock;
     
+    /// BUCLE DE JUEGO
+
     while (window.isOpen())
     {
         deltaTime = clock.restart().asSeconds();
@@ -144,43 +178,65 @@ int main()
                 window.close();
         }
 
-        //CMD - Joy
 
-        //UPDATE
+        switch (gameState)
+        {
+        case MENU:
+            mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+            cursor.setPosition(mousePos);
+            mainMenu.update(mousePos);
+            mainMenu.draw(window);
+            window.draw(cursor);
+            if (mainMenu.getOptionPressed() == 3) {
+                gameState = GAME;
+            }
+            window.display();
+            break;
 
-       /* float ratio = static_cast<float>(window.getSize().x) / window.getSize().y;
+        case GAME:
 
-        view.setSize(1080.0f * ratio, 720.0f);
-        window.setView(view);*/
-
-        window.clear(sf::Color::Transparent);
-        necromancer.Update(deltaTime, plataformasActuales);
-        elfa.Update(deltaTime, plataformasActuales);
-        //mafalda.Update(deltaTime,plataformasActuales);
-        //knight.Update(deltaTime, plataformasActuales);
-
-     /*   Juego.checkCollision(necromancer, elfa);
-        Interfaz.UpdateHpBar(necromancer.getHP(), elfa.getHP());*/
+            //CMD - Joy
 
 
-        //Juego.checkCollision(mafalda, elfa);
-       // Interfaz.UpdateHpBar(mafalda.getHp(), elfa.getHp());
+            //UPDATE
+
+          /* float ratio = static_cast<float>(window.getSize().x) / window.getSize().y;
+
+          view.setSize(1080.0f * ratio, 720.0f);
+          window.setView(view);*/
+
+            window.clear(sf::Color::Transparent);
+            //necromancer.Update(deltaTime, plataformasActuales);
+            elfa.Update(deltaTime, plataformasActuales);
+            //mafalda.Update(deltaTime,plataformasActuales);
+            knight.Update(deltaTime, plataformasActuales);
+
+
+            //USA SOLO UN INTERFAZ.UPDATEHPBAR 
+            Juego.checkCollision(knight, elfa, deltaTime);
+            Interfaz.UpdateHpBar(knight.getHp(), elfa.getHp());
+
+
+
+            //DRAW
+
+            stage.draw(window);
+            //mafalda.draw(window);
+            //necromancer.draw(window);
+            knight.draw(window);
+
+            elfa.draw(window);
+            Interfaz.Draw(window);
+            window.display();
+            break;
+        case WIN:
+            break;
+        case LOSS:
+            break;
+        default:
+            break;
+        }
         
-       
-        Juego.checkCollision(knight, elfa);
-        Interfaz.UpdateHpBar(knight.getHP(), elfa.getHP());
-
-
-       //DRAW
-        
-        stage.draw(window);
-        //mafalda.draw(window);
-        necromancer.draw(window);
-        //knight.draw(window);
-
-        elfa.draw(window);
-        Interfaz.Draw(window);
-        window.display();
     }
 
     return 0;

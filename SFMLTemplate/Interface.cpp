@@ -18,24 +18,6 @@ Interface::Interface(float hpMax, float hpMax2)
 	HpActualBar2.setPosition(sf::Vector2f(555.0f, 1.0f));
 }
 
-/*Interface::Interface(float hpMax, float hpMax2)
-	: isProyectUpgradeVisible(false), proyectUpgradeTimer(0.0f)
-{
-	this->hpMax = hpMax;
-
-	configurarRectangle(Hpbackground, sf::Vector2f(50.0f, 3.50f), sf::Color::Black, false);
-	configurarRectangle(HpActualBar, sf::Vector2f(48.5f, 2.5f), sf::Color::Red, false);
-
-
-	if (!textFont.loadFromFile("./Assets/Fonts/Minecraft.ttf")) {
-		std::cout << "NO FUNCAAAAA / INTERFACECPP";
-	}
-	//configurarText(ProyectUpgrade, textFont, "LEVEL UP", sf::Color::White, 16, -1.0f, sf::Color::Black, sf::Vector2f(0.4, 0.4));
-
-	//configurarText( textFont, "", sf::Color::White, 32, -1.0f, sf::Color::Black, sf::Vector2f(0.4, 0.4));
-
-}*/
-
 void Interface::UpdateHpBar(float hpActual, float hpActual2)
 {
 	float hpPercent = hpActual / hpMax;
@@ -90,16 +72,6 @@ void Interface::configurarRectangle(sf::RectangleShape& rect, sf::Vector2f size,
 	}
 }
 
-void Interface::configurarText(sf::Text& text, const sf::Font& font, const std::string& str, sf::Color fillColor, unsigned int size, float outlineThickness, sf::Color outlineColor, sf::Vector2f scale)
-{
-	text.setFont(font);
-	text.setFillColor(fillColor);
-	text.setOutlineThickness(outlineThickness);
-	text.setOutlineColor(outlineColor);
-	text.setCharacterSize(size);
-	text.setString(str);
-	text.setScale(scale);
-}
 
 void Interface::Draw(sf::RenderWindow& window)
 {
