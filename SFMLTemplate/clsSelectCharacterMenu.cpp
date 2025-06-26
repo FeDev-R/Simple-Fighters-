@@ -36,7 +36,7 @@ void selectCharacterMenu::update(sf::Vector2f mousePos, float deltaTime)
             p->setSelected(true);
            //std::cout << "HOLA, SI ESTAN LOS DOS ACA";
             if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                checkCharacters(*p);
+                checkCharacters(*p,Personajes);
             }
                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z) && canClick && Personajes < 2) {
 				   cdClick = 0.5f; // Cooldown de 0.5 segundos
@@ -72,17 +72,30 @@ void selectCharacterMenu::draw(sf::RenderWindow& window) {
         //std::cout << "Dibujando personaje: " << p->getCharacterID() << std::endl;
             
     }
-    if (checkCharacter) {
+    if (checkCharacter1) {
         window.draw(pj1);
     }
+    if (checkCharacter2) {
+        window.draw(pj2);
+	}
 }
 
-void selectCharacterMenu::checkCharacters(ProfileCharacters& p)
+void selectCharacterMenu::checkCharacters(ProfileCharacters& p,int Personajes)
 {
-    pj1.setTexture(p.getTexture());
-    pj1.setPosition(20.0f, 300.0f);
-    pj1.setScale(4.0f, 7.0f);
-    checkCharacter = true;
+   if(Personajes == 0) {
+       pj1.setTexture(p.getTexture());
+       pj1.setPosition(20.0f, 300.0f);
+       pj1.setScale(4.0f, 7.0f);
+       checkCharacter1 = true;
+    }
+    else if (Personajes == 1) {
+       pj2.setTexture(p.getTexture());
+       pj2.setPosition(1000.0f, 300.0f);
+       pj2.setScale(-4.0f, 7.0f);
+       checkCharacter2 = true;
+        
+   }
+   
     //Personajes++;
 }
 

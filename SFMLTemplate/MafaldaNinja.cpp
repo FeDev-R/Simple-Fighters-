@@ -29,7 +29,7 @@ MafaldaNinja::MafaldaNinja(sf::RenderWindow& window, bool esJugador1):
     //body.setSize(sf::Vector2f(100.0f, 200.0f));
 
     DmgAttack1 = 150;
-    DmgAttack2 = 300;
+    DmgAttack2 = 150;
 }
 
 void MafaldaNinja::Update(float deltaTime, const std::vector<sf::RectangleShape>& plataformas)

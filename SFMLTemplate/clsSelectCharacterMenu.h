@@ -13,7 +13,9 @@ private:
     int Personajes = 0;
 
     sf::Sprite pj1;
-    bool checkCharacter = false;
+	sf::Sprite pj2;
+    bool checkCharacter1 = false;
+    bool checkCharacter2 = false;
     std::string Id1;
     std::string Id2;
 	float cdClick = 0.0f;
@@ -24,7 +26,7 @@ public:
     void addPortrait(const std::string& texturePath, const std::string& id, sf::Vector2f position);
     void handleClick(sf::Vector2f mousePos);
     void draw(sf::RenderWindow& window);
-    void checkCharacters(ProfileCharacters& p);
+    void checkCharacters(ProfileCharacters& p, int Personajes);
     int checkPersonajes() { return Personajes; };
     std::string saveCharactersID(bool esJugador1);
 };

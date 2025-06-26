@@ -26,10 +26,10 @@ int main()
     bool esJugador2 = 0;
 
     selectCharacterMenu menuCharacters;
-    menuCharacters.addPortrait("./assets/ProfileCharacters/profileElf.png", "1", sf::Vector2f(880.0f, 500.0f));
-    menuCharacters.addPortrait("./assets/ProfileCharacters/profileKnight.png", "2", sf::Vector2f(220.0f, 500.0f));
-    menuCharacters.addPortrait("./assets/ProfileCharacters/profileWarrior.png", "3", sf::Vector2f(440.0f, 500.0f));
-    menuCharacters.addPortrait("./assets/ProfileCharacters/profileNecromancer.png", "4", sf::Vector2f(660.0f, 500.0f));
+    menuCharacters.addPortrait("./assets/ProfileCharacters/profileElf.png", "1", sf::Vector2f(220.0f, 500.0f));
+    menuCharacters.addPortrait("./assets/ProfileCharacters/profileKnight.png", "2", sf::Vector2f(380.0f, 500.0f));
+    menuCharacters.addPortrait("./assets/ProfileCharacters/profileWarrior.png", "3", sf::Vector2f(540.0f, 500.0f));
+    menuCharacters.addPortrait("./assets/ProfileCharacters/profileNecromancer.png", "4", sf::Vector2f(700.0f, 500.0f));
 
     Game Juego;
    // Interface Interfaz;
@@ -157,7 +157,7 @@ int main()
     stage.addMap(bosque3);//4
     stage.addMap(utn);//5 
     stage.addMap(country); //6
-    stage.setCurrentMap(4);
+    stage.setCurrentMap(5);
 
    ///////////////////////////////////////////////////////
 	elfa elfa2(window, esJugador2);
