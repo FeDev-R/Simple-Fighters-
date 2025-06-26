@@ -9,7 +9,9 @@ private:
 	sf::Texture backgroundImage;
 	sf::Sprite background;
 	sf::Texture buttonPlayImage;
+	sf::Texture textureStat;
 	sf::Sprite buttonPlay;
+	sf::Sprite spriteStat;
 
 	sf::RectangleShape playButton;
 	sf::RectangleShape statsButton;

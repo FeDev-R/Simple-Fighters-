@@ -3,24 +3,32 @@
 
 Menu::Menu(sf::Texture* mainMenu)
 {
-	float scaleX = float(1080) / 512;
-	float scaleY = float(720) / 512;
+	float scaleX = float(1080) / 816;
+	float scaleY = float(720) / 480;
 	std::cout << scaleX;
-	backgroundImage.loadFromFile("./assets/themeMenu.png");
+	backgroundImage.loadFromFile("./assets/theme.png");
 	background.setTexture(backgroundImage);
 	background.setScale(scaleX, scaleY);
 
-	if (!fuente.loadFromFile("./assets/Fonts/Minecraft.ttf")) {
+	if (!fuente.loadFromFile("./assets/Fonts/GravityBold8.ttf")) {
 		std::cout << "NO FUNCA";
 	}
-	configurarText(titleGame, fuente, "Simply Fighter", sf::Color::White,200, -1, sf::Color::Black, sf::Vector2f(0.4f,0.4f));
+	configurarText(titleGame, fuente, "Simple Fighters", sf::Color::White,200, -1, sf::Color::Black, sf::Vector2f(0.4f,0.4f));
 	titleGame.setFont(fuente);
 	titleGame.setPosition((1080 / 2) - (titleGame.getGlobalBounds().width/2), 200);
 
-	if (!buttonPlayImage.loadFromFile("./assets/Buttons/playButtonSprite.png")) {
+	if (!buttonPlayImage.loadFromFile("./assets/play.png")) {
 		std::cout << "NO FUNCA";
 	}
+	textureStat.loadFromFile("./assets/pregunta.png");
+
 	sf::Vector2f playSize(128.0f, 64.0f);
+
+	statsButton.setTexture(&textureStat);
+	statsButton.setSize(sf::Vector2f(64,64));
+	statsButton.setOrigin(playSize / 2.0f);
+	statsButton.setPosition(1050, 690);
+
 	playButton.setSize(playSize);
 	playButton.setOrigin(playSize / 2.0f);
 	playButton.setPosition((1080/2), (720/2));
@@ -33,6 +41,7 @@ void Menu::draw(sf::RenderWindow& window) {
 	window.draw(background);
 	window.draw(titleGame);
 	window.draw(playButton);
+	window.draw(statsButton);
 }
 
 void Menu::configurarText(sf::Text& text, const sf::Font& font, const std::string& str, sf::Color fillColor, unsigned int size, float outlineThickness, sf::Color outlineColor, sf::Vector2f scale)
@@ -97,6 +106,13 @@ void Menu::update(sf::Vector2f mousePos)
 
 }
 
+
+/// <summary>
+/// si el boton es presionado
+/// </summary>
+/// <returns>
+/// si el boton es presionado
+/// </returns>
 int Menu::getOptionPressed()
 {
 	if (mouseOnPlay && sf::Mouse::isButtonPressed(sf::Mouse::Left))

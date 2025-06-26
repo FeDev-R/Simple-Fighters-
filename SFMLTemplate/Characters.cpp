@@ -61,17 +61,34 @@ void Characters::controlsPlayer(bool Jugador, sf::Vector2f& movement) {
             body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
 
         }
-        bool mouseAhora = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+        bool NAhora = sf::Keyboard().isKeyPressed(sf::Keyboard::N);
 
-        if (mouseAhora && !mousePresionadoAntes && !checkIfAttack) {
+        if (NAhora && !NPresionadoAntes && !checkIfAttack) {
             estadoActual = estadoPj::Attack;
-            Ataque.attackAction(hitbox, movingLeft, character);
+             currentDmg = DmgAttack1;
+            setDmg(currentDmg);
+            Ataque.attackAction(hitbox, movingLeft, character,1);
             checkIfAttack = true;
             attackTimer = 0.0f;
             body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
         }
 
-        mousePresionadoAntes = mouseAhora;
+        NPresionadoAntes = NAhora;
+        
+        bool MAhora = sf::Keyboard().isKeyPressed(sf::Keyboard::M);
+
+        if (MAhora && !MPresionadoAntes && !checkIfAttack) {
+            estadoActual = estadoPj::Attack2;
+             currentDmg = DmgAttack2;
+            setDmg(currentDmg);
+            Ataque.attackAction(hitbox, movingLeft, character,2);
+            checkIfAttack = true;
+            attackTimer = 0.0f;
+            body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
+        }
+
+        MPresionadoAntes = NAhora;
+
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && isOnGround) {
             velocity.y = -jumpForce;
             isOnGround = false;
@@ -100,9 +117,12 @@ void Characters::controlsPlayer(bool Jugador, sf::Vector2f& movement) {
 
         if (mouseAhora && !mousePresionadoAntes && !checkIfAttack) {
             estadoActual = estadoPj::Attack;
-            Ataque.attackAction(hitbox, movingLeft, character);
+            currentDmg = DmgAttack1;
+            setDmg(currentDmg);
+
+            Ataque.attackAction(hitbox, movingLeft, character,2);
             checkIfAttack = true;
-            attackTimer = 0.0f;
+            attackTimer2 = 0.0f;
             body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
         }
 
@@ -115,13 +135,23 @@ void Characters::controlsPlayer(bool Jugador, sf::Vector2f& movement) {
             }
         }
 
+        bool mouseAhora2 = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+        if (mouseAhora2 && !mousePresionadoAntes2 && !checkIfAttack2) {
+            estadoActual = estadoPj::Attack2;
+             currentDmg = DmgAttack2;
+            setDmg(currentDmg);
+            Ataque.attackAction(hitbox, movingLeft, character, 1);
+            checkIfAttack = true;
+            attackTimer2 = 0.0f;
+            body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
+        
+        }
+        mousePresionadoAntes2 = mouseAhora2;
+
     }
 }
 
-int Characters::getDmg()
-{
-    return baseDmg;
-}
+
 
 void Characters::takeDmg(int takenDmg)
 {
@@ -182,19 +212,29 @@ void Characters::Update(float deltaTime, int column, int row, const std::vector<
 
         estabaEnElAire = false;
     }
-
     if (checkIfAttack) {
         attackTimer += deltaTime;
-        //Ataque.updateAttack(hitbox, movingLeft);
-      
-        if (animations[estadoPj::Attack].isLastFrame()) {
-            checkIfAttack = false;
-            estadoActual = estadoPj::Idle;
-            animations[estadoPj::Attack].Reset(); 
+
+        if (estadoActual == estadoPj::Attack) {
+            if (animations[estadoPj::Attack].isLastFrame()) {
+                checkIfAttack = false;
+                estadoActual = estadoPj::Idle;
+                animations[estadoPj::Attack].Reset();
+                Ataque.reset();
+            }
+        }
+        else if (estadoActual == estadoPj::Attack2) {
+            if (animations[estadoPj::Attack2].isLastFrame()) {
+                checkIfAttack = false;
+                estadoActual = estadoPj::Idle;
+                animations[estadoPj::Attack2].Reset();
+                Ataque.reset();  
+
+            }
         }
     }
     
-   
+
     movement.y = velocity.y * deltaTime;
     isOnGround = false;
     /*std::cout << "DeltaTime: " << deltaTime
@@ -240,7 +280,9 @@ FIN_CAIDA:
     if (checkIfAttack) {
         Ataque.updateAttack(hitbox, movingLeft);
     }
-
+    if (checkIfAttack2) {
+        Ataque.updateAttack(hitbox, movingLeft);
+    }
     ///QUIETO O EN MOVIMIENTO
     actualizarEstado(movement);
 
@@ -332,3 +374,6 @@ sf::RectangleShape Characters::getHitboxAttack()
     return sf::RectangleShape(Ataque.GetHitBox());
 }
 
+void Characters::setDmg(int value) {
+    currentDmg = value;
+}

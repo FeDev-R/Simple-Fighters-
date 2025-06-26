@@ -4,20 +4,24 @@ elfa::elfa(sf::RenderWindow& window, bool esJugador1) :
 {
     //body.setTexture(&texture);
     character = 1;
-    hp = 300.0f;
-    hpMax = 300.0f;
+    hp = 600.0f;
+    hpMax = 600.0f;
     jumpForce = 700.0f;
     baseDmg = 11;
-    speed = 4;
+    this->speed = 4;
     setAnimations();
     this->estadoActual = estadoPj::Idle;
     spriteBaseScale = { 4.5,4.5 };
+    
+    DmgAttack1 = 300;
+    DmgAttack2 = 150;
 
 
     spriteOffsetsY[estadoPj::Idle] = -80;
     spriteOffsetsY[estadoPj::Move] = -80;
     spriteOffsetsY[estadoPj::Jump] = -80;
     spriteOffsetsY[estadoPj::Attack] = -80;
+    spriteOffsetsY[estadoPj::Attack2] = -80;
 
     spriteOffsetsX[estadoPj::Idle] = 0;
     spriteOffsetsX[estadoPj::Move] = 0;
@@ -34,20 +38,22 @@ void elfa::Update(float deltaTime, const std::vector<sf::RectangleShape>& plataf
 
 
 
-    if (estadoActual == estadoPj::Attack ) {
+    if (estadoActual == estadoPj::Attack) {
         float avance = 70.0f * deltaTime;
 
         if (movingLeft) {
             hitbox.move(-avance, 0.f);  
             spriteOffsetsX[estadoPj::Attack] = 50.0f;
+            
 
         }
         else {
             hitbox.move(avance, 0.f);  
             spriteOffsetsX[estadoPj::Attack] = -50.0f;
+            
 
         }
-       
+
         if (velocity.x > 0 && movingLeft) {
             hitbox.move(-addedSpeed, 0.f);
         }
@@ -55,6 +61,18 @@ void elfa::Update(float deltaTime, const std::vector<sf::RectangleShape>& plataf
             hitbox.move(addedSpeed, 0.f);
             }
 
+    }
+
+    if (estadoActual == estadoPj::Attack2) {
+
+        if (movingLeft) {
+            spriteOffsetsX[estadoPj::Attack2] = 50.0f;
+
+        }
+        else {
+            spriteOffsetsX[estadoPj::Attack2] = -50.0f;
+
+        }
     }
 
     Characters::Update(deltaTime, column, row, plataformas);
@@ -85,23 +103,19 @@ void elfa::setAnimations()
 
     // ATTACK
     textures[estadoPj::Attack].loadFromFile("./assets/elf_png/elf_attack.png");
-    animations[estadoPj::Attack] = Animation(&textures[estadoPj::Attack], 10, 0.2f);
+    animations[estadoPj::Attack] = Animation(&textures[estadoPj::Attack], 10, 0.1f);
+
+    textures[estadoPj::Attack2].loadFromFile("./assets/elf_png/elf_attack2.png");
+    animations[estadoPj::Attack2] = Animation(&textures[estadoPj::Attack2], 5, 0.15f);
 }
 
-float elfa::getHP() const
-{
-    return 0.0f;
-}
 
 float elfa::getJumpForce() const
 {
     return 0.0f;
 }
 
-float elfa::getDMG() const
-{
-    return 0.0f;
-}
+
 
 void elfa::setHP(float value)
 {
@@ -111,6 +125,9 @@ void elfa::setJumpForce(float value)
 {
 }
 
-void elfa::setDMG(float value)
+void elfa::setDmg(int value)
 {
+    currentDmg = value;
 }
+
+

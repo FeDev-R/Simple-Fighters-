@@ -3,11 +3,13 @@
 Necromancer::Necromancer(sf::RenderWindow& window, bool esJugador1) : Characters(esJugador1)
 {
     //body.setTexture(&texture);
-    hp = 300.0f;
-    hpMax = 300.0f;
-    jumpForce = 500.0f;
+    hp = 1000.0f;
+    hpMax = 1000.0f;
+    jumpForce = 300.0f;
     baseDmg = 11;
-    
+    character = 4;
+    speed = 2;
+
     setAnimations();
     this->estadoActual = estadoPj::Idle;
     spriteBaseScale = { 4.5,4.5 };
@@ -17,12 +19,15 @@ Necromancer::Necromancer(sf::RenderWindow& window, bool esJugador1) : Characters
     spriteOffsetsY[estadoPj::Move] = -220;
     spriteOffsetsY[estadoPj::Jump] = -220;
     spriteOffsetsY[estadoPj::Attack] = -290;
+    spriteOffsetsY[estadoPj::Attack2] = -290;
 
     spriteOffsetsX[estadoPj::Idle] = 0;
     spriteOffsetsX[estadoPj::Move] = 0;
     spriteOffsetsX[estadoPj::Jump] = 0;
     spriteOffsetsX[estadoPj::Attack] = 0;
+    spriteOffsetsX[estadoPj::Attack2] = 0;
 
+    DmgAttack2 = 500;
 
      //body.setTextureRect({ 100,20,50,20 });
     //body.setSize(sf::Vector2f(100.0f, 200.0f));
@@ -59,24 +64,21 @@ void Necromancer::setAnimations()
     animations[estadoPj::Jump] = Animation(&textures[estadoPj::Jump], 12, 0.16f);
 
     // ATTACK
-    textures[estadoPj::Attack].loadFromFile("./assets/Necromancer/attack/attack.png");
-    animations[estadoPj::Attack] = Animation(&textures[estadoPj::Attack], 47, 0.2f);
+    textures[estadoPj::Attack2].loadFromFile("./assets/Necromancer/attack/attack.png");
+    animations[estadoPj::Attack2] = Animation(&textures[estadoPj::Attack2], 47, 0.06f);
+
+
+
 }
 
-float Necromancer::getHP() const
-{
-    return hp;
-}
+
 
 float Necromancer::getJumpForce() const
 {
     return 0.0f;
 }
 
-float Necromancer::getDMG() const
-{
-    return 0.0f;
-}
+
 
 void Necromancer::setHP(float value)
 {
@@ -86,6 +88,3 @@ void Necromancer::setJumpForce(float value)
 {
 }
 
-void Necromancer::setDMG(float value)
-{
-}

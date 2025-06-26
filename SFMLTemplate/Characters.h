@@ -23,19 +23,23 @@ public:
 		Move,
 		Jump,
 		Attack,
+		Attack2,
 	};
 
 	Characters(bool esJugador1);
 
-	virtual float getHP() const = 0;
 	virtual float getJumpForce() const = 0;
-	virtual float getDMG() const = 0;
+	
 
 	virtual void setHP(float value) = 0;
 	virtual void setJumpForce(float value) = 0;
-	virtual void setDMG(float value) = 0;
+	
 
-	int getDmg();
+	float currentDmg;
+	virtual int getDmg() const { return static_cast<int>(currentDmg); }
+	virtual int getHpMax() const { return static_cast<int>(hpMax); }
+	virtual void setDmg(int value);
+
 	void takeDmg(int takenDmg);
 	void actualizarEstado(sf::Vector2f movement);
 	void setEstado(estadoPj nuevoEstado);
@@ -71,12 +75,21 @@ protected:
 	std::map<estadoPj, float> spriteOffsetsY;
 	std::map<estadoPj, float> spriteOffsetsX;
 	sf::Vector2f spriteBaseScale = { 3.0f, 3.0f };
+	bool NPresionadoAntes = false;
+	bool MPresionadoAntes = false;
 	bool mousePresionadoAntes = false;
+	bool mousePresionadoAntes2 = false;
+	int attackNum;
+	float DmgAttack1;
+	float DmgAttack2;
+
+
 	int lastFrameWidth = 0;
 	estadoPj estadoAnterior = estadoPj::Idle;
 
 	sf::RectangleShape hitbox;
 	Attacks Ataque;
+	Attacks Ataque2;
 	float hp;
 	float hpMax;
 	float moveSpeed;
@@ -84,6 +97,7 @@ protected:
 	float baseDmg;
 	sf::Vector2f velocity;
 	bool checkIfAttack = false;
+	bool checkIfAttack2 = false;
 	float gravity = 980.0f;
 	bool isOnGround = false;
 	////
@@ -92,6 +106,7 @@ protected:
 	sf::RenderWindow window;
 	float cooldown = 0.5f;
 	float attackTimer;
+	float attackTimer2;
 	int row;
 	int column;
 	float speed = 2;

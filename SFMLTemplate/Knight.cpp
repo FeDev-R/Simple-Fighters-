@@ -2,20 +2,23 @@
 Knight::Knight(sf::RenderWindow& window, bool esJugador1) : Characters(esJugador1)
 {
     //body.setTexture(&texture);
-    hp = 300.0f;
-    hpMax = 300.0f;
+    hp = 800.0f;
+    hpMax = 800.0f;
     jumpForce = 500.0f;
     baseDmg = 11;
     speed = 3;
+    character = 2;
     setAnimations();
     this->estadoActual = estadoPj::Idle;
     spriteBaseScale = { 2.5,2.5 };
-
+    DmgAttack1 = 250;
+    DmgAttack2 = 250;
 
     spriteOffsetsY[estadoPj::Idle] = -80;
     spriteOffsetsY[estadoPj::Move] = -80;
     spriteOffsetsY[estadoPj::Jump] = -80;
     spriteOffsetsY[estadoPj::Attack] = -80;
+    spriteOffsetsY[estadoPj::Attack2] = -80;
 
     spriteOffsetsX[estadoPj::Idle] = 0;
     spriteOffsetsX[estadoPj::Move] = 0;
@@ -59,23 +62,19 @@ void Knight::setAnimations()
 
     // ATTACK
     textures[estadoPj::Attack].loadFromFile("./assets/knight/attack1.png");
-    animations[estadoPj::Attack] = Animation(&textures[estadoPj::Attack], 6, 0.2f);
+    animations[estadoPj::Attack] = Animation(&textures[estadoPj::Attack], 6, 0.15f);
+
+    textures[estadoPj::Attack2].loadFromFile("./assets/knight/attack2.png");
+    animations[estadoPj::Attack2] = Animation(&textures[estadoPj::Attack2], 6, 0.15f);
 }
 
-float Knight::getHP() const
-{
-    return 0.0f;
-}
 
 float Knight::getJumpForce() const
 {
     return 0.0f;
 }
 
-float Knight::getDMG() const
-{
-    return 0.0f;
-}
+
 
 void Knight::setHP(float value)
 {
@@ -85,6 +84,3 @@ void Knight::setJumpForce(float value)
 {
 }
 
-void Knight::setDMG(float value)
-{
-}

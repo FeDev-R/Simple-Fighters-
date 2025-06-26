@@ -144,7 +144,7 @@ int main()
     stage.setCurrentMap(4);
 
    ///////////////////////////////////////////////////////
-    //MafaldaNinja mafalda(window, esJugador1);
+    MafaldaNinja mafalda(window, esJugador1);
     elfa elfa(window, esJugador1);
     Necromancer necromancer(window, esJugador2);
     Knight knight(window, esJugador2);
@@ -154,7 +154,8 @@ int main()
     cursor.setFillColor(sf::Color::Red);
     
     //USAR UNA CLASE INTERFAZ
-    Interface Interfaz(knight.getHp(), elfa.getHp());
+    //Interface Interfaz( elfa.getHpMax(),knight.getHpMax());
+    Interface Interfaz( mafalda.getHpMax(),necromancer.getHpMax());
    
 
     auto& plataformasActuales = stage.getCurrentMap().getPlataformas();
@@ -206,26 +207,27 @@ int main()
           window.setView(view);*/
 
             window.clear(sf::Color::Transparent);
-            //necromancer.Update(deltaTime, plataformasActuales);
-            elfa.Update(deltaTime, plataformasActuales);
-            //mafalda.Update(deltaTime,plataformasActuales);
-            knight.Update(deltaTime, plataformasActuales);
+            necromancer.Update(deltaTime, plataformasActuales);
+            //elfa.Update(deltaTime, plataformasActuales);
+            mafalda.Update(deltaTime,plataformasActuales);
+            //knight.Update(deltaTime, plataformasActuales);
 
 
             //USA SOLO UN INTERFAZ.UPDATEHPBAR 
-            Juego.checkCollision(knight, elfa, deltaTime);
-            Interfaz.UpdateHpBar(knight.getHp(), elfa.getHp());
+            //Juego.checkCollision(knight, elfa, deltaTime);
+           //Interfaz.UpdateHpBar(elfa.getHp(),knight.getHp());
 
-
+            Juego.checkCollision(necromancer, mafalda, deltaTime);
+            Interfaz.UpdateHpBar(mafalda.getHp(),necromancer.getHp());
 
             //DRAW
 
             stage.draw(window);
-            //mafalda.draw(window);
-            //necromancer.draw(window);
-            knight.draw(window);
+            mafalda.draw(window);
+            necromancer.draw(window);
+            //knight.draw(window);
+            //elfa.draw(window);
 
-            elfa.draw(window);
             Interfaz.Draw(window);
             window.display();
             break;

@@ -4,22 +4,22 @@
 class MafaldaNinja : public Characters
 {
 public:
-	MafaldaNinja(sf::RenderWindow& window, bool esJugador1) ;
+    MafaldaNinja(sf::RenderWindow& window, bool esJugador1);
 
     void Update(float deltaTime, const std::vector<sf::RectangleShape>& plataformas);
     void draw(sf::RenderWindow& window);
 
     void setAnimations() override;
 
-    float getHP() const override;
+
     float getJumpForce() const override;
-    float getDMG() const override;
+
 
     void setHP(float value) override;
     void setJumpForce(float value) override;
-    void setDMG(float value) override;
 
-   
+
+
 
 
 private:
@@ -27,6 +27,6 @@ private:
     sf::Texture texture;
     sf::RenderWindow window;
     int row;
-    float speed;
+
 };
 

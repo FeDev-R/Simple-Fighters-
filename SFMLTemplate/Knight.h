@@ -11,13 +11,14 @@
 
         void setAnimations() override;
 
-        float getHP() const override;
+       
         float getJumpForce() const override;
-        float getDMG() const override;
+       
+        
 
         void setHP(float value) override;
         void setJumpForce(float value) override;
-        void setDMG(float value) override;
+    
 
         float ataqueOffSetVisualX = 0.f;
 
@@ -34,7 +35,7 @@
         sf::Texture texture;
         sf::RenderWindow window;
         int row;
-        float speed;
+        
     };
 
 
