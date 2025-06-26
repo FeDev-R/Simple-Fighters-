@@ -26,10 +26,10 @@ int main()
     bool esJugador2 = 0;
 
     selectCharacterMenu menuCharacters;
-    menuCharacters.addPortrait("./assets/ProfileCharacters/profileElf.png", "1", sf::Vector2f(800.0f, 500.0f));
-    menuCharacters.addPortrait("./assets/ProfileCharacters/profileKnight.png", "2", sf::Vector2f(350.0f, 500.0f));
-    menuCharacters.addPortrait("./assets/ProfileCharacters/profileWarrior.png", "3", sf::Vector2f(500.0f, 500.0f));
-    menuCharacters.addPortrait("./assets/ProfileCharacters/profileNecromancer.png", "4", sf::Vector2f(650.0f, 500.0f));
+    menuCharacters.addPortrait("./assets/ProfileCharacters/profileElf.png", "1", sf::Vector2f(880.0f, 500.0f));
+    menuCharacters.addPortrait("./assets/ProfileCharacters/profileKnight.png", "2", sf::Vector2f(220.0f, 500.0f));
+    menuCharacters.addPortrait("./assets/ProfileCharacters/profileWarrior.png", "3", sf::Vector2f(440.0f, 500.0f));
+    menuCharacters.addPortrait("./assets/ProfileCharacters/profileNecromancer.png", "4", sf::Vector2f(660.0f, 500.0f));
 
     Game Juego;
    // Interface Interfaz;
@@ -64,7 +64,7 @@ int main()
     sf::Music musicCharacterSelect;
     sf::Music musicGame;
 
-    musicMenu.openFromFile("./assets/menu.ogg");
+    musicMenu.openFromFile("./assets/title.ogg");
     musicCharacterSelect.openFromFile("./assets/character.ogg");
     musicGame.openFromFile("./assets/game.ogg");
 
@@ -278,6 +278,7 @@ int main()
             }
 
             if (menuCharacters.checkPersonajes() == 2) {
+                Interface Interfaz(jugador1->getHp(), jugador2->getHp());
                 gameState = GAME;
                 break;
             }
@@ -287,24 +288,15 @@ int main()
             break;
         case GAME:
 
-            //CMD - Joy
-
-
-            //UPDATE
-
-          /* float ratio = static_cast<float>(window.getSize().x) / window.getSize().y;
-
-          view.setSize(1080.0f * ratio, 720.0f);
-          window.setView(view);*/
-
+     
             window.clear(sf::Color::Transparent);
-            //necromancer.Update(deltaTime, plataformasActuales);
+          
             if (jugador1 != nullptr) {
                 jugador1->Update(deltaTime, plataformasActuales);
             } else {
                 std::cerr << "Error: jugador1 is not initialized!" << std::endl;
             }
-            //mafalda.Update(deltaTime,plataformasActuales);
+    
             if (jugador2 != nullptr) {
                 jugador2->Update(deltaTime, plataformasActuales);
             }
@@ -313,19 +305,14 @@ int main()
             }
 
 
-            //USA SOLO UN INTERFAZ.UPDATEHPBAR 
+    
             Juego.checkCollision(*jugador1, *jugador2, deltaTime);
             Interfaz.UpdateHpBar(jugador1->getHp(), jugador2->getHp());
 
 
-            //Juego.checkCollision(necromancer, mafalda, deltaTime);
-            //Interfaz.UpdateHpBar(mafalda.getHp(),necromancer.getHp());
-
-            //DRAW
 
             stage.draw(window);
-            //mafalda.draw(window);
-            //necromancer.draw(window);
+          
             jugador2->draw(window);
 
             jugador1->draw(window);
