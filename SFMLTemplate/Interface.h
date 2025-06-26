@@ -8,9 +8,9 @@ private:
 	float hpMax;
 	float hpMax2;
 	float HpActual;
-	bool isProyectUpgradeVisible; //NUEVA
-	float proyectUpgradeTimer; //NUEVA
-	const float timeDurationProyect = 2.0f; //NUEVA
+	bool isProyectUpgradeVisible; 
+	float proyectUpgradeTimer; 
+	const float timeDurationProyect = 2.0f; 
 	sf::Vector2i size;
 	sf::RectangleShape Hpbackground;
 	sf::RectangleShape HpActualBar;

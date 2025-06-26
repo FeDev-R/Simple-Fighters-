@@ -26,12 +26,12 @@ public:
 		if (usarCapasSeparadas) {
 			plataforma.setFillColor(sf::Color::Transparent);
 			plataforma.setOutlineColor(sf::Color::Cyan);
-			plataforma.setOutlineThickness(1.0f);
+			plataforma.setOutlineThickness(0.0f);
 		}
 		else {
 			plataforma.setTexture(&texturePlatform);
 			plataforma.setOutlineColor(sf::Color::Cyan);
-			plataforma.setOutlineThickness(1.0f);
+			plataforma.setOutlineThickness(0.0f);
 		}
 		plataformas.push_back(plataforma);
 

@@ -1,7 +1,8 @@
 #include "Knight.h"
+
+
 Knight::Knight(sf::RenderWindow& window, bool esJugador1) : Characters(esJugador1)
 {
-    //body.setTexture(&texture);
     hp = 800.0f;
     hpMax = 800.0f;
     jumpForce = 500.0f;
@@ -9,10 +10,11 @@ Knight::Knight(sf::RenderWindow& window, bool esJugador1) : Characters(esJugador
     speed = 3;
     character = 2;
     setAnimations();
-    this->estadoActual = estadoPj::Idle;
-    spriteBaseScale = { 2.5,2.5 };
-    DmgAttack1 = 200;
-    DmgAttack2 = 200;
+    estadoActual = estadoPj::Idle;
+    spriteBaseScale = { 2.5f, 2.5f };
+
+    DmgAttack1 = 120;
+    DmgAttack2 = 150;
 
     spriteOffsetsY[estadoPj::Idle] = -80;
     spriteOffsetsY[estadoPj::Move] = -80;
@@ -25,24 +27,17 @@ Knight::Knight(sf::RenderWindow& window, bool esJugador1) : Characters(esJugador
     spriteOffsetsX[estadoPj::Jump] = 0;
     spriteOffsetsX[estadoPj::Attack] = 0;
 
-
     //body.setTextureRect({ 100,20,50,20 });
-   //body.setSize(sf::Vector2f(100.0f, 200.0f));
+    //body.setSize(sf::Vector2f(100.0f, 200.0f));
 }
 
 void Knight::Update(float deltaTime, const std::vector<sf::RectangleShape>& plataformas)
 {
-
-
     Characters::Update(deltaTime, plataformas);
-
-
 }
 
 void Knight::draw(sf::RenderWindow& window)
 {
-    //std::cout << "SCALE X: " << body.getScale().x << " SCALE Y: " << body.getScale().y;
-
     Characters::draw(window);
 }
 
@@ -50,7 +45,7 @@ void Knight::setAnimations()
 {
     // IDLE
     textures[estadoPj::Idle].loadFromFile("./assets/knight/idle.png");
-    animations[estadoPj::Idle] = Animation(&textures[estadoPj::Idle],4, 0.4f);
+    animations[estadoPj::Idle] = Animation(&textures[estadoPj::Idle], 4, 0.4f);
 
     // MOVE
     textures[estadoPj::Move].loadFromFile("./assets/knight/run.png");
@@ -68,13 +63,10 @@ void Knight::setAnimations()
     animations[estadoPj::Attack2] = Animation(&textures[estadoPj::Attack2], 6, 0.15f);
 }
 
-
 float Knight::getJumpForce() const
 {
     return 0.0f;
 }
-
-
 
 void Knight::setHP(float value)
 {
@@ -83,4 +75,3 @@ void Knight::setHP(float value)
 void Knight::setJumpForce(float value)
 {
 }
-

@@ -1,10 +1,5 @@
 #pragma once
 #include<iostream>
-/*#include<SFML/Graphics.hpp>
-#include "Animation.h" 
-#include"mapa.h"
-#include <map>                     
-#include "Attacks.h" */
 #include <SFML/Graphics.hpp>
 #include <map>            
 #include <vector>         

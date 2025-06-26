@@ -1,36 +1,24 @@
 ﻿#include "Characters.h"
 #include <iostream>
 
-
 Characters::Characters(bool esJugador1)
-    
 {
     player1 = esJugador1;
 
     sf::Vector2u texSize = textures[estadoActual].getSize();
-    //body.setOrigin(texSize.x / 2.f, texSize.y /2);
-    
-
 
     hitbox.setPosition(200.f, 600.f);
     body.setPosition(hitbox.getPosition().x, hitbox.getPosition().y + hitbox.getSize().y / 2.f);
-    hitbox.setSize(sf::Vector2f(40.0f, 140.0f)); 
+    hitbox.setSize(sf::Vector2f(40.0f, 140.0f));
     hitbox.setOrigin(hitbox.getSize() / 2.f);
     body.setOrigin(hitbox.getOrigin());
 
     hitbox.setOutlineColor(sf::Color::Green);
-    hitbox.setOutlineThickness(1.0f);
+    hitbox.setOutlineThickness(0.0f);
     hitbox.setFillColor(sf::Color::Transparent);
-   
- 
-    
-    //body.setPosition(50.0f, 50.0f);
-    //body.setScale(1.0f, 0.25f);
-   
-   
 
     if (player1) {
-        body.setPosition(sf::Vector2f(260.0f,600.0f));
+        body.setPosition(sf::Vector2f(260.0f, 600.0f));
         hitbox.setPosition(body.getPosition().x, body.getPosition().y - hitbox.getSize().y / 2.f);
         movingLeft = false;
     }
@@ -47,119 +35,114 @@ Characters::Characters(bool esJugador1)
 
 void Characters::controlsPlayer(bool Jugador, sf::Vector2f& movement) {
 
-
     if (Jugador) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-            movement.x -= speed ;
+            movement.x -= speed;
             movingLeft = true;
             body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
-
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-            movement.x += speed ;
+            movement.x += speed;
             movingLeft = false;
             body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
-
         }
+
         bool NAhora = sf::Keyboard().isKeyPressed(sf::Keyboard::N);
 
+        // controla ataque 1 (tecla N)
         if (NAhora && !NPresionadoAntes && !checkIfAttack) {
             estadoActual = estadoPj::Attack;
-             currentDmg = DmgAttack1;
+            currentDmg = DmgAttack1;
             setDmg(currentDmg);
-            Ataque.attackAction(hitbox, movingLeft, character,1);
+            Ataque.attackAction(hitbox, movingLeft, character, 1);
             checkIfAttack = true;
             attackTimer = 0.0f;
             body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
         }
-
         NPresionadoAntes = NAhora;
-        
-        bool MAhora = sf::Keyboard().isKeyPressed(sf::Keyboard::M);
 
+        bool MAhora = sf::Keyboard::isKeyPressed(sf::Keyboard::M);
+
+        // controla ataque 2 (tecla M)
         if (MAhora && !MPresionadoAntes && !checkIfAttack) {
             estadoActual = estadoPj::Attack2;
-             currentDmg = DmgAttack2;
+            currentDmg = DmgAttack2;
             setDmg(currentDmg);
-            Ataque.attackAction(hitbox, movingLeft, character,2);
+            Ataque.attackAction(hitbox, movingLeft, character, 2);
             checkIfAttack = true;
             attackTimer = 0.0f;
             body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
         }
-
         MPresionadoAntes = NAhora;
 
+        // salto si está en el suelo
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && isOnGround) {
             velocity.y = -jumpForce;
             isOnGround = false;
-
             if (!checkIfAttack) {
-                Characters::estadoActual = estadoPj::Jump;
+                estadoActual = estadoPj::Jump;
             }
-            
-
         }
     }
     else {
+        // controles para jugador 2 (flechas y mouse)
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-            movement.x -= speed  ;
-            movingLeft = true ;
+            movement.x -= speed;
+            movingLeft = true;
             body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
-
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-            movement.x += speed ;
+            movement.x += speed;
             movingLeft = false;
             body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
-
         }
+
         bool mouseAhora = sf::Mouse::isButtonPressed(sf::Mouse::Right);
 
+        // ataque 1 con click derecho
         if (mouseAhora && !mousePresionadoAntes && !checkIfAttack) {
             estadoActual = estadoPj::Attack;
             currentDmg = DmgAttack1;
             setDmg(currentDmg);
-
-            Ataque.attackAction(hitbox, movingLeft, character,2);
+            Ataque.attackAction(hitbox, movingLeft, character, 2);
             checkIfAttack = true;
             attackTimer2 = 0.0f;
             body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
         }
-
         mousePresionadoAntes = mouseAhora;
+
+        // salto jugador 2
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && isOnGround) {
             velocity.y = -jumpForce;
             isOnGround = false;
             if (!checkIfAttack) {
-                Characters::estadoActual = estadoPj::Jump;
+                estadoActual = estadoPj::Jump;
             }
         }
 
         bool mouseAhora2 = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+
+        // ataque 2 con click izquierdo
         if (mouseAhora2 && !mousePresionadoAntes2 && !checkIfAttack2) {
             estadoActual = estadoPj::Attack2;
-             currentDmg = DmgAttack2;
+            currentDmg = DmgAttack2;
             setDmg(currentDmg);
             Ataque.attackAction(hitbox, movingLeft, character, 1);
             checkIfAttack = true;
             attackTimer2 = 0.0f;
             body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
-        
         }
         mousePresionadoAntes2 = mouseAhora2;
-
     }
 }
-
-
 
 void Characters::takeDmg(int takenDmg)
 {
     hp -= takenDmg;
-    std::cout << hp<< std::endl;
+    std::cout << hp << std::endl;
 }
 
-sf::RectangleShape Characters::getHitbox() 
+sf::RectangleShape Characters::getHitbox()
 {
     return hitbox;
 }
@@ -180,38 +163,38 @@ void Characters::actualizarEstado(sf::Vector2f movement) {
     }
 }
 
-
-
 void Characters::setEstado(estadoPj nuevoEstado)
 {
     estadoActual = nuevoEstado;
 }
 
-void Characters::Update(float deltaTime,const std::vector<sf::RectangleShape>& plataformas)
+// update: se encarga de mover, actualizar animacion y chequear colisiones
+void Characters::Update(float deltaTime, const std::vector<sf::RectangleShape>& plataformas)
 {
     sf::Vector2f movement(0.0f, 0.0f);
     body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
-    controlsPlayer(player1, movement); 
 
+    controlsPlayer(player1, movement);
+
+    // aplica gravedad si no esta en el suelo
     if (!isOnGround) {
-       velocity.y += gravity * deltaTime;
-
+        velocity.y += gravity * deltaTime;
     }
-
 
     if (!estabaEnElAire && !isOnGround) {
         estabaEnElAire = true;
     }
 
     if (estabaEnElAire && isOnGround) {
-        // Aterrizó
+        // aterrizo despues de saltar
         if (estadoActual == estadoPj::Jump) {
             estadoActual = estadoPj::Idle;
             animations[estadoPj::Jump].Reset();
         }
-
         estabaEnElAire = false;
     }
+
+    // manejo de animacion y temporizador de ataques
     if (checkIfAttack) {
         attackTimer += deltaTime;
 
@@ -228,22 +211,17 @@ void Characters::Update(float deltaTime,const std::vector<sf::RectangleShape>& p
                 checkIfAttack = false;
                 estadoActual = estadoPj::Idle;
                 animations[estadoPj::Attack2].Reset();
-                Ataque.reset();  
-
+                Ataque.reset();
             }
         }
     }
-    
 
     movement.y = velocity.y * deltaTime;
     isOnGround = false;
-    /*std::cout << "DeltaTime: " << deltaTime
-        << " | Velocity.y: " << velocity.y
-        << " | Movement.y: " << movement.y << std::endl;*/
 
+    hitbox.move(movement.x, 0);
 
-    hitbox.move(movement.x , 0);
-    //aca agrego las colisiones horizontales
+    // chequeo colisiones verticales con plataformas con paso fino para evitar que el personaje atraviese plataformas
     bool onGroundThisFrame = false;
     float movimientoVerticalRestante = movement.y;
     float paso = 1.0f;
@@ -267,11 +245,10 @@ void Characters::Update(float deltaTime,const std::vector<sf::RectangleShape>& p
                     hitbox.setPosition(hitbox.getPosition().x, nuevaY);
                     velocity.y = 0;
                     onGroundThisFrame = true;
-                    goto FIN_CAIDA; // salimos del while
+                    goto FIN_CAIDA; // salto para salir del loop ya que se detecto suelo
                 }
             }
         }
-
         movimientoVerticalRestante -= signo * deltaPaso;
     }
 FIN_CAIDA:
@@ -283,19 +260,13 @@ FIN_CAIDA:
     if (checkIfAttack2) {
         Ataque.updateAttack(hitbox, movingLeft);
     }
-    ///QUIETO O EN MOVIMIENTO
+
     actualizarEstado(movement);
 
-    
-
-    //std::cout << "\nSIZE X: " << body.getSize().x << " SIZE Y: " << body.getSize().y;
-
-  
-    
     auto& anim = animations[estadoActual];
     sf::IntRect rect = anim.getCurrentFrameRect();
 
-    
+    // ajustar posicion para cambios en ancho del sprite al cambiar de animacion
     if (estadoActual != estadoAnterior) {
         int deltaWidth = rect.width - lastFrameWidth;
         body.move((deltaWidth / 2.f) * (movingLeft ? -1.f : 1.f), 0.f);
@@ -307,33 +278,21 @@ FIN_CAIDA:
     body.setTexture(textures[estadoActual]);
     body.setTextureRect(rect);
     body.setOrigin(rect.width / 2.f, float(rect.height));
-    //body.setOrigin(rect.width / 2.f, rect.height);
-  
-    //body.setOrigin(rect.width / 2.f, 135);
 
-   
-   float offsetY = spriteOffsetsY[estadoActual];
-   float offsetX = spriteOffsetsX[estadoActual] ;
+    float offsetY = spriteOffsetsY[estadoActual];
+    float offsetX = spriteOffsetsX[estadoActual];
 
-   if (elfaa() == true && estadoActual == estadoPj::Attack) {
-       if (movingLeft)
-       body.setPosition(hitbox.getPosition().x - 50, hitbox.getPosition().y - offsetY);
-       else
-           body.setPosition(hitbox.getPosition().x +50, hitbox.getPosition().y - offsetY);
-           
-
-   }
-   else {
-       body.setPosition(hitbox.getPosition().x - offsetX, hitbox.getPosition().y - offsetY);
-
-   }
-
-   
-    //std::cout << "body top: " << body.getGlobalBounds().top<<"hitbox top: "<<hitbox.getGlobalBounds().top << std::endl;
-    //std::cout << "TextureRect: left=" << rect.left << ", top=" << rect.top << ", width=" << rect.width << ", height=" << rect.height << std::endl;
-
+    // posicion del sprite con offsets, especial caso para animacion de ataque de elfaa
+    if (elfaa() == true && estadoActual == estadoPj::Attack) {
+        if (movingLeft)
+            body.setPosition(hitbox.getPosition().x - 50, hitbox.getPosition().y - offsetY);
+        else
+            body.setPosition(hitbox.getPosition().x + 50, hitbox.getPosition().y - offsetY);
+    }
+    else {
+        body.setPosition(hitbox.getPosition().x - offsetX, hitbox.getPosition().y - offsetY);
+    }
 }
-
 
 bool Characters::loadFromFile(const std::string& path) {
     if (!texture.loadFromFile(path))
@@ -343,8 +302,6 @@ bool Characters::loadFromFile(const std::string& path) {
 }
 
 void Characters::draw(sf::RenderWindow& window) {
-
-
     window.draw(body);
     window.draw(hitbox);
     if (checkIfAttack) {

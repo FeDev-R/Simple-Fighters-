@@ -5,7 +5,7 @@ Necromancer::Necromancer(sf::RenderWindow& window, bool esJugador1) : Characters
     //body.setTexture(&texture);
     hp = 1000.0f;
     hpMax = 1000.0f;
-    jumpForce = 300.0f;
+    jumpForce = 450.0f;
     baseDmg = 11;
     character = 4;
     speed = 2;
@@ -27,7 +27,7 @@ Necromancer::Necromancer(sf::RenderWindow& window, bool esJugador1) : Characters
     spriteOffsetsX[estadoPj::Attack] = 0;
     spriteOffsetsX[estadoPj::Attack2] = 0;
 
-    DmgAttack2 = 500;
+    DmgAttack2 = 400;
 
      //body.setTextureRect({ 100,20,50,20 });
     //body.setSize(sf::Vector2f(100.0f, 200.0f));

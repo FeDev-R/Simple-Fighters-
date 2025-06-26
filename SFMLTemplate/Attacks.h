@@ -11,7 +11,6 @@ private:
 	sf::RectangleShape HitBox;
 	float Duration = 5.0f;
 	float cooldown = 2.0f;
-	//Animation Animation;
 	sf::Vector2f position;
 	sf::Vector2f offset;
 	sf::Vector2f attackOffSet;

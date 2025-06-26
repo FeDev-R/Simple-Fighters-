@@ -24,6 +24,6 @@ public:
     const sf::Texture& getTexture() { return texture; };
 };
 
-// CharacterPortrait.cpp
+
 
 
