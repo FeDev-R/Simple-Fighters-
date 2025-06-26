@@ -16,6 +16,8 @@
 #include<SFML/Audio.hpp>
 #include <cstdlib> 
 #include <ctime>   
+#include "clsArchivoStatistics.h"
+#include "gameFunctions.h"
 
 //boton para cambiar musica y poner texto de la vida qaue tiene cada jugador, y nombre dfe personajes
 sf::Music* pickRandom(std::vector<sf::Music*>& list) {
@@ -100,8 +102,7 @@ int main()
     std::cout << sizeImage.y;
 
    Menu mainMenu;
-   Stats stats;
-   ArchStats archStats(stats, &textMenu);
+   ArchStats archStats(getLastRecordedStats(), &textMenu);
 
 
     ///////bosque
@@ -177,6 +178,15 @@ int main()
 	  - VECES QUE JUGARON CON NECROMANCER
 	  - VECES QUE JUGARON CON KNIGHT
         */
+
+    int timesWinPj1=0;
+    int timesWinPj2=0;
+    int timesDraw=0;
+    int timesPlayed=0;
+    int timesPlayedElf=0;
+    int timesPlayedMafalda=0;
+    int timesPlayedNecromancer=0;
+    int timesPlayedKnight=0;
 
 	stage.setCurrentMap(mapaRandom);
     elfa elfa2(window, esJugador2);
@@ -308,22 +318,50 @@ int main()
 
             if (menuCharacters.checkPersonajes() == 1) {
                 selectedID = menuCharacters.saveCharactersID(true);
-                if (selectedID == "1") jugador1 = &elfa;
-                else if (selectedID == "2") jugador1 = &knight;
-                else if (selectedID == "3") jugador1 = &mafalda;
-                else if (selectedID == "4") jugador1 = &necromancer;
+                Juego.incrementCharacterPlayed(selectedID);
+                if (selectedID == "1") {
+                    jugador1 = &elfa;
+					
+                }
+                else if (selectedID == "2") {
+                    jugador1 = &knight;
+                   
+                }
+                else if (selectedID == "3") {
+                    jugador1 = &mafalda;
+                   
+                }
+                else if (selectedID == "4") {
+                    jugador1 = &necromancer;
+                    
+                }
             }
             else if (menuCharacters.checkPersonajes() == 2) {
                 selectedID = menuCharacters.saveCharactersID(false);
-                if (selectedID == "1") jugador2 = &elfa2;
-                else if (selectedID == "2") jugador2 = &knight2;
-                else if (selectedID == "3") jugador2 = &mafalda2;
-                else if (selectedID == "4") jugador2 = &necromancer2;
+                
+                Juego.incrementCharacterPlayed(selectedID);
+                if (selectedID == "1") {
+                    jugador2 = &elfa2;
+                    
+                }
+                else if (selectedID == "2") {
+                    jugador2 = &knight2;
+                    
+                }
+                else if (selectedID == "3") {
+                    jugador2 = &mafalda2;
+                    
+                }
+                else if (selectedID == "4") {
+                    jugador2 = &necromancer2;
+					
+                }
             }
 
             if (menuCharacters.checkPersonajes() == 2) {
                 /*int randomMapIndex = rand() % 7;
                 stage.setCurrentMap(randomMapIndex);*/
+                Juego.incrementTimesPlayed();
                 gameState = GAME;
                 if (jugador1 != nullptr && jugador2 != nullptr && Interfaz == nullptr) {
                     Interfaz = new Interface(jugador1->getHp(), jugador2->getHp());
@@ -339,25 +377,35 @@ int main()
 
         case GAME: {
 			sf::View vistaActual = view; // Guardar la vista actual
+			//Actualizar estadisticas de los personajes seleccionados
+            
      
             window.clear(sf::Color::Transparent);
 
             bool jugador1Muerto = jugador1->getHp() <= 0;
             bool jugador2Muerto = jugador2->getHp() <= 0;
+            
+            
 
             if (jugador1Muerto || jugador2Muerto) {
                 if (jugador1Muerto && !jugador2Muerto) {
                     winPj1 = false;
-					gameState = WIN; // jugador2 ganó
+					// Actualizar estadísticas
+                    Juego.incrementWinPj2();
+                    saveStatisticsData("statistics.dat", Juego.getStatistics());
+					gameState = WIN; 
 					
                 }
                 else if (!jugador1Muerto && jugador2Muerto) {
                     winPj1 = true;
-                    gameState = WIN; // jugador1 ganó
+					// Actualizar estadísticas
+                    Juego.incrementWinPj1();
+                    saveStatisticsData("statistics.dat", Juego.getStatistics());
+                    gameState = WIN; 
                     
                 }
                 else {
-                     // empataron 
+                     //draw
                 }
                 winnerClock.restart().asSeconds();
                 break;
@@ -422,10 +470,10 @@ int main()
             break;
         }
         case STATS:
-            // Aquí puedes implementar la lógica para mostrar las estadísticas del juego
-            // Por ejemplo, podrías mostrar un texto con las estadísticas y un botón para volver al menú principal
+            
+          
             window.clear(sf::Color::Transparent);
-
+			archStats.setArchStats(getLastRecordedStats());
             archStats.Update(mousePos);
 
 
@@ -440,7 +488,6 @@ int main()
             
             
             // Mostrar estadísticas aquí
-            // Ejemplo: window.draw(statsText);
 			window.display();
             break;
         default:

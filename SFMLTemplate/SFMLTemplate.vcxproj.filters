@@ -1,132 +1,46 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Archivos de origen">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Archivos de encabezado">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Archivos de recursos">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
+    <ClCompile Include="clsArchStats.cpp" />
+    <ClCompile Include="clsMenu.cpp" />
+    <ClCompile Include="clsProfileCharacters.cpp" />
+    <ClCompile Include="clsSelectCharacterMenu.cpp" />
+    <ClCompile Include="clsStats.cpp" />
+    <ClCompile Include="Knight.cpp" />
+    <ClCompile Include="Necromancer.cpp" />
+    <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="Attacks.cpp" />
+    <ClCompile Include="Characters.cpp" />
+    <ClCompile Include="elfa.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Interface.cpp" />
+    <ClCompile Include="MafaldaNinja.cpp" />
+    <ClCompile Include="MAIN.cpp" />
+    <ClCompile Include="mapa.cpp" />
+    <ClCompile Include="Power.cpp" />
+    <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="clsArchivoStatistics.cpp" />
+    <ClCompile Include="gameFunctions.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Animation.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="Characters.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="MafaldaNinja.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="MAIN.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="mapa.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="Power.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="Attacks.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="elfa.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="Interface.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="Necromancer.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="Knight.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="clsMenu.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="clsProfileCharacters.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="clsSelectCharacterMenu.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-<<<<<<< Updated upstream
-=======
-    <ClCompile Include="clsStats.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="clsArchStats.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
->>>>>>> Stashed changes
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Animation.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Characters.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="MafaldaNinja.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="mapa.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Power.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Attacks.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="elfa.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Interface.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Necromancer.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Knight.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="clsMenu.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="clsProfileCharacters.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="clsSelectCharacterMenu.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-<<<<<<< Updated upstream
-=======
-    <ClInclude Include="clsStats.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="clsArchStats.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
->>>>>>> Stashed changes
+    <ClInclude Include="clsArchStats.h" />
+    <ClInclude Include="clsMenu.h" />
+    <ClInclude Include="clsProfileCharacters.h" />
+    <ClInclude Include="clsSelectCharacterMenu.h" />
+    <ClInclude Include="clsStats.h" />
+    <ClInclude Include="Knight.h" />
+    <ClInclude Include="Necromancer.h" />
+    <ClInclude Include="Animation.h" />
+    <ClInclude Include="Attacks.h" />
+    <ClInclude Include="Characters.h" />
+    <ClInclude Include="elfa.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="Interface.h" />
+    <ClInclude Include="MafaldaNinja.h" />
+    <ClInclude Include="mapa.h" />
+    <ClInclude Include="Power.h" />
+    <ClInclude Include="Stage.h" />
+    <ClInclude Include="gameFunctions.h" />
+    <ClInclude Include="clsArchivoStatistics.h" />
   </ItemGroup>
 </Project>

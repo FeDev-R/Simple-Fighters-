@@ -135,11 +135,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="clsArchivoStatistics.cpp" />
     <ClCompile Include="clsArchStats.cpp" />
     <ClCompile Include="clsMenu.cpp" />
     <ClCompile Include="clsProfileCharacters.cpp" />
     <ClCompile Include="clsSelectCharacterMenu.cpp" />
     <ClCompile Include="clsStats.cpp" />
+    <ClCompile Include="gameFunctions.cpp" />
     <ClCompile Include="Knight.cpp" />
     <ClCompile Include="Necromancer.cpp" />
     <ClCompile Include="Animation.cpp" />
@@ -155,11 +157,13 @@
     <ClCompile Include="Stage.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="clsArchivoStatistics.h" />
     <ClInclude Include="clsArchStats.h" />
     <ClInclude Include="clsMenu.h" />
     <ClInclude Include="clsProfileCharacters.h" />
     <ClInclude Include="clsSelectCharacterMenu.h" />
     <ClInclude Include="clsStats.h" />
+    <ClInclude Include="gameFunctions.h" />
     <ClInclude Include="Knight.h" />
     <ClInclude Include="Necromancer.h" />
     <ClInclude Include="Animation.h" />

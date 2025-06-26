@@ -4,14 +4,14 @@
 ArchStats::ArchStats(Stats statistics, sf::Texture* exitTexture) :
 	globalStats(statistics)
 {
-
+	float scaleX = float(1080) / 624;
+	float scaleY = float(720) / 192;
 	backgroundImage.loadFromFile("./Assets/gothic.png");
 	backgroundSprite.setTexture(backgroundImage);
-	backgroundSprite.setOrigin(sf::Vector2f(backgroundImage.getSize()) / 2.0f);
-	backgroundSprite.setScale(4 / 4.5f, 3 / 6.0f);
+	backgroundSprite.setScale(scaleX, scaleY);
 
 
-	float scale = 0.4f;
+	float scale = 1.0f;
 
 	textFont.loadFromFile("./Assets/Fonts/Minecraft.ttf");
 	timesWinPj1Text.setFont(textFont);
@@ -64,15 +64,15 @@ ArchStats::ArchStats(Stats statistics, sf::Texture* exitTexture) :
 	timesPlayedKnightText.setScale(sf::Vector2f(scale, scale));
 
 
-	sf::Vector2f statisticsOrigin(0.0f, -70.0f);
+	//sf::Vector2f statisticsOrigin(40.0f, -70.0f);
 
-	timesWinPj1Text.setPosition(statisticsOrigin + sf::Vector2f(-190.0f, 0.0f));
-	timesWinPj2Text.setPosition(statisticsOrigin + sf::Vector2f(-190.0f, 20.0f));
-	timesPlayedText.setPosition(statisticsOrigin + sf::Vector2f(-190.0f, 40.0f));
-	timesPlayedElfText.setPosition(statisticsOrigin + sf::Vector2f(-190.0f, 60.0f));
-	timesPlayedMafaldaText.setPosition(statisticsOrigin + sf::Vector2f(-190.0f, 80.0f));
-	timesPlayedNecromancerText.setPosition(statisticsOrigin + sf::Vector2f(0.0f, 0.0f));
-	timesPlayedKnightText.setPosition(statisticsOrigin + sf::Vector2f(0.0f, 20.0f));
+	timesWinPj1Text.setPosition( sf::Vector2f(190.0f, 0.0f));
+	timesWinPj2Text.setPosition( sf::Vector2f(190.0f, 50.0f));
+	timesPlayedText.setPosition( sf::Vector2f(190.0f, 100.0f));
+	timesPlayedElfText.setPosition(sf::Vector2f(190.0f, 150.0f));
+	timesPlayedMafaldaText.setPosition( sf::Vector2f(190.0f, 200.0f));
+	timesPlayedNecromancerText.setPosition( sf::Vector2f(190.0f,250.0f));
+	timesPlayedKnightText.setPosition(sf::Vector2f(190.0f, 300.0f));
 	
 
 
@@ -90,13 +90,13 @@ void ArchStats::Update(sf::Vector2f mousePos)
 	
 
 
-	timesWinPj1Text.setString("Time Survived: " + std::to_string(int(globalStats.getTimesWinPj1())));
-	timesWinPj2Text.setString("Total dmg Taken: " + std::to_string(globalStats.getTimesWinPj2()));
-	timesPlayedText.setString("Total dmg Dealt " + std::to_string(globalStats.getTimesPlayed()));
-	timesPlayedElfText.setString("Total Slimes Defeated: " + std::to_string(globalStats.getTimesPlayedElf()));
-	timesPlayedMafaldaText.setString("Total Elem. Slime Defeated: " + std::to_string(globalStats.getTimesPlayedKnight()));
-	timesPlayedNecromancerText.setString("Total Spartan Defeated: " + std::to_string(globalStats.getTimesPlayedMafalda()));
-	timesPlayedKnightText.setString("Total Reaper Defeated: " + std::to_string(globalStats.getTimesPlayedNecromancer()));
+	timesWinPj1Text.setString("Total de partidas ganadas por Jugador 1: " + std::to_string(int(globalStats.getTimesWinPj1())));
+	timesWinPj2Text.setString("Total de partidas ganadas por Jugador 2: " + std::to_string(globalStats.getTimesWinPj2()));
+	timesPlayedText.setString("Total de partidas jugadas " + std::to_string(globalStats.getTimesPlayed()));
+	timesPlayedElfText.setString("Se ha usado a Elfa: " + std::to_string(globalStats.getTimesPlayedElf()));
+	timesPlayedMafaldaText.setString("Se ha usado a Mafalda: " + std::to_string(globalStats.getTimesPlayedKnight()));
+	timesPlayedNecromancerText.setString("Se ha usado a Necromancer: " + std::to_string(globalStats.getTimesPlayedMafalda()));
+	timesPlayedKnightText.setString("Se ha usado a Knight: " + std::to_string(globalStats.getTimesPlayedNecromancer()));
 	
 
 	

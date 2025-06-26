@@ -8,8 +8,8 @@ class Stats
 public:
 	Stats();
 
-	Stats(float timeSurvived, int dmgTaken, int dmgDealt, int slimesDefeated, int elementalSlimesDefeated,
-		int spartansDefeated, int reapersDefeated, int timesLeveledUp, int gameBeatedCounter);
+	Stats(float timeSurvived, int timesWinPj1, int timesWinPj2, int timesDraw, int timesPlayed,
+		int timesPlayedElf, int timesPlayedMafalda, int timesPlayedNecromancer, int timesPlayedKnight);
 
 	Stats operator+=(Stats& other);
 

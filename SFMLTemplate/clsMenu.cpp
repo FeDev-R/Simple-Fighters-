@@ -37,10 +37,12 @@ Menu::Menu()
     changeMusicRect.setSize(sf::Vector2f(64, 64));
     changeMusicRect.setOrigin(sf::Vector2f(32, 32));
     changeMusicRect.setPosition(1050, 690);
-	estadisticasButton.setTexture(&estadisticasTexture);
+
+
+	/*estadisticasButton.setTexture(&estadisticasTexture);
 	estadisticasButton.setSize(sf::Vector2f(64, 64));
 	estadisticasButton.setOrigin(playSize / 2.0f);
-	estadisticasButton.setPosition(90, 690);
+	estadisticasButton.setPosition(250, 690);*/
 	
 	
 }
@@ -51,7 +53,7 @@ void Menu::draw(sf::RenderWindow& window) {
     window.draw(playButton);
     window.draw(statsButton);
     window.draw(changeMusicRect);
-	window.draw(estadisticasButton);
+	//window.draw(estadisticasButton);
 }
 
 // configura propiedades basicas del texto

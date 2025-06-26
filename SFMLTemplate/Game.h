@@ -3,6 +3,7 @@
 #include<SFML/Graphics.hpp>
 #include "mapa.h"
 #include "Characters.h"
+#include "clsArchivoStatistics.h"
 
 
 
@@ -10,12 +11,16 @@ class Game
 {
 public:
 
-
+	Stats getStatistics();
 	void update();
 	void draw();
 	void checkCollision(Characters& player1, Characters& player2, float deltaTime);
-
 	void checkTakeDmg(Characters& player, int takenDmg );
+	void incrementTimesPlayed();
+	void incrementWinPj1();
+	void incrementWinPj2();
+	void incrementDraw();
+	void incrementCharacterPlayed(const std::string& characterID);
 
 private:
 	float takeDmgCD = 0;

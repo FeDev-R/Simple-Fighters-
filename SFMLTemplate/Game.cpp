@@ -24,3 +24,34 @@ void Game::checkCollision(Characters& player1, Characters& player2, float deltaT
 void Game::checkTakeDmg(Characters& player, int takenDmg) {
     player.takeDmg(takenDmg);
 }
+
+Stats Game::getStatistics() {
+
+    Stats obj(takeDmgCD, timesWinPj1, timesWinPj2, timesDraw, timesPlayed,
+        timesPlayedElf, timesPlayedMafalda, timesPlayedNecromancer, timesPlayedKnight);
+
+    return obj;
+}
+
+void Game::incrementTimesPlayed() {
+    timesPlayed++;
+}
+
+void Game::incrementWinPj1() {
+    timesWinPj1++;
+}
+
+void Game::incrementWinPj2() {
+    timesWinPj2++;
+}
+
+void Game::incrementDraw() {
+    timesDraw++;
+}
+
+void Game::incrementCharacterPlayed(const std::string& characterID) {
+    if (characterID == "1") timesPlayedElf++;
+    else if (characterID == "2") timesPlayedKnight++;
+    else if (characterID == "3") timesPlayedMafalda++;
+    else if (characterID == "4") timesPlayedNecromancer++;
+}
