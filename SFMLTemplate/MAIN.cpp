@@ -169,6 +169,7 @@ int main()
     Necromancer necromancer2(window, esJugador2);
     Knight knight2(window, esJugador2);
 
+
     sf::RectangleShape cursor(sf::Vector2f(20.0f, 20.0f));
     cursor.setOrigin(20.0f / 2.0f, 20.0f / 2.0f);
     cursor.setFillColor(sf::Color::Red);
@@ -176,10 +177,11 @@ int main()
     //USAR UNA CLASE INTERFAZ
     Characters* jugador1 = nullptr;//std::unique_ptr<Characters> jugador1; // O tambien puede ser  c:
     Characters* jugador2 = nullptr;
-    Interface Interfaz(knight.getHp(), elfa.getHp());
+    Interface* Interfaz = nullptr;
+    
     std::string selectedID = "0";
    
-
+    bool firstTime = true;
     auto& plataformasActuales = stage.getCurrentMap().getPlataformas();
 
     float deltaTime = 0.0f;
@@ -192,7 +194,7 @@ int main()
     {
         deltaTime = clock.restart().asSeconds();
         mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
-
+        
 
         sf::Event event;
         while (window.pollEvent(event))
@@ -277,27 +279,47 @@ int main()
                 }
             }
 
+            
+
             if (menuCharacters.checkPersonajes() == 2) {
                 Interface Interfaz(jugador1->getHp(), jugador2->getHp());
                 gameState = GAME;
+                if (jugador1 != nullptr && jugador2 != nullptr && Interfaz == nullptr) {
+                    Interfaz = new Interface(jugador1->getHp(), jugador2->getHp());
+                }
                 break;
             }
+            
             menuCharacters.draw(window);
             window.draw(cursor);
             window.display();
             break;
-        case GAME:
+        case GAME: {
 
      
             window.clear(sf::Color::Transparent);
           
+
+         
+
+            //necromancer.Update(deltaTime, plataformasActuales);
+
+          /* float ratio = static_cast<float>(window.getSize().x) / window.getSize().y;
+
+          view.setSize(1080.0f * ratio, 720.0f);
+          window.setView(view);*/
+           
+            if (firstTime) {
+                Interfaz->setHpMax(jugador1->getHp(),jugador2->getHp());
+				firstTime = false;
+            }
+               
             if (jugador1 != nullptr) {
                 jugador1->Update(deltaTime, plataformasActuales);
-            } else {
-                std::cerr << "Error: jugador1 is not initialized!" << std::endl;
             }
-    
-            if (jugador2 != nullptr) {
+            else {
+                std::cerr << "Error: jugador1 is not initialized!" << std::endl;
+
                 jugador2->Update(deltaTime, plataformasActuales);
             }
             else {
@@ -305,20 +327,26 @@ int main()
             }
 
 
-    
+            //USA SOLO UN INTERFAZ.UPDATEHPBAR 
             Juego.checkCollision(*jugador1, *jugador2, deltaTime);
-            Interfaz.UpdateHpBar(jugador1->getHp(), jugador2->getHp());
+            Interfaz->UpdateHpBar(jugador1->getHp(), jugador2->getHp());
+            
 
+
+
+            Juego.checkCollision(necromancer, mafalda, deltaTime);
+            Interfaz.UpdateHpBar(mafalda.getHp(),necromancer.getHp());
 
 
             stage.draw(window);
           
             jugador2->draw(window);
-
             jugador1->draw(window);
-            Interfaz.Draw(window);
+            Interfaz->Draw(window);
+
             window.display();
             break;
+        }
         case WIN:
             break;
         case LOSS:

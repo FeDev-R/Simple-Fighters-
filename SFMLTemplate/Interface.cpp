@@ -24,7 +24,7 @@ void Interface::UpdateHpBar(float hpActual, float hpActual2)
 	HpActualBar.setSize(sf::Vector2f(48.5f * hpPercent, HpActualBar.getSize().y));
 	HpActualBar.setScale(10.0f, 1.0f);
 	hpPercent = std::max(0.0f, std::min(hpPercent, 1.0f));
-	//std::cout << "hpPercent: " << hpPercent << std::endl;
+	std::cout << "hpActual: " << hpActual << std::endl;
 
 	HpActualBar.setSize(sf::Vector2f(48.5f * hpPercent, HpActualBar.getSize().y));
 
@@ -32,7 +32,7 @@ void Interface::UpdateHpBar(float hpActual, float hpActual2)
 	HpActualBar2.setSize(sf::Vector2f(48.5f * hpPercent2, HpActualBar2.getSize().y));
 	HpActualBar2.setScale(10.0f, 1.0f);
 	hpPercent2 = std::max(0.0f, std::min(hpPercent2, 1.0f));
-	//std::cout << "hpPercent: " << hpPercent << std::endl;
+	std::cout << "hpPercent: " << hpActual2 << std::endl;
 
 	HpActualBar2.setSize(sf::Vector2f(48.5f * hpPercent2, HpActualBar2.getSize().y));
 

@@ -29,6 +29,6 @@ public:
 	void Draw(sf::RenderWindow& window);
 	void update(sf::Vector2f posToPj, int level, float deltaTime);
 	void configurarRectangle(sf::RectangleShape& rect, sf::Vector2f size, sf::Color color, bool setOrigin);
-	
+	void setHpMax(float hpMax, float hpMax2) { this->hpMax = hpMax; this->hpMax2 = hpMax2; };
 };
 
