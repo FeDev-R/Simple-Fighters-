@@ -17,9 +17,7 @@ Menu::Menu()
 	titleGame.setFont(fuente);
 	titleGame.setPosition((1080 / 2) - (titleGame.getGlobalBounds().width/2), 200);
 
-	if (!buttonPlayImage.loadFromFile("./assets/play.png")) {
-		std::cout << "NO FUNCA";
-	}
+	buttonPlayImage.loadFromFile("./assets/play.png");
 	textureStat.loadFromFile("./assets/pregunta.png");
 
 	sf::Vector2f playSize(128.0f, 64.0f);
@@ -29,6 +27,7 @@ Menu::Menu()
 	statsButton.setOrigin(playSize / 2.0f);
 	statsButton.setPosition(1050, 690);
 
+	playButton.setTexture(&buttonPlayImage);
 	playButton.setSize(playSize);
 	playButton.setOrigin(playSize / 2.0f);
 	playButton.setPosition((1080/2), (720/2));

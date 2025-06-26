@@ -12,6 +12,7 @@
 #include "Interface.h"
 #include "Necromancer.h"
 #include"Knight.h"
+#include<SFML/Audio.hpp>
 
 int main()
 {
@@ -25,7 +26,7 @@ int main()
     bool esJugador2 = 0;
 
     selectCharacterMenu menuCharacters;
-    menuCharacters.addPortrait("./assets/ProfileCharacters/profileElf.png", "1", sf::Vector2f(700.0f, 500.0f));
+    menuCharacters.addPortrait("./assets/ProfileCharacters/profileElf.png", "1", sf::Vector2f(800.0f, 500.0f));
     menuCharacters.addPortrait("./assets/ProfileCharacters/profileKnight.png", "2", sf::Vector2f(350.0f, 500.0f));
     menuCharacters.addPortrait("./assets/ProfileCharacters/profileWarrior.png", "3", sf::Vector2f(500.0f, 500.0f));
     menuCharacters.addPortrait("./assets/ProfileCharacters/profileNecromancer.png", "4", sf::Vector2f(650.0f, 500.0f));
@@ -45,6 +46,7 @@ int main()
     };
 
     GAMESTATE gameState = MENU;
+    GAMESTATE previousState = PAUSE;
     ///////////////MAPAS/////////////////////////////////
     
   
@@ -58,6 +60,13 @@ int main()
     mapa utn;
     mapa country;
 
+    sf::Music musicMenu;
+    sf::Music musicCharacterSelect;
+    sf::Music musicGame;
+
+    musicMenu.openFromFile("./assets/menu.ogg");
+    musicCharacterSelect.openFromFile("./assets/character.ogg");
+    musicGame.openFromFile("./assets/game.ogg");
 
     sf::Texture textMenu;
     textMenu.loadFromFile("./assets/themeMenu.png");
@@ -191,12 +200,35 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
+        if (gameState != previousState) {
+            musicMenu.stop();
+            musicCharacterSelect.stop();
+            musicGame.stop();
 
+            switch (gameState) {
+            case MENU:
+                musicMenu.setLoop(true);
+                musicMenu.play();
+                break;
+            case MENUCHARACTER:
+                musicCharacterSelect.setLoop(true);
+                musicCharacterSelect.play();
+                break;
+            case GAME:
+                musicGame.setLoop(true);
+                musicGame.play();
+                break;
+            default:
+                break;
+            }
+            previousState = gameState;
+        }
 
         switch (gameState)
         {
         case MENU:
             
+          
             cursor.setPosition(mousePos);
             mainMenu.update(mousePos);
             mainMenu.draw(window);
@@ -286,8 +318,8 @@ int main()
             Interfaz.UpdateHpBar(jugador1->getHp(), jugador2->getHp());
 
 
-            Juego.checkCollision(necromancer, mafalda, deltaTime);
-            Interfaz.UpdateHpBar(mafalda.getHp(),necromancer.getHp());
+            //Juego.checkCollision(necromancer, mafalda, deltaTime);
+            //Interfaz.UpdateHpBar(mafalda.getHp(),necromancer.getHp());
 
             //DRAW
 

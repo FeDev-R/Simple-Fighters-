@@ -11,8 +11,8 @@ Knight::Knight(sf::RenderWindow& window, bool esJugador1) : Characters(esJugador
     setAnimations();
     this->estadoActual = estadoPj::Idle;
     spriteBaseScale = { 2.5,2.5 };
-    DmgAttack1 = 250;
-    DmgAttack2 = 250;
+    DmgAttack1 = 200;
+    DmgAttack2 = 200;
 
     spriteOffsetsY[estadoPj::Idle] = -80;
     spriteOffsetsY[estadoPj::Move] = -80;
