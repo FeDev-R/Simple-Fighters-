@@ -1,7 +1,7 @@
 #include "clsMenu.h"
 
 
-Menu::Menu(sf::Texture* mainMenu)
+Menu::Menu()
 {
 	float scaleX = float(1080) / 816;
 	float scaleY = float(720) / 480;
@@ -33,7 +33,7 @@ Menu::Menu(sf::Texture* mainMenu)
 	playButton.setOrigin(playSize / 2.0f);
 	playButton.setPosition((1080/2), (720/2));
 
-	playButton.setTexture(&buttonPlayImage);
+	
 	
 }
 
@@ -64,11 +64,9 @@ void Menu::update(sf::Vector2f mousePos)
 
 
 	sf::Vector2f thisPosition = playButton.getPosition();
-	//std::cout << "X" << std::endl << playButton.getPosition().x << std::endl;
-	//std::cout << "Y" << std::endl << playButton.getPosition().y << std::endl;
 	sf::Vector2f thisHalfSize = playButton.getSize() / 2.0f;
-	std::cout << "X" << std::endl << playButton.getSize().x << std::endl;
-	std::cout << "Y" << std::endl << playButton.getSize().y << std::endl;
+	//std::cout << "X" << std::endl << playButton.getSize().x << std::endl;
+	//std::cout << "Y" << std::endl << playButton.getSize().y << std::endl;
 	float deltaX = mousePos.x - thisPosition.x;
 	float deltaY = mousePos.y - thisPosition.y;
 
@@ -107,12 +105,7 @@ void Menu::update(sf::Vector2f mousePos)
 }
 
 
-/// <summary>
-/// si el boton es presionado
-/// </summary>
-/// <returns>
-/// si el boton es presionado
-/// </returns>
+
 int Menu::getOptionPressed()
 {
 	if (mouseOnPlay && sf::Mouse::isButtonPressed(sf::Mouse::Left))

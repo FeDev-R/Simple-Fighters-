@@ -187,7 +187,7 @@ void Characters::setEstado(estadoPj nuevoEstado)
     estadoActual = nuevoEstado;
 }
 
-void Characters::Update(float deltaTime, int column, int row, const std::vector<sf::RectangleShape>& plataformas)
+void Characters::Update(float deltaTime,const std::vector<sf::RectangleShape>& plataformas)
 {
     sf::Vector2f movement(0.0f, 0.0f);
     body.setScale(movingLeft ? -spriteBaseScale.x : spriteBaseScale.x, spriteBaseScale.y);
@@ -286,8 +286,7 @@ FIN_CAIDA:
     ///QUIETO O EN MOVIMIENTO
     actualizarEstado(movement);
 
-    this->column = column;
-    this->row = row;
+    
 
     //std::cout << "\nSIZE X: " << body.getSize().x << " SIZE Y: " << body.getSize().y;
 

@@ -6,7 +6,7 @@
     public:
         Knight(sf::RenderWindow& window, bool esJugador1);
 
-        void Update(float deltaTime, const std::vector<sf::RectangleShape>& plataformas);
+        void Update(float deltaTime, const std::vector<sf::RectangleShape>& plataformas) ;
         void draw(sf::RenderWindow& window);
 
         void setAnimations() override;

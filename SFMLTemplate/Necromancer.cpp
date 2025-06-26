@@ -37,7 +37,7 @@ void Necromancer::Update(float deltaTime, const std::vector<sf::RectangleShape>&
 {
 
 
-    Characters::Update(deltaTime, column, row, plataformas);
+    Characters::Update(deltaTime, plataformas);
 
 
 }

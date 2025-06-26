@@ -75,7 +75,7 @@ void elfa::Update(float deltaTime, const std::vector<sf::RectangleShape>& plataf
         }
     }
 
-    Characters::Update(deltaTime, column, row, plataformas);
+    Characters::Update(deltaTime, plataformas);
 
    
 }

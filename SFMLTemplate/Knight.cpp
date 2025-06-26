@@ -34,7 +34,7 @@ void Knight::Update(float deltaTime, const std::vector<sf::RectangleShape>& plat
 {
 
 
-    Characters::Update(deltaTime, column, row, plataformas);
+    Characters::Update(deltaTime, plataformas);
 
 
 }

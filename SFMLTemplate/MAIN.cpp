@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include "clsMenu.h"
+#include "clsSelectCharacterMenu.h"
 #include"mapa.h"
 #include"Animation.h"
 #include"Game.h"
@@ -22,6 +23,12 @@ int main()
 
     bool esJugador1 = 1;
     bool esJugador2 = 0;
+
+    selectCharacterMenu menuCharacters;
+    menuCharacters.addPortrait("./assets/ProfileCharacters/profileElf.png", "1", sf::Vector2f(700.0f, 500.0f));
+    menuCharacters.addPortrait("./assets/ProfileCharacters/profileKnight.png", "2", sf::Vector2f(350.0f, 500.0f));
+    menuCharacters.addPortrait("./assets/ProfileCharacters/profileWarrior.png", "3", sf::Vector2f(500.0f, 500.0f));
+    menuCharacters.addPortrait("./assets/ProfileCharacters/profileNecromancer.png", "4", sf::Vector2f(650.0f, 500.0f));
 
     Game Juego;
    // Interface Interfaz;
@@ -61,8 +68,8 @@ int main()
    std::cout << sizeImage.x;
    std::cout << sizeImage.y;
 
-   Menu mainMenu(&textMenu);
-
+   Menu mainMenu;
+   
 
 
     ///////bosque
@@ -144,18 +151,24 @@ int main()
     stage.setCurrentMap(4);
 
    ///////////////////////////////////////////////////////
+	elfa elfa2(window, esJugador2);
     MafaldaNinja mafalda(window, esJugador1);
     elfa elfa(window, esJugador1);
-    Necromancer necromancer(window, esJugador2);
-    Knight knight(window, esJugador2);
+    Necromancer necromancer(window, esJugador1);
+    Knight knight(window, esJugador1);
+    MafaldaNinja mafalda2(window, esJugador2);
+    Necromancer necromancer2(window, esJugador2);
+    Knight knight2(window, esJugador2);
 
     sf::RectangleShape cursor(sf::Vector2f(20.0f, 20.0f));
     cursor.setOrigin(20.0f / 2.0f, 20.0f / 2.0f);
     cursor.setFillColor(sf::Color::Red);
     
     //USAR UNA CLASE INTERFAZ
-    //Interface Interfaz( elfa.getHpMax(),knight.getHpMax());
-    Interface Interfaz( mafalda.getHpMax(),necromancer.getHpMax());
+    Characters* jugador1 = nullptr;//std::unique_ptr<Characters> jugador1; // O tambien puede ser  c:
+    Characters* jugador2 = nullptr;
+    Interface Interfaz(knight.getHp(), elfa.getHp());
+    std::string selectedID = "0";
    
 
     auto& plataformasActuales = stage.getCurrentMap().getPlataformas();
@@ -169,7 +182,7 @@ int main()
     while (window.isOpen())
     {
         deltaTime = clock.restart().asSeconds();
-       
+        mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
 
 
         sf::Event event;
@@ -183,17 +196,63 @@ int main()
         switch (gameState)
         {
         case MENU:
-            mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+            
             cursor.setPosition(mousePos);
             mainMenu.update(mousePos);
             mainMenu.draw(window);
             window.draw(cursor);
             if (mainMenu.getOptionPressed() == 3) {
-                gameState = GAME;
+                gameState = MENUCHARACTER;
             }
             window.display();
             break;
 
+
+        case MENUCHARACTER:
+            window.clear(sf::Color::Transparent);
+            cursor.setPosition(mousePos);
+            menuCharacters.update(mousePos, deltaTime);
+
+
+            if (menuCharacters.checkPersonajes() == 1) {
+                selectedID = menuCharacters.saveCharactersID(true);
+                if (selectedID == "1") {
+                    jugador1 = &elfa;
+                }
+                else if (selectedID == "2") {
+                    jugador1 = &knight;
+                }
+                else if (selectedID == "3") {
+                    jugador1 = &mafalda;
+                }
+                else if (selectedID == "4") {
+                    jugador1 = &necromancer;
+                }
+            }
+            else if (menuCharacters.checkPersonajes() == 2) {
+                selectedID = menuCharacters.saveCharactersID(false);
+                if (selectedID == "1") {
+                    jugador2 = &elfa2;
+                }
+                else if (selectedID == "2") {
+                    jugador2 = &knight2;
+                }
+                else if (selectedID == "3") {
+                    jugador2 = &mafalda2;
+                }
+                else if (selectedID == "4") {
+                    jugador2 = &necromancer2;
+                }
+            }
+
+            if (menuCharacters.checkPersonajes() == 2) {
+                gameState = GAME;
+                break;
+            }
+            menuCharacters.draw(window);
+            window.draw(cursor);
+            window.display();
+            break;
         case GAME:
 
             //CMD - Joy
@@ -207,15 +266,25 @@ int main()
           window.setView(view);*/
 
             window.clear(sf::Color::Transparent);
-            necromancer.Update(deltaTime, plataformasActuales);
-            //elfa.Update(deltaTime, plataformasActuales);
-            mafalda.Update(deltaTime,plataformasActuales);
-            //knight.Update(deltaTime, plataformasActuales);
+            //necromancer.Update(deltaTime, plataformasActuales);
+            if (jugador1 != nullptr) {
+                jugador1->Update(deltaTime, plataformasActuales);
+            } else {
+                std::cerr << "Error: jugador1 is not initialized!" << std::endl;
+            }
+            //mafalda.Update(deltaTime,plataformasActuales);
+            if (jugador2 != nullptr) {
+                jugador2->Update(deltaTime, plataformasActuales);
+            }
+            else {
+                std::cerr << "Error jugador2 is not initialized!" << std::endl;
+            }
 
 
             //USA SOLO UN INTERFAZ.UPDATEHPBAR 
-            //Juego.checkCollision(knight, elfa, deltaTime);
-           //Interfaz.UpdateHpBar(elfa.getHp(),knight.getHp());
+            Juego.checkCollision(*jugador1, *jugador2, deltaTime);
+            Interfaz.UpdateHpBar(jugador1->getHp(), jugador2->getHp());
+
 
             Juego.checkCollision(necromancer, mafalda, deltaTime);
             Interfaz.UpdateHpBar(mafalda.getHp(),necromancer.getHp());
@@ -223,11 +292,11 @@ int main()
             //DRAW
 
             stage.draw(window);
-            mafalda.draw(window);
-            necromancer.draw(window);
-            //knight.draw(window);
-            //elfa.draw(window);
+            //mafalda.draw(window);
+            //necromancer.draw(window);
+            jugador2->draw(window);
 
+            jugador1->draw(window);
             Interfaz.Draw(window);
             window.display();
             break;
@@ -235,6 +304,7 @@ int main()
             break;
         case LOSS:
             break;
+        
         default:
             break;
         }

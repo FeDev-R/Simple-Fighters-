@@ -23,7 +23,7 @@ private:
 	
 public:
 
-	Menu(sf::Texture* mainMenu);
+	Menu();
 	void draw(sf::RenderWindow& window);
 	void configurarText(sf::Text& text, const sf::Font& font, const std::string& str, sf::Color fillColor, unsigned int size, float outlineThickness, sf::Color outlineColor, sf::Vector2f scale);
 	void update(sf::Vector2f mousePos);
