@@ -19,11 +19,20 @@ int main()
     sf::RenderWindow window(sf::VideoMode(1080, 720), "Simple Fighters", sf::Style::Default);
     
     sf::View view(sf::FloatRect(0, 0, 1080, 720));
+	sf::View vieWinner(sf::FloatRect(0, 0, 540, 360));
     window.setView(view);
     window.setFramerateLimit(60);
 
     bool esJugador1 = 1;
     bool esJugador2 = 0;
+
+    sf::Font winnerFont;
+    if(!winnerFont.loadFromFile("./assets/Fonts/GravityBold8.ttf")) {
+        std::cout << "Error al cargar la fuente del ganador" << std::endl;
+	}
+	sf::Text winnerText;
+	winnerText.setFont(winnerFont);
+	winnerText.setString("Winner!");
 
     selectCharacterMenu menuCharacters;
     menuCharacters.addPortrait("./assets/ProfileCharacters/profileElf.png", "1", sf::Vector2f(220.0f, 500.0f));
@@ -38,7 +47,6 @@ int main()
         MENU,
         PAUSE,
         GAME,
-        LOSS,
         WIN,
         STATS,
         MENUCHARACTER,
@@ -178,15 +186,19 @@ int main()
     Characters* jugador1 = nullptr;//std::unique_ptr<Characters> jugador1; // O tambien puede ser  c:
     Characters* jugador2 = nullptr;
     Interface* Interfaz = nullptr;
-    
+
+
     std::string selectedID = "0";
    
     bool firstTime = true;
     auto& plataformasActuales = stage.getCurrentMap().getPlataformas();
 
+    bool winPj1 = false;
+
     float deltaTime = 0.0f;
     
     sf::Clock clock;
+    sf::Clock winnerClock;
     
     /// BUCLE DE JUEGO
 
@@ -233,6 +245,8 @@ int main()
           
             cursor.setPosition(mousePos);
             mainMenu.update(mousePos);
+
+			window.setView(view);
             mainMenu.draw(window);
             window.draw(cursor);
             if (mainMenu.getOptionPressed() == 3) {
@@ -295,11 +309,30 @@ int main()
             window.display();
             break;
         case GAME: {
-
+			sf::View vistaActual = view; // Guardar la vista actual
      
             window.clear(sf::Color::Transparent);
-          
 
+            bool jugador1Muerto = jugador1->getHp() <= 0;
+            bool jugador2Muerto = jugador2->getHp() <= 0;
+
+            if (jugador1Muerto || jugador2Muerto) {
+                if (jugador1Muerto && !jugador2Muerto) {
+                    winPj1 = false;
+					gameState = WIN; // jugador2 ganó
+					
+                }
+                else if (!jugador1Muerto && jugador2Muerto) {
+                    winPj1 = true;
+                    gameState = WIN; // jugador1 ganó
+                    
+                }
+                else {
+                     // empataron 
+                }
+                winnerClock.restart().asSeconds();
+                break;
+            }
          
 
            
@@ -326,10 +359,10 @@ int main()
             Juego.checkCollision(*jugador1, *jugador2, deltaTime);
             Interfaz->UpdateHpBar(jugador1->getHp(), jugador2->getHp());
        
+            
 
-
+			window.setView(vistaActual);
             stage.draw(window);
-          
             jugador2->draw(window);
             jugador1->draw(window);
             Interfaz->Draw(window);
@@ -337,11 +370,38 @@ int main()
             window.display();
             break;
         }
-        case WIN:
+        case WIN: {
+            window.clear(sf::Color::Transparent);
+            Characters* characterWinner = nullptr;
+            if (winPj1) {
+				characterWinner = jugador1;
+            }
+            else {
+				characterWinner = jugador2;
+            }
+            
+            if (winnerClock.getElapsedTime().asSeconds() > 4.0f) {
+                gameState = MENU;
+                break;
+            }
+            sf::FloatRect bounds = characterWinner->getHitbox().getGlobalBounds();
+            sf::Vector2f center(bounds.left + bounds.width / 2.0f, bounds.top + bounds.height / 2.0f);
+            vieWinner.setCenter(center);
+			winnerText.setPosition(center.x - winnerText.getGlobalBounds().width / 2.0f, center.y - winnerText.getGlobalBounds().height / 2.0f);
+            characterWinner->Update(deltaTime, plataformasActuales);
+
+
+
+
+            window.setView(vieWinner);
+			
+            stage.draw(window);
+
+            characterWinner->draw(window);
+            window.draw(winnerText);
+            window.display();
             break;
-        case LOSS:
-            break;
-        
+        }
         default:
             break;
         }

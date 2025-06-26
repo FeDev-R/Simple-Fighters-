@@ -58,6 +58,7 @@ public:
 	virtual sf::FloatRect getBounds() const;
 	virtual bool collidesWith(const sf::FloatRect& other) const;
 	virtual void setAnimations() = 0;
+	
 
 	virtual sf::RectangleShape getHitboxAttack();
 
