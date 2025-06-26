@@ -1,14 +1,15 @@
 #include <SFML/Graphics.hpp>
 #include "clsMenu.h"
 #include "clsSelectCharacterMenu.h"
-#include"mapa.h"
-#include"Animation.h"
-#include"Game.h"
-#include"Stage.h"
-#include"Characters.h"
-#include"MafaldaNinja.h"
-#include"iostream"
-#include"elfa.h"
+#include "clsArchStats.h"
+#include "mapa.h"
+#include "Animation.h"
+#include "Game.h"
+#include "Stage.h"
+#include "Characters.h"
+#include "MafaldaNinja.h"
+#include "iostream"
+#include "elfa.h"
 #include "Interface.h"
 #include "Necromancer.h"
 #include"Knight.h"
@@ -51,12 +52,13 @@ int main()
     Game Juego;
     enum GAMESTATE {
         MENU,
-        PAUSE,
         GAME,
         WIN,
         STATS,
         MENUCHARACTER,
-       
+        PAUSE,
+
+
     };
 
     GAMESTATE gameState = MENU;
@@ -97,7 +99,13 @@ int main()
     std::cout << sizeImage.x;
     std::cout << sizeImage.y;
 
-    Menu mainMenu;
+   Menu mainMenu;
+   Stats stats;
+   ArchStats archStats(stats, &textMenu);
+
+
+    ///////bosque
+  
 
     bosque.loadFromFile("./assets/bosqueRojo/bosqueRojo.png");
     bosque.loadPlatformTexture("./assets/piso2.png");
@@ -159,6 +167,16 @@ int main()
     stage.addMap(country);
 
 	int mapaRandom = rand() % 6;
+    ////////// ESTADISTICAS PARA TODO LAS STATS
+    /*-VECES QUE GANO PJ1
+	  - VECES QUE GANO PJ2
+	  - VECES QUE EMPATARON
+	  -VECES QUE JUGARON
+	  - VECES QUE JUGARON CON ELFA
+	  - VECES QUE JUGARON CON MAFALDA
+	  - VECES QUE JUGARON CON NECROMANCER
+	  - VECES QUE JUGARON CON KNIGHT
+        */
 
 	stage.setCurrentMap(mapaRandom);
     elfa elfa2(window, esJugador2);
@@ -381,7 +399,7 @@ int main()
 				characterWinner = jugador2;
             }
             
-            if (winnerClock.getElapsedTime().asSeconds() > 4.0f) {
+            if (winnerClock.getElapsedTime().asSeconds() > 8.0f) {
                 gameState = MENU;
                 break;
             }
@@ -403,6 +421,28 @@ int main()
             window.display();
             break;
         }
+        case STATS:
+            // Aquí puedes implementar la lógica para mostrar las estadísticas del juego
+            // Por ejemplo, podrías mostrar un texto con las estadísticas y un botón para volver al menú principal
+            window.clear(sf::Color::Transparent);
+
+            archStats.Update(mousePos);
+
+
+
+            //DRAW MENU
+            window.clear();
+
+            archStats.Draw(window);
+
+            window.draw(cursor);
+
+            
+            
+            // Mostrar estadísticas aquí
+            // Ejemplo: window.draw(statsText);
+			window.display();
+            break;
         default:
             break;
         }

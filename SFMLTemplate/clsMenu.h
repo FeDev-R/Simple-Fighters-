@@ -12,6 +12,7 @@ private:
 	sf::Texture textureStat;
 	sf::Sprite buttonPlay;
 	sf::Sprite spriteStat;
+	sf::Texture estadisticasTexture;
 
 	sf::Texture changeMusicImage;
 	sf::Sprite changeMusicButton;
@@ -19,6 +20,7 @@ private:
 
 	sf::RectangleShape playButton;
 	sf::RectangleShape statsButton;
+	sf::RectangleShape estadisticasButton;
 	sf::Vector2f sizeImage;
 	sf::Font fuente;
 	sf::Text titleGame;

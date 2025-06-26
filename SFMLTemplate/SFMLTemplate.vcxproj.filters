@@ -63,6 +63,15 @@
     <ClCompile Include="clsSelectCharacterMenu.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+<<<<<<< Updated upstream
+=======
+    <ClCompile Include="clsStats.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="clsArchStats.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+>>>>>>> Stashed changes
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -110,5 +119,14 @@
     <ClInclude Include="clsSelectCharacterMenu.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+<<<<<<< Updated upstream
+=======
+    <ClInclude Include="clsStats.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="clsArchStats.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+>>>>>>> Stashed changes
   </ItemGroup>
 </Project>

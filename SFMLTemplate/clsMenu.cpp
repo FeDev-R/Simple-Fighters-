@@ -16,8 +16,9 @@ Menu::Menu()
     titleGame.setFont(fuente);
     titleGame.setPosition((1080 / 2) - (titleGame.getGlobalBounds().width / 2), 200);
 
-    buttonPlayImage.loadFromFile("./assets/play.png");
-    textureStat.loadFromFile("./assets/pregunta.png");
+	buttonPlayImage.loadFromFile("./assets/play.png");
+	textureStat.loadFromFile("./assets/pregunta.png");
+	estadisticasTexture.loadFromFile("./assets/InfoSquare Button.png");
 
     sf::Vector2f playSize(128.0f, 64.0f);
 
@@ -36,6 +37,12 @@ Menu::Menu()
     changeMusicRect.setSize(sf::Vector2f(64, 64));
     changeMusicRect.setOrigin(sf::Vector2f(32, 32));
     changeMusicRect.setPosition(1050, 690);
+	estadisticasButton.setTexture(&estadisticasTexture);
+	estadisticasButton.setSize(sf::Vector2f(64, 64));
+	estadisticasButton.setOrigin(playSize / 2.0f);
+	estadisticasButton.setPosition(90, 690);
+	
+	
 }
 
 void Menu::draw(sf::RenderWindow& window) {
@@ -44,6 +51,7 @@ void Menu::draw(sf::RenderWindow& window) {
     window.draw(playButton);
     window.draw(statsButton);
     window.draw(changeMusicRect);
+	window.draw(estadisticasButton);
 }
 
 // configura propiedades basicas del texto

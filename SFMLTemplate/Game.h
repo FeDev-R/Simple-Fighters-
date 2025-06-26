@@ -11,19 +11,34 @@ class Game
 public:
 
 
-	void run();
 	void update();
 	void draw();
-	void handleSelection();    
-	void handleFight(float dt);
 	void checkCollision(Characters& player1, Characters& player2, float deltaTime);
 
 	void checkTakeDmg(Characters& player, int takenDmg );
-	void loadAssets();        
-	void resetGame();        
 
 private:
 	float takeDmgCD = 0;
+	int timesWinPj1 = 0;
+	int timesWinPj2 = 0;
+	int timesDraw = 0;
+	int timesPlayed = 0;
+	int timesPlayedElf = 0;
+	int timesPlayedMafalda = 0;
+	int timesPlayedNecromancer = 0;
+	int timesPlayedKnight = 0;
+
+
+	////////// ESTADISTICAS PARA TODO LAS STATS
+	/*-VECES QUE GANO PJ1
+	  - VECES QUE GANO PJ2
+	  - VECES QUE EMPATARON
+	  -VECES QUE JUGARON
+	  - VECES QUE JUGARON CON ELFA
+	  - VECES QUE JUGARON CON MAFALDA
+	  - VECES QUE JUGARON CON NECROMANCER
+	  - VECES QUE JUGARON CON KNIGHT
+		*/
 
 };
 
