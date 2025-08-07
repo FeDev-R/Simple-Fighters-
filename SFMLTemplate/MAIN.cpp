@@ -64,7 +64,7 @@ int main()
     };
 
     GAMESTATE gameState = MENU;
-    GAMESTATE previousState = PAUSE;
+    GAMESTATE previousState = MENU;
 
     sf::Vector2f mousePos;
     Stage stage;
@@ -75,12 +75,14 @@ int main()
 
     sf::Music musicMenu, musicMenu2, musicMenu3, musicCharacterSelect, musicCharacterSelect2;
     sf::Music musicGame, musicGame2, musicGame3, musicGame4, musicGame5, musicGame6, musicGame7;
-    sf::Music musicVictory,  musicVictory2;
+    sf::Music musicVictory, musicVictory2;
+    sf::Music musicStats;
 
     std::vector<sf::Music*> menuMusics = { &musicMenu, &musicMenu2,&musicMenu3   };
     std::vector<sf::Music*> characterMusics = { &musicCharacterSelect };
     std::vector<sf::Music*> gameMusics = { &musicGame, &musicGame2, &musicGame3, &musicGame4, &musicGame5,&musicGame6,&musicGame7 };
     std::vector<sf::Music*> VictoryMusics = { &musicVictory,&musicVictory2 };
+    std::vector<sf::Music*> StatsMusics = { &musicStats };
 
     musicMenu.openFromFile("./assets/music/menu.ogg");
     musicMenu2.openFromFile("./assets/music/menu2.ogg");
@@ -96,6 +98,7 @@ int main()
     musicGame7.openFromFile("./assets/music/game7.ogg");
     musicVictory.openFromFile("./assets/music/victory.ogg");
     musicVictory2.openFromFile("./assets/music/victory2.ogg");
+    musicStats.openFromFile("./assets/music/stats.ogg");
 
     sf::Texture textMenu;
     if (!textMenu.loadFromFile("./assets/themeMenu.png")) {
@@ -221,7 +224,7 @@ int main()
     sf::Clock winnerClock;
     
     /// BUCLE DE JUEGO
-
+    previousState = static_cast<GAMESTATE>(-1); // valor inválido para forzar el cambio la primera vez
     while (window.isOpen())
     {
         deltaTime = clock.restart().asSeconds();
@@ -242,6 +245,10 @@ int main()
                 else if (gameState == PAUSE) {
                     gameState = GAME;
                 }
+            }
+
+            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape && gameState == STATS) {
+				gameState = MENU;
             }
         }
 
@@ -274,6 +281,9 @@ int main()
                 case WIN:
                     currentMusic = pickRandom(VictoryMusics);
                     break;
+                case STATS:
+                    currentMusic = pickRandom(StatsMusics);
+					break;
                 default:
                     currentMusic = nullptr;
                     break;
@@ -294,7 +304,7 @@ int main()
             cursor.setPosition(mousePos);
             mainMenu.update(mousePos);
 
-			window.setView(view);
+            window.setView(view);
             mainMenu.draw(window);
             window.draw(cursor);
 
@@ -307,9 +317,9 @@ int main()
                     gameState = MENUCHARACTER;
                 }
                 else if (optionUnderMouse == 6) {
-					window.clear(sf::Color::Black);
+                    window.clear(sf::Color::Black);
                     gameState = STATS;
-                    
+
                 }
                 else if (optionUnderMouse == 10) {
                     /*if (currentMusic != nullptr)
@@ -322,7 +332,7 @@ int main()
                     }*/
                     // No cambies el gameState acá para evitar loops
 
-					currentMusic->stop();
+                    currentMusic->stop();
                 }
             }
 
@@ -330,61 +340,61 @@ int main()
             mousePressedLastFrame = mousePressedNow;
             break;
         }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
+
+
+
+
         case MENUCHARACTER: {
             window.clear(sf::Color::Transparent);
             cursor.setPosition(mousePos);
             menuCharacters.update(mousePos, deltaTime);
-           
+
 
             if (menuCharacters.checkPersonajes() == 1) {
                 selectedID = menuCharacters.saveCharactersID(true);
                 Juego.incrementCharacterPlayed(selectedID);
                 if (selectedID == "1") {
                     jugador1 = &elfa;
-					
+
                 }
                 else if (selectedID == "2") {
                     jugador1 = &knight;
-                   
+
                 }
                 else if (selectedID == "3") {
                     jugador1 = &mafalda;
-                   
+
                 }
                 else if (selectedID == "4") {
                     jugador1 = &necromancer;
-                    
+
                 }
             }
             else if (menuCharacters.checkPersonajes() == 2) {
                 selectedID = menuCharacters.saveCharactersID(false);
-                
+
                 Juego.incrementCharacterPlayed(selectedID);
                 if (selectedID == "1") {
                     jugador2 = &elfa2;
-                    
+
                 }
                 else if (selectedID == "2") {
                     jugador2 = &knight2;
-                    
+
                 }
                 else if (selectedID == "3") {
                     jugador2 = &mafalda2;
-                    
+
                 }
                 else if (selectedID == "4") {
                     jugador2 = &necromancer2;
-					
+
                 }
             }
 
@@ -406,43 +416,43 @@ int main()
         }
 
         case GAME: {
-			sf::View vistaActual = view; // Guardar la vista actual
-			//Actualizar estadisticas de los personajes seleccionados
-            
-     
+            sf::View vistaActual = view; // Guardar la vista actual
+            //Actualizar estadisticas de los personajes seleccionados
+
+
             window.clear(sf::Color::Transparent);
 
             bool jugador1Muerto = jugador1->getHp() <= 0;
             bool jugador2Muerto = jugador2->getHp() <= 0;
-            
-            
+
+
 
             if (jugador1Muerto || jugador2Muerto) {
                 if (jugador1Muerto && !jugador2Muerto) {
                     winPj1 = false;
-					// Actualizar estadísticas
+                    // Actualizar estadísticas
                     Juego.incrementWinPj2();
                     saveStatisticsData("statistics.dat", Juego.getStatistics());
-					gameState = WIN; 
-					
+                    gameState = WIN;
+
                 }
                 else if (!jugador1Muerto && jugador2Muerto) {
                     winPj1 = true;
-					// Actualizar estadísticas
+                    // Actualizar estadísticas
                     Juego.incrementWinPj1();
                     saveStatisticsData("statistics.dat", Juego.getStatistics());
-                    gameState = WIN; 
-                    
+                    gameState = WIN;
+
                 }
                 else {
-                     //draw
+                    //draw
                 }
                 winnerClock.restart().asSeconds();
                 break;
             }
-         
 
-           
+
+
             window.clear(sf::Color::Transparent);
 
             if (firstTime) {
@@ -455,10 +465,10 @@ int main()
 
             Juego.checkCollision(*jugador1, *jugador2, deltaTime);
             Interfaz->UpdateHpBar(jugador1->getHp(), jugador2->getHp());
-       
-            
 
-			window.setView(vistaActual);
+
+
+            window.setView(vistaActual);
             stage.draw(window);
             jugador2->draw(window);
             jugador1->draw(window);
@@ -469,30 +479,31 @@ int main()
         }
         case WIN: {
             window.clear(sf::Color::Transparent);
-			currentMusic = pickRandom(VictoryMusics);
+
             Characters* characterWinner = nullptr;
             if (winPj1) {
-				characterWinner = jugador1;
+                characterWinner = jugador1;
             }
             else {
-				characterWinner = jugador2;
+                characterWinner = jugador2;
             }
-            
+
             if (winnerClock.getElapsedTime().asSeconds() > 8.0f) {
                 gameState = MENU;
+                currentMusic->stop();
                 break;
             }
             sf::FloatRect bounds = characterWinner->getHitbox().getGlobalBounds();
             sf::Vector2f center(bounds.left + bounds.width / 2.0f, bounds.top + bounds.height / 2.0f);
             vieWinner.setCenter(center);
-			winnerText.setPosition(center.x - winnerText.getGlobalBounds().width / 2.0f, center.y - winnerText.getGlobalBounds().height / 2.0f);
+            winnerText.setPosition(center.x - winnerText.getGlobalBounds().width / 2.0f, center.y - winnerText.getGlobalBounds().height / 2.0f);
             characterWinner->Update(deltaTime, plataformasActuales);
 
-    
+
 
 
             window.setView(vieWinner);
-			
+
             stage.draw(window);
 
             characterWinner->draw(window);
@@ -500,12 +511,12 @@ int main()
             window.display();
             break;
         }
-        
-        
+
+
         case PAUSE: {
             window.clear(sf::Color::Transparent);
 
-            
+
             stage.draw(window);
             if (jugador1 != nullptr) jugador1->draw(window);
             if (jugador2 != nullptr) jugador2->draw(window);
@@ -517,25 +528,29 @@ int main()
             sf::Text pauseText("PAUSA", pauseFont, 80);
             sf::Text pauseText2("Presiona ESC para continuar.", pauseFont, 10);
             pauseText.setFillColor(sf::Color::White);
-			pauseText.setOutlineColor(sf::Color::Black);
+            pauseText.setOutlineColor(sf::Color::Black);
             pauseText.setPosition(350, 300);
             pauseText2.setFillColor(sf::Color::White);
             pauseText2.setOutlineColor(sf::Color::Black);
-            pauseText2.setPosition(390, 390);
+            pauseText2.setPosition(400, 390);
             window.draw(pauseText);
             window.draw(pauseText2);
 
             window.display();
             break;
         }
-        case STATS:
-            
-          
+        case STATS:{
+
+
             window.clear(sf::Color::Transparent);
-			archStats.setArchStats(getLastRecordedStats());
+            archStats.setArchStats(getLastRecordedStats());
             archStats.Update(mousePos);
-
-
+            sf::Font statsFont;
+            statsFont.loadFromFile("./assets/Fonts/GravityBold8.ttf");
+            sf::Text statsText("Presiona ESC para volver.", statsFont, 10);
+            statsText.setFillColor(sf::Color::White);
+            statsText.setOutlineColor(sf::Color::Black);
+            statsText.setPosition(100, 700);
 
             //DRAW MENU
             window.clear();
@@ -543,12 +558,13 @@ int main()
             archStats.Draw(window);
 
             window.draw(cursor);
+            window.draw(statsText);
 
-            
-            
-            // Mostrar estadísticas aquí
-			window.display();
+
+
+            window.display();
             break;
+        }
         default:
             break;
         }

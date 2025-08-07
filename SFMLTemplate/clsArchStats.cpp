@@ -66,13 +66,13 @@ ArchStats::ArchStats(Stats statistics, sf::Texture* exitTexture) :
 
 	//sf::Vector2f statisticsOrigin(40.0f, -70.0f);
 
-	timesWinPj1Text.setPosition( sf::Vector2f(190.0f, 0.0f));
-	timesWinPj2Text.setPosition( sf::Vector2f(190.0f, 50.0f));
-	timesPlayedText.setPosition( sf::Vector2f(190.0f, 100.0f));
-	timesPlayedElfText.setPosition(sf::Vector2f(190.0f, 150.0f));
-	timesPlayedMafaldaText.setPosition( sf::Vector2f(190.0f, 200.0f));
-	timesPlayedNecromancerText.setPosition( sf::Vector2f(190.0f,250.0f));
-	timesPlayedKnightText.setPosition(sf::Vector2f(190.0f, 300.0f));
+	timesWinPj1Text.setPosition( sf::Vector2f(190.0f, 150.0f));
+	timesWinPj2Text.setPosition( sf::Vector2f(190.0f, 200.0f));
+	timesPlayedText.setPosition( sf::Vector2f(190.0f, 250.0f));
+	timesPlayedElfText.setPosition(sf::Vector2f(190.0f, 300.0f));
+	timesPlayedMafaldaText.setPosition( sf::Vector2f(190.0f, 350.0f));
+	timesPlayedNecromancerText.setPosition( sf::Vector2f(190.0f,400.0f));
+	timesPlayedKnightText.setPosition(sf::Vector2f(190.0f, 450.0f));
 	
 
 
