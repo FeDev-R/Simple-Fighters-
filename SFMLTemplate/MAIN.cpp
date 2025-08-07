@@ -75,10 +75,12 @@ int main()
 
     sf::Music musicMenu, musicMenu2, musicMenu3, musicCharacterSelect, musicCharacterSelect2;
     sf::Music musicGame, musicGame2, musicGame3, musicGame4, musicGame5, musicGame6, musicGame7;
+    sf::Music musicVictory,  musicVictory2;
 
     std::vector<sf::Music*> menuMusics = { &musicMenu, &musicMenu2,&musicMenu3   };
     std::vector<sf::Music*> characterMusics = { &musicCharacterSelect };
     std::vector<sf::Music*> gameMusics = { &musicGame, &musicGame2, &musicGame3, &musicGame4, &musicGame5,&musicGame6,&musicGame7 };
+    std::vector<sf::Music*> VictoryMusics = { &musicVictory,&musicVictory2 };
 
     musicMenu.openFromFile("./assets/music/menu.ogg");
     musicMenu2.openFromFile("./assets/music/menu2.ogg");
@@ -92,6 +94,8 @@ int main()
     musicGame5.openFromFile("./assets/music/game5.ogg");
     musicGame6.openFromFile("./assets/music/game6.ogg");
     musicGame7.openFromFile("./assets/music/game7.ogg");
+    musicVictory.openFromFile("./assets/music/victory.ogg");
+    musicVictory2.openFromFile("./assets/music/victory2.ogg");
 
     sf::Texture textMenu;
     if (!textMenu.loadFromFile("./assets/themeMenu.png")) {
@@ -230,31 +234,57 @@ int main()
             if (gameState == MENU && event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
                 buttonJustPressed = true;
             }
+
+            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
+                if (gameState == GAME) {
+                    gameState = PAUSE;
+                }
+                else if (gameState == PAUSE) {
+                    gameState = GAME;
+                }
+            }
         }
 
         if (gameState != previousState) {
-            if (currentMusic != nullptr)
-                currentMusic->stop();
+            if (gameState == PAUSE) {
+               
+                if (currentMusic != nullptr)
+                    currentMusic->pause();
+            }
+            else if (previousState == PAUSE) {
+                
+                if (currentMusic != nullptr)
+                    currentMusic->play();
+            }
+            else {
+               
+                if (currentMusic != nullptr)
+                    currentMusic->stop();
 
-            switch (gameState) {
-            case MENU:
-                currentMusic = pickRandom(menuMusics);
-                break;
-            case MENUCHARACTER:
-                currentMusic = pickRandom(characterMusics);
-                break;
-            case GAME:
-                currentMusic = pickRandom(gameMusics);
-                break;
-            default:
-                currentMusic = nullptr;
-                break;
+                switch (gameState) {
+                case MENU:
+                    currentMusic = pickRandom(menuMusics);
+                    break;
+                case MENUCHARACTER:
+                    currentMusic = pickRandom(characterMusics);
+                    break;
+                case GAME:
+                    currentMusic = pickRandom(gameMusics);
+                    break;
+                case WIN:
+                    currentMusic = pickRandom(VictoryMusics);
+                    break;
+                default:
+                    currentMusic = nullptr;
+                    break;
+                }
+
+                if (currentMusic != nullptr) {
+                    currentMusic->setLoop(true);
+                    currentMusic->play();
+                }
             }
 
-            if (currentMusic != nullptr) {
-                currentMusic->setLoop(true);
-                currentMusic->play();
-            }
             previousState = gameState;
         }
        
@@ -439,6 +469,7 @@ int main()
         }
         case WIN: {
             window.clear(sf::Color::Transparent);
+			currentMusic = pickRandom(VictoryMusics);
             Characters* characterWinner = nullptr;
             if (winPj1) {
 				characterWinner = jugador1;
@@ -457,7 +488,7 @@ int main()
 			winnerText.setPosition(center.x - winnerText.getGlobalBounds().width / 2.0f, center.y - winnerText.getGlobalBounds().height / 2.0f);
             characterWinner->Update(deltaTime, plataformasActuales);
 
-
+    
 
 
             window.setView(vieWinner);
@@ -466,6 +497,34 @@ int main()
 
             characterWinner->draw(window);
             window.draw(winnerText);
+            window.display();
+            break;
+        }
+        
+        
+        case PAUSE: {
+            window.clear(sf::Color::Transparent);
+
+            
+            stage.draw(window);
+            if (jugador1 != nullptr) jugador1->draw(window);
+            if (jugador2 != nullptr) jugador2->draw(window);
+            if (Interfaz != nullptr) Interfaz->Draw(window);
+
+            // Texto de pausa
+            sf::Font pauseFont;
+            pauseFont.loadFromFile("./assets/Fonts/GravityBold8.ttf");
+            sf::Text pauseText("PAUSA", pauseFont, 80);
+            sf::Text pauseText2("Presiona ESC para continuar.", pauseFont, 10);
+            pauseText.setFillColor(sf::Color::White);
+			pauseText.setOutlineColor(sf::Color::Black);
+            pauseText.setPosition(350, 300);
+            pauseText2.setFillColor(sf::Color::White);
+            pauseText2.setOutlineColor(sf::Color::Black);
+            pauseText2.setPosition(390, 390);
+            window.draw(pauseText);
+            window.draw(pauseText2);
+
             window.display();
             break;
         }
