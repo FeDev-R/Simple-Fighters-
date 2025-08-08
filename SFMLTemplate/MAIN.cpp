@@ -24,6 +24,14 @@ sf::Music* pickRandom(std::vector<sf::Music*>& list) {
     int index = rand() % list.size();
     return list[index];
 }
+
+Characters* jugador1 = nullptr;
+Characters* jugador2 = nullptr;
+
+void resetGame(Characters* jugador1, Characters* jugador2) {
+    if (jugador1) jugador1->reset();
+    if (jugador2) jugador2->reset();
+}
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(1080, 720), "Simple Fighters", sf::Style::Default);
@@ -195,7 +203,8 @@ int main()
     int timesPlayedNecromancer=0;
     int timesPlayedKnight=0;
 
-	stage.setCurrentMap(mapaRandom);
+    //stage.setCurrentMap(mapaRandom);
+    stage.setCurrentMap(1);
     elfa elfa2(window, esJugador2);
     MafaldaNinja mafalda(window, esJugador1);
     elfa elfa(window, esJugador1);
@@ -490,6 +499,7 @@ int main()
 
             if (winnerClock.getElapsedTime().asSeconds() > 8.0f) {
                 gameState = MENU;
+                resetGame(jugador1, jugador2);
                 currentMusic->stop();
                 break;
             }
@@ -509,6 +519,7 @@ int main()
             characterWinner->draw(window);
             window.draw(winnerText);
             window.display();
+            
             break;
         }
 
@@ -572,3 +583,4 @@ int main()
 
     return 0;
 }
+

@@ -18,12 +18,12 @@ Characters::Characters(bool esJugador1)
     hitbox.setFillColor(sf::Color::Transparent);
 
     if (player1) {
-        body.setPosition(sf::Vector2f(260.0f, 600.0f));
+        body.setPosition(position1);
         hitbox.setPosition(body.getPosition().x, body.getPosition().y - hitbox.getSize().y / 2.f);
         movingLeft = false;
     }
     else {
-        body.setPosition(sf::Vector2f(820.0f, 600.0f));
+        body.setPosition(position2);
         hitbox.setPosition(body.getPosition().x, body.getPosition().y - hitbox.getSize().y / 2.f);
         movingLeft = true;
     }
@@ -333,3 +333,4 @@ sf::RectangleShape Characters::getHitboxAttack()
 void Characters::setDmg(int value) {
     currentDmg = value;
 }
+

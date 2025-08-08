@@ -101,11 +101,11 @@ void Attacks::attackAction(sf::RectangleShape body, bool sideMove, int character
 
         if (sideMove) {
             size = sf::Vector2f(-(body.getSize().x * 6.0f), body.getSize().y / 6.0f);
-            offset = sf::Vector2f(-20.f, -30.f);
+            offset = sf::Vector2f(-20.f, -50.f);
         }
         else {
             size = sf::Vector2f(body.getSize().x * 6.0f, body.getSize().y / 6.0f);
-            offset = sf::Vector2f(20.f, -30.f);
+            offset = sf::Vector2f(20.f, -50.f);
         }
 
         HitBox.setSize({ 0.f, 0.f });

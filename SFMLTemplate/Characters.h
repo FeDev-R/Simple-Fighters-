@@ -29,7 +29,19 @@ public:
 	virtual void setHP(float value) = 0;
 	virtual void setJumpForce(float value) = 0;
 	
+	
+	sf::Vector2f initialPosition = sf::Vector2f(260.0f, 600.0f);
+	sf::Vector2f position1 = initialPosition;
+	sf::Vector2f initialPosition2 = sf::Vector2f(820.0f, 600.0f);
+	sf::Vector2f position2 = initialPosition2;
 
+	virtual void reset() {
+		hp = hpMax;
+		position1 = initialPosition;
+		position2 = initialPosition2;
+
+	}
+	
 	float currentDmg;
 	virtual int getDmg() const { return static_cast<int>(currentDmg); }
 	virtual int getHpMax() const { return static_cast<int>(hpMax); }
